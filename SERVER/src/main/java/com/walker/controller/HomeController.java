@@ -1,17 +1,15 @@
 package com.walker.controller;
 
-import com.walker.DAO.PersonDAO;
+//import com.walker.DAO.PersonDAO;
 import com.walker.DataBase.Person;
-import com.walker.model.PersonStructure;
-import com.walker.model.PersonBase;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import com.walker.DataBaseControl.JdbcWalkerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by Swiety on 21.03.2017.
@@ -28,12 +26,12 @@ public class HomeController {
 
     @RequestMapping(value = "/Start")
     public String start(Model model) {
-
+/*
         //do wypełnienia przez ciebie
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring4.xml");
+
 
         PersonDAO personDAO = context.getBean(PersonDAO.class);
-/*
+
         Person person = new Person();
         person.setName("Jan");
         person.setSurname("AAAAA");
@@ -44,7 +42,7 @@ public class HomeController {
         personDAO.save(person);
 
         System.out.println("Person::" + person);
-*/
+
         List<Person> list = personDAO.list();
 
         PersonStructure example = new PersonStructure();
@@ -62,7 +60,7 @@ public class HomeController {
         context.close();
 
         model.addAttribute("personBase", personBase.takeAll());
-
+*/
         return "start";
     }
 
@@ -73,9 +71,8 @@ public class HomeController {
                            @RequestParam(required = false, value = "lastName") String lastName,
                            @RequestParam(required = false, value = "city") String city) {
 
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring4.xml");
 
-        PersonDAO personDAO = context.getBean(PersonDAO.class);
+        JdbcWalkerRepository walkerRepository = new JdbcWalkerRepository();
 
         Person person = new Person();
         person.setName(firstName);
@@ -83,9 +80,8 @@ public class HomeController {
         person.setCity(city);
         person.setDate(new Date());
 
-        personDAO.save(person);
+        walkerRepository.addPerson(person);
 
-        context.close();
 
         return "home";
     }

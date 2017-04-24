@@ -14,13 +14,8 @@ import java.util.Date;
  *
  * @author pankaj
  */
-@Entity
-@Table(name = "Person")
 public class Person {
 
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String name;
