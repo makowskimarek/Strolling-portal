@@ -1,11 +1,16 @@
 package com.walker.DataBaseControl;
 
-import com.walker.DataBase.Person;
+import com.walker.DataBase.User;
+import com.walker.DataBase.UserData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Repository;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Created by Rafal on 24.04.2017.
@@ -13,8 +18,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class JdbcWalkerRepository {
 
-    private static final String SQL_INSERT_SPITTER =
-            "insert into person (name, surname, date, city) values (?, ?, ?,?)";
+    private String SQL_INSERT;
+    private String SQL_SELECT;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -33,12 +38,49 @@ public class JdbcWalkerRepository {
         jdbcTemplate =  new JdbcTemplate(ds);
     };
 
-    public void addPerson(Person person)
+    public void addUserData(UserData userData)
     {
-        jdbcTemplate.update(SQL_INSERT_SPITTER,
-                person.getName(),
-                person.getSurname(),
-                person.getDate(),
-                person.getCity());
+        SQL_INSERT =
+        "insert into user_data (user_id, name, surname, city) values (?, ?, ? ,?)";
+        jdbcTemplate.update(SQL_INSERT,
+                userData.getUserId(),
+                userData.getName(),
+                userData.getSurname(),
+                userData.getCity());
+    }
+
+    public void register(UserData userData, User user)
+    {
+        SQL_INSERT =
+                "insert into user (nick, password, mail) values (?, ? ,?)";
+
+        jdbcTemplate.update(SQL_INSERT,
+                user.getNick(),
+                user.getPassword(),
+                user.getMail());
+
+        SQL_SELECT =
+                "select * " +
+                "from user " +
+                "where nick like ? and password like ? and mail like ?";
+
+        List<User> listUser =   jdbcTemplate.query(SQL_SELECT,this::mapUser,
+                user.getNick(),
+                user.getPassword(),
+                user.getMail());
+
+
+            userData.setId(listUser.get(0).getUser_id());
+            addUserData(userData);
+
+    }
+
+    private User mapUser(ResultSet rs, int row)
+            throws SQLException {
+        return new User(
+                rs.getInt("user_id"),
+                rs.getString("nick"),
+                rs.getString("password"),
+                rs.getString("mail"));
     }
 }

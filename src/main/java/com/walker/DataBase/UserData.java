@@ -1,5 +1,8 @@
 package com.walker.DataBase;
 
+/**
+ * Created by Rafal on 25.04.2017.
+ */
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,9 +17,9 @@ import java.util.Date;
  *
  * @author pankaj
  */
-public class Person {
+public class UserData {
 
-    private int id;
+    private int user_id;
 
     private String name;
 
@@ -24,14 +27,24 @@ public class Person {
 
     private String city;
 
-    private Date date;
+    public UserData(int user_id, String name, String surname, String city) {
+        this.user_id = user_id;
+        this.name = name;
+        this.surname = surname;
+        this.city = city;
+    }
 
-    public int getId() {
-        return id;
+    public UserData()
+    {
+
+    }
+
+    public int getUserId() {
+        return user_id;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.user_id = id;
     }
 
     public String getName() {
@@ -58,16 +71,8 @@ public class Person {
         this.city = country;
     }
 
-     public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
     @Override
     public String toString() {
-        return "id=" + id + ", name=" + name + ", country=" + city;
+        return "id=" + user_id + ", name=" + name + ", surname=" + surname + ", country=" + city;
     }
 }

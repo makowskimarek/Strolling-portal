@@ -20,7 +20,7 @@
         <button type="submit">Show</button>
     </tr>
 </form:form>
-<form:form method = "POST" action = "add.jsp">
+<form:form method = "POST" action = "registration.jsp">
     <tr>
         <button type="submit">Register</button>
     </tr>

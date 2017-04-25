@@ -1,13 +1,14 @@
 package com.walker.controller;
 
-//import com.walker.DAO.PersonDAO;
-import com.walker.DataBase.Person;
+import com.walker.DataBase.User;
 import com.walker.DataBaseControl.JdbcWalkerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import com.walker.DataBase.UserData;
 
 import java.util.Date;
 
@@ -64,23 +65,29 @@ public class HomeController {
         return "start";
     }
 
-    //@ResponseBody
-    @RequestMapping(value = "/Register")
+    @RequestMapping(value = "/Register", method= RequestMethod.POST)
     public String register(Model model,
                            @RequestParam(required = false, value = "firstName") String firstName,
                            @RequestParam(required = false, value = "lastName") String lastName,
-                           @RequestParam(required = false, value = "city") String city) {
+                           @RequestParam(required = false, value = "city") String city,
+                           @RequestParam(required = false, value = "nick") String nick,
+                           @RequestParam(required = false, value = "password") String password,
+                           @RequestParam(required = false, value = "mail") String mail) {
 
 
         JdbcWalkerRepository walkerRepository = new JdbcWalkerRepository();
 
-        Person person = new Person();
-        person.setName(firstName);
-        person.setSurname(lastName);
-        person.setCity(city);
-        person.setDate(new Date());
+        User user = new User();
+        user.setNick(nick);
+        user.setPassword(password);
+        user.setMail(mail);
 
-        walkerRepository.addPerson(person);
+        UserData userData = new UserData();
+        userData.setName(firstName);
+        userData.setSurname(lastName);
+        userData.setCity(city);
+
+        walkerRepository.register(userData, user);
 
 
         return "home";
