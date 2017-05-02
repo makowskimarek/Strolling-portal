@@ -1,21 +1,18 @@
 package com.walker.config;
 
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.stereotype.Component;
-
 import javax.sql.DataSource;
-//import org.springframework.config.java.plugin.context.AnnotationDrivenConfig;
 /**
  * Created by Rafal on 24.04.2017.
  */
 
 @Configuration
+@ComponentScan("com.walker")
 public class DataBaseConfig {
 
 
@@ -31,7 +28,6 @@ public class DataBaseConfig {
 
     @Bean
     public JdbcTemplate jdbcTemplate(DataSource dataSource) {
-
         return new JdbcTemplate(dataSource);
     }
 

@@ -27,6 +27,19 @@
             <td>Mail</td>
             <td>><input type="text" name=mail id="mail"></td>
         </tr>
+        <tr>
+            <td>First name</td>
+            <td>><input type="text" name=firstName id="firstName"></td>
+        </tr>
+        <tr>
+            <td>Last Name</td>
+            <td>><input type="text" name=lastName id="lastName"></td>
+        </tr>
+        <tr>
+            <td>City</td>
+            <td>><input type="text" name=city id="city"></td>
+        </tr>
+
             <tr>
                 <td>
                 <button type="submit">Register</button>
