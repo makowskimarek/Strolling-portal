@@ -16,23 +16,13 @@
     <title>Walker - Start</title>
 </head>
 <body>
-<h3>Person : </h3>
+<h3>Profile : </h3>
 
-<%
-    ArrayList<String> list = (ArrayList<String>) request.getAttribute("personBase");
+<% out.println(request.getAttribute("user")); %>
 
-    for(String person : list) {
-        out.println(person);
-
-%>
-<br />
-<%
-    }
-%>
-
-<form:form method = "POST" action = "home.jsp">
+<form:form method = "POST" action = "index.jsp">
     <tr>
-        <button type="submit">Back</button>
+        <button type="submit">Logout</button>
     </tr>
 </form:form>
 </body>
