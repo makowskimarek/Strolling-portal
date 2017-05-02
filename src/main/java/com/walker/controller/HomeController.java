@@ -1,16 +1,12 @@
 package com.walker.controller;
 
 import com.walker.DataBase.User;
-import com.walker.DataBaseControl.JdbcWalkerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.walker.DataBaseControl.ControlUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import com.walker.DataBase.UserData;
-
-import java.util.Date;
 
 /**
  * Created by Swiety on 21.03.2017.
@@ -21,75 +17,47 @@ public class HomeController {
     @RequestMapping(value = "/")
     public String home(Model model) {
 
-
-        return "home";
+        return "index";
     }
 
-    @RequestMapping(value = "/Start")
-    public String start(Model model) {
-/*
-        //do wypełnienia przez ciebie
+    @RequestMapping(value = "/Profile")
+    public String start(Model model,
+                        @RequestParam(required = false, value = "nick") String nick) {
+
+        ControlUser controlUser = new ControlUser();
+        User user;
+
+        if(nick != null)
+            user = controlUser.getUser(nick);
+        else
+            user = new User();
+
+        model.addAttribute("nick", user.getNick());
+        model.addAttribute("mail", user.getMail());
 
 
-        PersonDAO personDAO = context.getBean(PersonDAO.class);
-
-        Person person = new Person();
-        person.setName("Jan");
-        person.setSurname("AAAAA");
-        person.setCity("Sosnowiec");
-        person.setDate(new Date());
-
-
-        personDAO.save(person);
-
-        System.out.println("Person::" + person);
-
-        List<Person> list = personDAO.list();
-
-        PersonStructure example = new PersonStructure();
-        PersonBase personBase = new PersonBase();
-
-        for (Person p : list) {
-//            System.out.println("Person List::" + p);
-            example.setFirstName(p.getName())
-                    .setLastName(p.getSurname())
-                    .setCity(p.getCity())
-                    .setDate(p.getDate());
-            personBase.personBase.add(example);
-        }
-        //close resources
-        context.close();
-
-        model.addAttribute("personBase", personBase.takeAll());
-*/
         return "start";
     }
 
     @RequestMapping(value = "/Register", method= RequestMethod.POST)
     public String register(Model model,
-                           @RequestParam(required = false, value = "firstName") String firstName,
-                           @RequestParam(required = false, value = "lastName") String lastName,
-                           @RequestParam(required = false, value = "city") String city,
                            @RequestParam(required = false, value = "nick") String nick,
                            @RequestParam(required = false, value = "password") String password,
                            @RequestParam(required = false, value = "mail") String mail) {
 
 
-        JdbcWalkerRepository walkerRepository = new JdbcWalkerRepository();
+        ControlUser controlUser = new ControlUser();
 
         User user = new User();
         user.setNick(nick);
         user.setPassword(password);
         user.setMail(mail);
+        
 
-        UserData userData = new UserData();
-        userData.setName(firstName);
-        userData.setSurname(lastName);
-        userData.setCity(city);
+        controlUser.addUser(user);
 
-        walkerRepository.register(userData, user);
+        model.addAttribute("message", "Rejestracja udana");
 
-
-        return "home";
+        return "message";
     }
 }
