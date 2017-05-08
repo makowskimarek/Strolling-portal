@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pl">
 <head>
 	<meta charset="utf-8">
@@ -17,13 +17,13 @@
     <!--<link rel="shortcut icon" type="image/png" href="sources/favicon.png"/>-->
     
     <!-- Bootstrap -->
-    <link href="sources/css/bootstrap.min.css" rel="stylesheet">    
+    <link href="resources/css/bootstrap.min.css" rel="stylesheet">
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="sources/js/bootstrap.min.js"></script>
+    <script src="resources/js/bootstrap.min.js"></script>
     
     <!--Own CSS-->
-    <link href="sources/styles/strolling.css" rel="stylesheet">  
+    <link href="resources/styles/strolling.css" rel="stylesheet">
     
     <!-- Own scripts -->
 
@@ -31,7 +31,7 @@
 </head>
 <body>
     
-    <div class="container-fluid" style="background: url('images/bg.jpg')">
+    <div class="container-fluid" style="background: url('resources/images/bg.jpg')">
     
         <!--Pasek nawigacji-->
         <nav id="mainNav" 
@@ -45,16 +45,17 @@
                 </div>
                 
                 <!--Logowanie-->
-                <form id="login" method="post"
-                      action="/Login"
+                <form name='f' id="login" method="post"
+                      action="/login"
                       class="navbar-form navbar-right" role="search">
                     <div class="form-group">
                         <input type="text" class="form-control" name="username" placeholder="Login">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" name="password" placeholder="Hasło">
+                        <input type="password" class="form-control" name="password" placeholder="Hasło">
                     </div>
-                    <button type="submit" class="btn btn-default">Zaloguj</button>
+                    <button name="submit" type="submit" class="btn btn-default">Zaloguj</button>
+                    <input name="_csrf" type="hidden" value="6829b1ae-0a14-4920-aac4-5abbd7eeb9ee" />
                 </form>
                 
             </div>

@@ -2,6 +2,7 @@
 <%@ page import="java.util.Locale" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%--
   Created by IntelliJ IDEA.
   User: Rafal
@@ -16,11 +17,11 @@
     <title>Walker - Start</title>
 </head>
 <body>
-<h3>Profile : </h3>
+<h3>
+    Witaj <security:authentication property="principal.username" />!
+</h3>
 
-<% out.println(request.getAttribute("user")); %>
-
-<form:form method = "POST" action = "index.jsp">
+<form:form method = "POST" action = "/logout">
     <tr>
         <button type="submit">Logout</button>
     </tr>

@@ -2,6 +2,8 @@ package com.walker.controller;
 
 import com.walker.DataBase.User;
 import com.walker.DataBaseControl.ControlUser;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,20 +23,13 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/Profile")
-    public String start(Model model,
-                        @RequestParam(required = false, value = "nick") String nick) {
+    public String start(Model model) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName();
 
         ControlUser controlUser = new ControlUser();
         User user;
-
-        if(nick != null)
-            user = controlUser.getUser(nick);
-        else
-            user = new User();
-
-        model.addAttribute("nick", user.getNick());
-        model.addAttribute("mail", user.getMail());
-
 
         return "start";
     }

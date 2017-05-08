@@ -16,7 +16,7 @@
     <% out.println(request.getAttribute("message")); %>
 </h3>
 
-<form:form method = "POST" action = "index.jsp">
+<form:form method = "POST" action = "/">
     <tr>
         <button type="submit">OK</button>
     </tr>
