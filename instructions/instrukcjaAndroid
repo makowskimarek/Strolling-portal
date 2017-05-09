@@ -1,0 +1,12 @@
+instrukcja użytkowania aplikacji:
+
+1. Po zainstalowaniu i uruchomieniu aplikacji ukazuje się okno logowania z możliwością przejścia do rejestracji konta po wciśnięciu przycisku SIGN UP.
+2. Użytkownik może się zalogować tylko gdy poda niepusty login i hasło.
+3. Po zalogowaniu wyświetli się nowy ekran tzw. Main Activity. W tej części na górze ekranu znajduje się pasek nawigacyjny z możliwością przejścia do poszczególnych sekcji:
+	-strony głównej,
+	-strony wyszukiwania potencjalnych kandydatów/ek na spacery,
+	-czatu,
+	-strony powiadomień,
+	-ustawień.
+4. Na stronie wyszukiwania potencjalnych kandydatów/ek na spacery by umówić się z wybraną osobą należy kliknąć na daną osobę na liście, następnie kliknąć opcję umów się na spacer.
+5. Ciąg dalszy instrukcji następi...
