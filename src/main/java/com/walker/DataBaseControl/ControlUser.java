@@ -192,8 +192,8 @@ public class ControlUser {
             throws SQLException {
         return new UserData(
                 rs.getInt("user_id"),
-                rs.getString("name"),
-                rs.getString("surname"),
+                rs.getString("firstName"),
+                rs.getString("lastName"),
                 rs.getString("city")
         );
     }
