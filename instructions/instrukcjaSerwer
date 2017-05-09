@@ -1,0 +1,32 @@
+Instrukcja pobierania i uruchamiania repozytorium
+
+Należy ściągnąć i zainstalować następujące programy:
+IntelliJ IDEA
+https://www.jetbrains.com/idea/download/#section=windows
+
+MySQL Community Server
+https://dev.mysql.com/downloads/installer/
+
+MySQL Workbench 6.3
+https://dev.mysql.com/downloads/workbench/
+
+Apache Tomcat
+https://archive.apache.org/dist/tomcat/tomcat-8/v8.0.27/bin/
+
+W MySQL Workbench należy utworzyć nowy schema o nazwie db1 poprzez naciśnięcie ikony "Create a new schema in current server"
+
+1. W IntelliJ IDEA kliknij File->New->Project from version control->GitHub
+2. Ustaw ścieżkę do projektu
+3. Poczekaj na pobranie plików
+4. W okienku Project prawym na Strolling-portal->Maven>Reimport
+5. Run->edit configuration->zielony plusik->Tomcat Server->local
+	- Przycisk configure
+		-wybieramy scieżkę do zainstalowanego serweru Tomcata i zatwierdzamy
+	- W "Application serwer" wybieramy utworzony serwer
+	- W JRE wybieramy defaultowe SDK (1.8)
+	- HTTP port ustawiamy na 8080
+	- Po prawej na dole naciskamy na czerwoną żąróweczkę "fix" i wybieramy war: exploded
+	- Apply
+6. W okienku Project prawym na scriptToMySQLworkBench.sql i naciskamy run, a następnie wybieramy naszą bazę danych db1
+
+7. By uruchomić program należy nacisnąć zieloną strzałeczkę lub Run->Run...
