@@ -22,8 +22,50 @@ public class HomeController {
         return "index";
     }
 
+    @RequestMapping(value = "/Login")
+    public String login(Model model) {
+
+        return "login";
+    }
+
+    @RequestMapping(value = "/Meeting")
+    public String meeting(Model model) {
+
+        return "meeting";
+    }
+
+    @RequestMapping(value = "/Announce")
+    public String announce(Model model) {
+
+        return "announce";
+    }
+
     @RequestMapping(value = "/Profile")
-    public String start(Model model) {
+    public String profile(Model model) {
+
+        return "profile";
+    }
+
+    @RequestMapping(value = "/Profile-edit")
+    public String profileEdit(Model model) {
+
+        return "profile-edit";
+    }
+
+    @RequestMapping(value = "/Friends")
+    public String friends(Model model) {
+
+        return "friends";
+    }
+
+    @RequestMapping(value = "/AnnounceTest")
+    public String annoutanceTest(Model model) {
+
+        return "staremiasto";
+    }
+
+    @RequestMapping(value = "/Main")
+    public String mainn(Model model) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String name = auth.getName();
@@ -31,7 +73,7 @@ public class HomeController {
         ControlUser controlUser = new ControlUser();
         User user;
 
-        return "start";
+        return "main";
     }
 
     @RequestMapping(value = "/Register", method= RequestMethod.POST)
@@ -41,17 +83,22 @@ public class HomeController {
                            @RequestParam(required = false, value = "mail") String mail) {
 
 
+
         ControlUser controlUser = new ControlUser();
 
-        User user = new User();
-        user.setNick(nick);
-        user.setPassword(password);
-        user.setMail(mail);
-        
+        User user = controlUser.getUser(nick);
+        if(user == null)
+        {
+            user = new User();
+            user.setNick(nick);
+            user.setPassword(password);
+            user.setMail(mail);
+            controlUser.addUser(user);
+            model.addAttribute("message", "Rejestracja udana");
 
-        controlUser.addUser(user);
-
-        model.addAttribute("message", "Rejestracja udana");
+        }else {
+            model.addAttribute("message", "Osoba o podanym nicku już istnieje");
+        }
 
         return "message";
     }

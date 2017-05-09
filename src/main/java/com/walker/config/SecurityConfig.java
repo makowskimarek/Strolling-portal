@@ -40,15 +40,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .formLogin()
-                    .defaultSuccessUrl("/Profile")
+                    .loginPage("/Login")
+                    .defaultSuccessUrl("/Main")
                 .and()
                 .logout()
                     .logoutSuccessUrl("/")
+                    .logoutUrl("/Logout")
                 .and()
                 .csrf()
                     .disable()
                 .authorizeRequests()
                 .antMatchers("/Profile").authenticated()
+                .antMatchers("/Main").authenticated()
+                .antMatchers("/Friends").authenticated()
+                .antMatchers("/Meeting").authenticated()
+                .antMatchers("/Announce").authenticated()
+                .antMatchers("/Profile-edit").authenticated()
+                .antMatchers("/AnnounceTest").authenticated()
                 .anyRequest().permitAll();
     }
 
