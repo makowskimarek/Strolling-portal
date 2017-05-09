@@ -1,0 +1,86 @@
+index
+	strona główna dla niezalogowanych
+	możliwość założenia nowego konta
+	możliwość zalogowania się
+	
+Pozostałe strony nie będą już miały możliwości podglądu ze względu na brak statusu zalogowanego.
+Wszelkie dane nie są pobierane z back-end, wpisane są na sztywno.	
+	
+	
+każda stronka (poza ogłoszeniem) ma użyty szablon stonki.
+Skład szablonu
+	pasek nawigacyjny:
+		- kliknięcie w tytuł przechodzi do /Main
+		- ikonki powiadomień (tylko wyświetlanie bez działalności)
+			* zaproszenia do znajomych
+			* wiadomości z czatu
+			* powiadomienia o aktywnościach
+		- ostatnia ikonka "więcej" dodatkowe opcje 
+			* mój profil - przejście do profilu zalogowanego użytkownika
+			* ustawienia - przejście do formularzy edycji danych
+			* wylogowanie - wylogowanie sesji
+	
+	lewa kolumna
+		- avatar - naciśniecie kieruje do profilu
+		- pasek szybkiej nawigacji
+			* aktualności - przejście do main, aktualnie oglądanej strony	
+			* znajomi - przejście do listy znajomych oraz pokazanie zaproszeń
+			* ogłoszenia - przegląd stworzonych ogłoszeń z wybotem kryterium. Możliwość dodania własnego
+				( brak implementacji danych na sztywno, odnośnik do szablonu)
+			* spacery - przegląd spacerów w których konto bierze udział oraz zaproszenia do udziału w spacerze. Możliwość dodania własnego. 
+				( brak implementacji danych na sztywno, odnośnik do szablonu)
+	
+	prawa kolumna	
+		- Czat (tylko sztywne wyświetlenie)
+			wyświetlenie znajomych i ich status
+	
+	
+Opis stron (elementów poza elementami szablonu)	
+
+/Main
+	strona główna po zalogowaniu się
+	
+	środkowa kolumna
+		- wypisanie aktywności znajomych (np. tworzenie ogłoszeń, ocena spotkania)
+		- przypomnienie o zbliżającym spacerze
+		
+/Friends
+	strona ze znajomymi oraz zaproszeniami do grona znajomych
+	
+	środkowa kolumna
+		składa się z dwóch części
+			- zaproszenia otrzymane do grona znajomych
+			- lista znajomych, których się posiada
+			
+/Announce
+	strona z listą ogłoszeń z możliwościa filtorwania
+	
+/Meeting
+	strona ze spacerami nadchodzącymi (w których bierzemy udział) oraz zaproszenia do spacerów
+	dodatkowo możliwość stworzenia własnego
+	
+/Profile
+	strona profilu
+		- przegląd informacji o użytkowniku
+		- przegląd zdjęć
+		- przegląd spacerów, w których bierze udział oraz stworzone przez użytkownika ogłoszenia
+		
+	Dodatek do lewej kolumny
+		- dane użytkownika (imie, nazwisko i miejscowość)
+		- link do edycji danych
+	
+/Profile-edit
+	edycja danych konta (formularze)
+		- informacje
+			* zmiana imienia i nazwiska
+			* zmiana miejscowości
+			* edycja opisu o użytkowniku
+		- dane konta
+			* zmiana loginu
+			* zmiana maila
+			* zmiana hasła
+			
+	Obecnie brak zmiany avatara
+	
+Wszelkie zmiany będą na bierząco aktualizowane 
+		
