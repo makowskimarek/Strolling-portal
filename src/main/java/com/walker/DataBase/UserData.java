@@ -3,6 +3,7 @@ package com.walker.DataBase;
 /**
  * Created by Rafal on 25.04.2017.
  */
+
 /**
  * Entity bean with JPA annotations
  * Hibernate provides JPA implementation
@@ -26,8 +27,7 @@ public class UserData {
         this.city = city;
     }
 
-    public UserData()
-    {
+    public UserData() {
 
     }
 

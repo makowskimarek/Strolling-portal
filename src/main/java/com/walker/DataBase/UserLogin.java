@@ -17,8 +17,7 @@ public class UserLogin {
         this.mail = mail;
     }
 
-    public UserLogin()
-    {
+    public UserLogin() {
     }
 
     public String getNick() {

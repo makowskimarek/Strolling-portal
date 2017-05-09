@@ -17,8 +17,7 @@ public class UserRegister {
         this.mail = mail;
     }
 
-    public UserRegister()
-    {
+    public UserRegister() {
     }
 
     public String getNick() {

@@ -17,23 +17,23 @@ import static org.junit.Assert.assertNotNull;
  * Created by Rafal on 01.05.2017.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes=DataBaseConfig.class)
+@ContextConfiguration(classes = DataBaseConfig.class)
 class DataBaseConfigTest extends GroovyTestCase {
 
-        @Autowired
-        private DataSource ds;
+    @Autowired
+    private DataSource ds;
 
-        @Autowired
-        private JdbcTemplate jdbcTemplate;
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
-        @Test
-        void dataSourceShouldNotBeNull() {
-            assertNotNull(ds);
-        }
+    @Test
+    void dataSourceShouldNotBeNull() {
+        assertNotNull(ds);
+    }
 
-        @Test
-        void jdbcTemplateShouldNotBeNull() {
-                assertNotNull(jdbcTemplate);
-        }
+    @Test
+    void jdbcTemplateShouldNotBeNull() {
+        assertNotNull(jdbcTemplate);
+    }
 
 }

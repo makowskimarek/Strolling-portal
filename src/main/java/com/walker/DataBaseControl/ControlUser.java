@@ -33,22 +33,22 @@ public class ControlUser {
     public ControlUser() {
         DriverManagerDataSource ds = new DriverManagerDataSource();
         ds.setDriverClassName("com.mysql.jdbc.Driver");
-        ds.setUrl("jdbc:mysql://localhost:3306/db1");
+        ds.setUrl("jdbc:mysql://localhost:3306/db1?useSSL=false");
         ds.setUsername("root");
         ds.setPassword("1q2w3e4r");
 
-        jdbcTemplate =  new JdbcTemplate(ds);
+        jdbcTemplate = new JdbcTemplate(ds);
     }
 
     /**
-     *  Method to add user data to database
+     * Method to add user data to database
+     *
      * @param userData information of user
-     * @param IdUser id of user
+     * @param IdUser   id of user
      */
-    public void addUserData(int IdUser, UserData userData)
-    {
+    public void addUserData(int IdUser, UserData userData) {
         SQL_INSERT =
-                "insert into user_data (user_id, name, surname, city) values (?, ?, ? ,?)";
+                "INSERT INTO user_data (user_id, name, surname, city) VALUES (?, ?, ? ,?)";
         jdbcTemplate.update(SQL_INSERT,
                 IdUser,
                 userData.getName(),
@@ -58,11 +58,11 @@ public class ControlUser {
 
     /**
      * Method to update user data
-     * @param IdUser id of user
+     *
+     * @param IdUser   id of user
      * @param userData information of user
      */
-    public void updateUserData(int IdUser, UserData userData)
-    {
+    public void updateUserData(int IdUser, UserData userData) {
         SQL_UPDATE = "UPDATE user_data" +
                 "SET name = ?, surname = ?, city = ?" +
                 "WHERE user_id = ?";
@@ -76,16 +76,15 @@ public class ControlUser {
 
     /**
      * Method to add user to data base
+     *
      * @param user
      */
-    public boolean addUser(User user)
-    {
-        if (getUserID(user.getNick())!=-1){
+    public boolean addUser(User user) {
+        if (getUserID(user.getNick()) != -1) {
             return false;
-        }
-        else {
+        } else {
             SQL_INSERT =
-                    "insert into user (nick, password, mail) values (?, ? ,?)";
+                    "INSERT INTO user (nick, password, mail) VALUES (?, ? ,?)";
 
             jdbcTemplate.update(SQL_INSERT,
                     user.getNick(),
@@ -97,13 +96,13 @@ public class ControlUser {
 
     /**
      * Method to update user
+     *
      * @param IdUser user
-     * @param user id of user
+     * @param user   id of user
      */
-    public void updateUser(int IdUser, User user)
-    {
+    public void updateUser(int IdUser, User user) {
         SQL_UPDATE = "UPDATE user" +
-                "SET nick = ?, password = ?, mail = ?" +
+                "SET nick = ?, PASSWORD = ?, mail = ?" +
                 "WHERE user_id = ?";
 
         jdbcTemplate.update(SQL_UPDATE,
@@ -115,17 +114,17 @@ public class ControlUser {
 
     /**
      * Method to get user by nick
+     *
      * @param nick nick of user
      * @return user
      */
-    public User getUser(String nick)
-    {
+    public User getUser(String nick) {
         SQL_SELECT =
-                "select * " +
-                        "from user " +
-                        "where nick like ? ";
+                "SELECT * " +
+                        "FROM user " +
+                        "WHERE nick LIKE ? ";
 
-        List<User> listUser =   jdbcTemplate.query(SQL_SELECT,this::mapUser,
+        List<User> listUser = jdbcTemplate.query(SQL_SELECT, this::mapUser,
                 nick);
 
         if (listUser.size() == 0)
@@ -134,14 +133,13 @@ public class ControlUser {
             return listUser.get(0);
     }
 
-    public int getUserID(String nick)
-    {
+    public int getUserID(String nick) {
         SQL_SELECT =
-                "select * " +
-                        "from user " +
-                        "where nick like ? ";
+                "SELECT * " +
+                        "FROM user " +
+                        "WHERE nick LIKE ? ";
 
-        List<User> listUser =   jdbcTemplate.query(SQL_SELECT,this::mapUser,
+        List<User> listUser = jdbcTemplate.query(SQL_SELECT, this::mapUser,
                 nick);
 
         if (listUser.size() == 0)
@@ -150,14 +148,13 @@ public class ControlUser {
             return listUser.get(0).getUser_id();
     }
 
-    public UserData getUserData(int idUser)
-    {
+    public UserData getUserData(int idUser) {
         SQL_SELECT =
-                "select * " +
-                        "from user_data " +
-                        "where user_id = ? ";
+                "SELECT * " +
+                        "FROM user_data " +
+                        "WHERE user_id = ? ";
 
-        List<UserData> listUser =   jdbcTemplate.query(SQL_SELECT,this::mapUserData,
+        List<UserData> listUser = jdbcTemplate.query(SQL_SELECT, this::mapUserData,
                 idUser);
 
         if (listUser.size() == 0)
@@ -168,6 +165,7 @@ public class ControlUser {
 
     /**
      * Method to extract value from object resultSet and creating from then user
+     *
      * @param rs
      * @param row
      * @return
@@ -184,6 +182,7 @@ public class ControlUser {
 
     /**
      * Method to extract value from object resultSet and creating from then userData
+     *
      * @param rs
      * @param row
      * @return

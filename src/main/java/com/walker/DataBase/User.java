@@ -17,11 +17,10 @@ public class User {
         this.mail = mail;
     }
 
-    public User()
-    {
+    public User() {
     }
 
-    public User(UserRegister userRegister){
+    public User(UserRegister userRegister) {
         this.nick = userRegister.getNick();
         this.password = userRegister.getPassword();
         this.mail = userRegister.getMail();

@@ -6,7 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
-//import org.springframework.config.java.plugin.context.AnnotationDrivenConfig;
+
 /**
  * Created by Rafal on 24.04.2017.
  */

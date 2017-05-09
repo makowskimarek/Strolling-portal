@@ -6,8 +6,6 @@ import com.walker.DataBase.UserData;
 import com.walker.DataBase.UserLogin;
 import com.walker.DataBase.UserRegister;
 import com.walker.DataBaseControl.ControlUser;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -68,13 +66,7 @@ public class HomeController {
 
     @RequestMapping(value = "/Main")
     public String mainn(Model model) {
-
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String name = auth.getName();
-
-        ControlUser controlUser = new ControlUser();
-        User user;
-
+        
         return "main";
     }
 
@@ -83,9 +75,7 @@ public class HomeController {
                            @RequestParam(required = false, value = "nick") String nick,
                            @RequestParam(required = false, value = "password") String password,
                            @RequestParam(required = false, value = "mail") String mail) {
-
-
-
+        
         ControlUser controlUser = new ControlUser();
 
         User user = controlUser.getUser(nick);
@@ -97,7 +87,6 @@ public class HomeController {
             user.setMail(mail);
             controlUser.addUser(user);
             model.addAttribute("message", "Rejestracja udana");
-
         }else {
             model.addAttribute("message", "Osoba o podanym nicku już istnieje");
         }
