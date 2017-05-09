@@ -3,14 +3,6 @@ package com.walker.DataBase;
 /**
  * Created by Rafal on 25.04.2017.
  */
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.util.Date;
-
 /**
  * Entity bean with JPA annotations
  * Hibernate provides JPA implementation
@@ -21,16 +13,16 @@ public class UserData {
 
     private int user_id;
 
-    private String name;
+    private String firstName;
 
-    private String surname;
+    private String lastName;
 
     private String city;
 
-    public UserData(int user_id, String name, String surname, String city) {
+    public UserData(int user_id, String firstName, String lastName, String city) {
         this.user_id = user_id;
-        this.name = name;
-        this.surname = surname;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.city = city;
     }
 
@@ -48,19 +40,19 @@ public class UserData {
     }
 
     public String getName() {
-        return name;
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getLastName() {
+        return lastName;
     }
 
     public String getCity() {
@@ -73,6 +65,6 @@ public class UserData {
 
     @Override
     public String toString() {
-        return "id=" + user_id + ", name=" + name + ", surname=" + surname + ", country=" + city;
+        return "id=" + user_id + ", firstName=" + firstName + ", lastName=" + lastName + ", country=" + city;
     }
 }

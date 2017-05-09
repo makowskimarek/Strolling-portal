@@ -1,34 +1,24 @@
 package com.walker.DataBase;
 
 /**
- * Created by Rafal on 25.04.2017.
+ * @author Marek Makowski
+ * @version 1.0
  */
-public class User {
+public class UserLogin {
 
-    private int user_id;
     private String nick;
     private String password;
     private String mail;
 
-    public User(int user_id, String nick, String password, String mail) {
-        this.user_id = user_id;
+    public UserLogin(String nick, String password, String mail) {
+
         this.nick = nick;
         this.password = password;
         this.mail = mail;
     }
 
-    public User()
+    public UserLogin()
     {
-    }
-
-    public User(UserRegister userRegister){
-        this.nick = userRegister.getNick();
-        this.password = userRegister.getPassword();
-        this.mail = userRegister.getMail();
-    }
-
-    public int getUser_id() {
-        return user_id;
     }
 
     public String getNick() {
@@ -41,10 +31,6 @@ public class User {
 
     public String getMail() {
         return mail;
-    }
-
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
     }
 
     public void setNick(String nick) {

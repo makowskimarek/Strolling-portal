@@ -1,14 +1,16 @@
 package com.walker.controller;
 
+import com.google.gson.Gson;
 import com.walker.DataBase.User;
+import com.walker.DataBase.UserData;
+import com.walker.DataBase.UserLogin;
+import com.walker.DataBase.UserRegister;
 import com.walker.DataBaseControl.ControlUser;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by Swiety on 21.03.2017.
@@ -101,5 +103,46 @@ public class HomeController {
         }
 
         return "message";
+    }
+
+    @RequestMapping(value = "/RegisterAndroid", method= RequestMethod.POST)
+    public @ResponseBody
+    String register(@RequestBody String jsonString)
+    {
+        Gson gson = new Gson();
+        UserRegister userRegister = gson.fromJson(jsonString, UserRegister.class);
+
+        ControlUser controlUser = new ControlUser();
+
+        User user = new User(userRegister);
+
+        if(controlUser.addUser(user)){
+            int user_id = controlUser.getUserID(user.getNick());
+
+            UserData userData = new UserData(user_id, "firstname", "surname", "city");
+            controlUser.addUserData(user_id, userData);
+
+            return gson.toJson(userData);
+        }else{
+            return "{\"error\":\"duplicateUser\"}";
+        }
+    }
+
+    @RequestMapping(value = "/LoginAndroid", method= RequestMethod.POST)
+    public @ResponseBody
+    String login(@RequestBody String jsonString)
+    {
+        jsonString.lastIndexOf("nick");
+        Gson gson = new Gson();
+        UserLogin userLogin = gson.fromJson(jsonString, UserLogin.class);
+
+        ControlUser controlUser = new ControlUser();
+
+        int user_id = controlUser.getUserID(userLogin.getNick());
+        if(user_id ==-1){
+            return "{\"error\":\"notAnUser\"}";
+        }else{
+            return "{\"user_id\":\"" + user_id + "\"}";
+        }
     }
 }

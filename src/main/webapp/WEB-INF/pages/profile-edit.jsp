@@ -266,7 +266,7 @@
                                 </div>
                                 
                                 <div class="form-group">
-                                    <label for="surname">Nazwisko:</label>
+                                    <label for="lastName">Nazwisko:</label>
                                     <input type="text" class="form-control" id="surnamename" placeholder="Kubów">
                                 </div>
                                 

@@ -2,13 +2,9 @@ package com.walker.DataBaseControl;
 
 import com.walker.DataBase.User;
 import com.walker.DataBase.UserData;
-import com.walker.config.DataBaseConfig;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
@@ -56,7 +52,7 @@ public class ControlUser {
         jdbcTemplate.update(SQL_INSERT,
                 IdUser,
                 userData.getName(),
-                userData.getSurname(),
+                userData.getLastName(),
                 userData.getCity());
     }
 
@@ -73,7 +69,7 @@ public class ControlUser {
 
         jdbcTemplate.update(SQL_UPDATE,
                 userData.getName(),
-                userData.getSurname(),
+                userData.getLastName(),
                 userData.getCity(),
                 IdUser);
     }
@@ -82,16 +78,21 @@ public class ControlUser {
      * Method to add user to data base
      * @param user
      */
-    public void addUser(User user)
+    public boolean addUser(User user)
     {
-        SQL_INSERT =
-                "insert into user (nick, password, mail) values (?, ? ,?)";
+        if (getUserID(user.getNick())!=-1){
+            return false;
+        }
+        else {
+            SQL_INSERT =
+                    "insert into user (nick, password, mail) values (?, ? ,?)";
 
-        jdbcTemplate.update(SQL_INSERT,
-                user.getNick(),
-                user.getPassword(),
-                user.getMail());
-
+            jdbcTemplate.update(SQL_INSERT,
+                    user.getNick(),
+                    user.getPassword(),
+                    user.getMail());
+            return true;
+        }
     }
 
     /**
@@ -131,6 +132,22 @@ public class ControlUser {
             return null;
         else
             return listUser.get(0);
+    }
+
+    public int getUserID(String nick)
+    {
+        SQL_SELECT =
+                "select * " +
+                        "from user " +
+                        "where nick like ? ";
+
+        List<User> listUser =   jdbcTemplate.query(SQL_SELECT,this::mapUser,
+                nick);
+
+        if (listUser.size() == 0)
+            return -1;
+        else
+            return listUser.get(0).getUser_id();
     }
 
     public UserData getUserData(int idUser)
