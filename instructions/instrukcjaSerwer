@@ -13,13 +13,24 @@ https://dev.mysql.com/downloads/workbench/
 Apache Tomcat
 https://archive.apache.org/dist/tomcat/tomcat-8/v8.0.27/bin/
 
+JDK 1.8
+http://www.oracle.com/technetwork/java/javase/downloads/index-jsp-138363.html
+
 W MySQL Workbench należy utworzyć nowy schema o nazwie db1 poprzez naciśnięcie ikony "Create a new schema in current server"
+dane logowanie : 
+root
+1q2w3e4r
 
 1. W IntelliJ IDEA kliknij File->New->Project from version control->GitHub
 2. Ustaw ścieżkę do projektu
 3. Poczekaj na pobranie plików
 4. W okienku Project prawym na Strolling-portal->Maven>Reimport
-5. Run->edit configuration->zielony plusik->Tomcat Server->local
+5. Wybrać w ustawieniach projektu JDK
+	- File -> Project Structure... 
+	- w Module SDK wybrać 1.8, jeśli nie jest ono dostępne :
+		-Kliknąć w New -> JDK
+		-Wybrać lokalizacje zainstalowanego JDK i kilknąć Ok
+6. Run->edit configuration->zielony plusik->Tomcat Server->local
 	- Przycisk configure
 		-wybieramy scieżkę do zainstalowanego serweru Tomcata i zatwierdzamy
 	- W "Application serwer" wybieramy utworzony serwer
@@ -27,6 +38,18 @@ W MySQL Workbench należy utworzyć nowy schema o nazwie db1 poprzez naciśnięc
 	- HTTP port ustawiamy na 8080
 	- Po prawej na dole naciskamy na czerwoną żąróweczkę "fix" i wybieramy war: exploded
 	- Apply
-6. W okienku Project prawym na scriptToMySQLworkBench.sql i naciskamy run, a następnie wybieramy naszą bazę danych db1
-
-7. By uruchomić program należy nacisnąć zieloną strzałeczkę lub Run->Run...
+7. Sprawdzić poprawność połączenia z bazą danych z poziomu intellija.
+	- Prawy przycisk na bazie danych db1@localhost
+	- Wejść w properties
+		Pola w nowo otwartym oknie powinny zawierać wartości :
+		Host : localhost
+		Database : db1
+		User : root
+		Password : 1q2w3e4r
+		Url : jdbc:mysql://localhost:3306/db1
+		Driver : MySQL
+	- W razie braku sterownika bazy danych na dole okna należy kilknąć w link pobierający go.
+	- Kilknąć w Test Connection
+	
+8. W okienku Project prawym na scriptToMySQLworkBench.sql i naciskamy run, a następnie wybieramy naszą bazę danych db1
+9. By uruchomić program należy nacisnąć zieloną strzałeczkę lub Run->Run...
