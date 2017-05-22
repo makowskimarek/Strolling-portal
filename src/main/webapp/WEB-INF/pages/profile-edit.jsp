@@ -267,27 +267,27 @@
 
                             <input type="hidden" class="form-control"
                                    id="AccountDetailsID" name="ID"
-                                   placeholder="<%out.println(request.getAttribute("ID"));%>">
+                                   value="<%out.println(request.getAttribute("ID"));%>">
 
                             <div class="form-group">
                                 <label for="firstName">Imie:</label>
                                 <input type="text" class="form-control"
                                        id="firstName" name="firstName"
-                                       placeholder="<%out.println(request.getAttribute("firstName"));%>">
+                                       value="<%out.println(request.getAttribute("firstName"));%>">
                             </div>
 
                             <div class="form-group">
                                 <label for="lastName">Nazwisko:</label>
                                 <input type="text" class="form-control"
                                        id="lastName" name="lastName"
-                                       placeholder="<%out.println(request.getAttribute("lastName"));%>">
+                                       value="<%out.println(request.getAttribute("lastName"));%>">
                             </div>
 
                             <div class="form-group">
                                 <label for="city">Miejscowość:</label>
                                 <input type="text" class="form-control"
-                                       id="City" name="City"
-                                       placeholder="<%out.println(request.getAttribute("City"));%>">
+                                       id="city" name="city"
+                                       value="<%out.println(request.getAttribute("City"));%>">
                             </div>
 
                             <div class="form-group">
@@ -316,14 +316,14 @@
                                         <div class="form-group">
                                             <input type="hidden" class="form-control"
                                                    id="AccountMailID" name="ID"
-                                                   placeholder="<%out.println(request.getAttribute("ID"));%>">
+                                                   value="<%out.println(request.getAttribute("ID"));%>">
                                         </div>
 
                                         <div class="form-group">
                                             <label for="mail">Mail:</label>
                                             <input type="email" class="form-control"
                                                    id="mail" name="mail"
-                                                   placeholder="<%out.println(request.getAttribute("mail"));%>">
+                                                   value="<%out.println(request.getAttribute("mail"));%>">
                                         </div>
 
                                         <button type="submit" class="btn btn-default center-block">Zapisz</button>
@@ -338,7 +338,7 @@
                                         <div class="form-group">
                                             <input type="hidden" class="form-control"
                                                    id="AccountPasswordID"  name="ID"
-                                                   placeholder="<%out.println(request.getAttribute("ID"));%>">
+                                                   value="<%out.println(request.getAttribute("ID"));%>">
                                         </div>
 
                                         <div class="form-group">
