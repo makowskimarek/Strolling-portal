@@ -50,6 +50,7 @@ public class HomeController {
         User user = controlUser.getUser(currentUser);
         UserData userData = controlUser.getUserData(user.getUser_id());
 
+        model.addAttribute("ID", userData.getUserId());
         model.addAttribute("firstName", userData.getName());
         model.addAttribute("lastName", userData.getLastName());
         model.addAttribute("City", userData.getCity());
@@ -66,6 +67,7 @@ public class HomeController {
         User user = controlUser.getUser(currentUser);
         UserData userData = controlUser.getUserData(user.getUser_id());
 
+        model.addAttribute("ID", userData.getUserId());
         model.addAttribute("mail", user.getMail());
         model.addAttribute("nick", user.getNick());
         model.addAttribute("firstName", userData.getName());

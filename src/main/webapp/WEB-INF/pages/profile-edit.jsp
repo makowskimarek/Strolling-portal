@@ -264,24 +264,35 @@
                         <h3 class="text-center">Zmiana informacji odnośnie konta</h3>
 
                         <form action="#" method="post" id="AccountDetails">
+
+                            <input type="hidden" class="form-control"
+                                   id="AccountDetailsID" name="ID"
+                                   placeholder="<%out.println(request.getAttribute("ID"));%>">
+
                             <div class="form-group">
-                                <label for="fisrtname">Imie:</label>
-                                <input type="text" class="form-control" id="firstname" placeholder="<%out.println(request.getAttribute("firstName"));%>">
+                                <label for="firstName">Imie:</label>
+                                <input type="text" class="form-control"
+                                       id="firstName" name="firstName"
+                                       placeholder="<%out.println(request.getAttribute("firstName"));%>">
                             </div>
 
                             <div class="form-group">
                                 <label for="lastName">Nazwisko:</label>
-                                <input type="text" class="form-control" id="surnamename" placeholder="<%out.println(request.getAttribute("lastName"));%>">
+                                <input type="text" class="form-control"
+                                       id="lastName" name="lastName"
+                                       placeholder="<%out.println(request.getAttribute("lastName"));%>">
                             </div>
 
                             <div class="form-group">
                                 <label for="city">Miejscowość:</label>
-                                <input type="text" class="form-control" id="city" placeholder="<%out.println(request.getAttribute("City"));%>">
+                                <input type="text" class="form-control"
+                                       id="City" name="City"
+                                       placeholder="<%out.println(request.getAttribute("City"));%>">
                             </div>
 
                             <div class="form-group">
                                 <label for="description">O mnie:</label>
-                                <textarea class="form-control" rows="5" id="description">Lubię spokojne spacerki, głównie w łonie natury.Nie lubię przebywać w towarzystwie osób palących.</textarea>
+                                <textarea class="form-control" rows="5" id="description" name="description">Lubię spokojne spacerki, głównie w łonie natury.Nie lubię przebywać w towarzystwie osób palących.</textarea>
                             </div>
 
                             <button type="submit" class="btn btn-default">Zapisz</button>
@@ -297,39 +308,58 @@
 
                         <div class="container-fluid">
 
-                            <div class="row">
+                            <div class="row row-eq-height">
                                 <!--Form Change mail -->
-                                <div class="col-md-6" style="border: 1px solid #000">
+                                <div class="col-md-6" style="padding: 10px">
                                     <form action="#" method="post" id="AccountMail">
+
                                         <div class="form-group">
-                                            <label for="mail">Mail:</label>
-                                            <input type="email" class="form-control" id="mail" placeholder="<%out.println(request.getAttribute("mail"));%>">
+                                            <input type="hidden" class="form-control"
+                                                   id="AccountMailID" name="ID"
+                                                   placeholder="<%out.println(request.getAttribute("ID"));%>">
                                         </div>
 
-                                        <button type="submit" class="btn btn-default">Zapisz</button>
+                                        <div class="form-group">
+                                            <label for="mail">Mail:</label>
+                                            <input type="email" class="form-control"
+                                                   id="mail" name="mail"
+                                                   placeholder="<%out.println(request.getAttribute("mail"));%>">
+                                        </div>
+
+                                        <button type="submit" class="btn btn-default center-block">Zapisz</button>
 
                                     </form>
                                 </div>
 
                                 <!--Form Change password -->
-                                <div class="col-md-6" style="border: 1px solid #000">
+                                <div class="col-md-6" style="padding: 10px">
                                     <form action="#" method="post" id="AccountPassword">
+
+                                        <div class="form-group">
+                                            <input type="hidden" class="form-control"
+                                                   id="AccountPasswordID"  name="ID"
+                                                   placeholder="<%out.println(request.getAttribute("ID"));%>">
+                                        </div>
+
                                         <div class="form-group">
                                             <label for="oldPassword">Stare hasło:</label>
-                                            <input type="password" class="form-control" id="oldPassword">
+                                            <input type="password" class="form-control"
+                                                   id="oldPassword" name="oldPassword">
                                         </div>
 
                                         <div class="form-group">
                                             <label for="newPassword">Nowe hasło:</label>
-                                            <input type="password" class="form-control" id="newPassword">
+                                            <input type="password" class="form-control"
+                                                   id="newPassword" name="newPassword">
                                         </div>
 
                                         <div class="form-group">
                                             <label for="confirmPassword">Potwierdź hasło:</label>
-                                            <input type="password" class="form-control" id="confirmPassword">
+                                            <input type="password" class="form-control"
+                                                   id="confirmPassword" name="confirmPassword">
                                         </div>
 
-                                        <button type="submit" class="btn btn-default">Zapisz</button>
+                                        <button type="submit" class="btn btn-default center-block">Zapisz</button>
 
                                     </form>
                                 </div>
