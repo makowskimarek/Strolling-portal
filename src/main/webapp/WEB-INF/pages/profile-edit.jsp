@@ -263,7 +263,7 @@
                     <div id="info" class="tab-pane fade in active">
                         <h3 class="text-center">Zmiana informacji odnośnie konta</h3>
 
-                        <form action="#" method="post" id="AccountDetails">
+                        <form action="/updateData" method="post" id="AccountDetails">
 
                             <input type="hidden" class="form-control"
                                    id="AccountDetailsID" name="ID"
@@ -311,7 +311,7 @@
                             <div class="row row-eq-height">
                                 <!--Form Change mail -->
                                 <div class="col-md-6" style="padding: 10px">
-                                    <form action="#" method="post" id="AccountMail">
+                                    <form action="/updateMail" method="post" id="AccountMail">
 
                                         <div class="form-group">
                                             <input type="hidden" class="form-control"
@@ -333,7 +333,7 @@
 
                                 <!--Form Change password -->
                                 <div class="col-md-6" style="padding: 10px">
-                                    <form action="#" method="post" id="AccountPassword">
+                                    <form action="/updatePassword" method="post" id="AccountPassword">
 
                                         <div class="form-group">
                                             <input type="hidden" class="form-control"
