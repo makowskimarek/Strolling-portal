@@ -285,46 +285,64 @@
                             </div>
 
                             <button type="submit" class="btn btn-default">Zapisz</button>
-                            <button type="button" class="btn btn-default" onClick="">Anuluj</button>
+                            <button type="button" class="btn btn-default" onClick="location.href='/Profile'">Anuluj</button>
 
                         </form>
 
                     </div>
+
                     <div id="account" class="tab-pane fade">
-                        <h3 class="text-center">Zmiana danych konta</h3>
 
-                        <form action="#" method="post" id="AccountLogin">
-<%--                            <div class="form-group">
-                                <label for="login">Login:</label>
-                                <input type="text" class="form-control" id="login" placeholder="<%out.println(request.getAttribute("Login"));%>">
-                            </div>--%>
+                        <h3> Zmiana danych konta </h3>
 
-                            <div class="form-group">
-                                <label for="mail">Mail:</label>
-                                <input type="email" class="form-control" id="mail" placeholder="<%out.println(request.getAttribute("mail"));%>">
+                        <div class="container-fluid">
+
+                            <div class="row">
+                                <!--Form Change mail -->
+                                <div class="col-md-6" style="border: 1px solid #000">
+                                    <form action="#" method="post" id="AccountMail">
+                                        <div class="form-group">
+                                            <label for="mail">Mail:</label>
+                                            <input type="email" class="form-control" id="mail" placeholder="<%out.println(request.getAttribute("mail"));%>">
+                                        </div>
+
+                                        <button type="submit" class="btn btn-default">Zapisz</button>
+
+                                    </form>
+                                </div>
+
+                                <!--Form Change password -->
+                                <div class="col-md-6" style="border: 1px solid #000">
+                                    <form action="#" method="post" id="AccountPassword">
+                                        <div class="form-group">
+                                            <label for="oldPassword">Stare hasło:</label>
+                                            <input type="password" class="form-control" id="oldPassword">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="newPassword">Nowe hasło:</label>
+                                            <input type="password" class="form-control" id="newPassword">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="confirmPassword">Potwierdź hasło:</label>
+                                            <input type="password" class="form-control" id="confirmPassword">
+                                        </div>
+
+                                        <button type="submit" class="btn btn-default">Zapisz</button>
+
+                                    </form>
+                                </div>
                             </div>
 
-                            <div class="form-group">
-                                <label for="password_old">Stare hasło:</label>
-                                <input type="password" class="form-control" id="password_old">
+                            <div class="row">
+                                <button type="button" class="btn btn-default center-block" onClick="location.href='/Profile'">Anuluj</button>
                             </div>
 
-                            <div class="form-group">
-                                <label for="password_new">Nowe hasło:</label>
-                                <input type="password" class="form-control" id="password_new">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="password_confirm">Potwierdź hasło:</label>
-                                <input type="password" class="form-control" id="password_confirm">
-                            </div>
-
-                            <button type="submit" class="btn btn-default">Zapisz</button>
-                            <button type="button" class="btn btn-default" onClick="">Anuluj</button>
-
-                        </form>
+                        </div>
 
                     </div>
+
 
                 </div>
 
