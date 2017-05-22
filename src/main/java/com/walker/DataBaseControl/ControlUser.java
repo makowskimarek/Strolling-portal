@@ -44,13 +44,12 @@ public class ControlUser {
      * Method to add user data to database
      *
      * @param userData information of user
-     * @param IdUser   id of user
      */
-    public void addUserData(int IdUser, UserData userData) {
+    public void addUserData(UserData userData) {
         SQL_INSERT =
-                "INSERT INTO user_data (user_id, name, surname, city) VALUES (?, ?, ? ,?)";
+                "INSERT INTO user_data (user_id, firstName, lastName, city) VALUES (?, ?, ? ,?)";
         jdbcTemplate.update(SQL_INSERT,
-                IdUser,
+                userData.getUserId(),
                 userData.getName(),
                 userData.getLastName(),
                 userData.getCity());

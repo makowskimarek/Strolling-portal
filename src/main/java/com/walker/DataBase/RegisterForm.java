@@ -9,13 +9,11 @@ import javax.validation.constraints.Size;
  */
 public class RegisterForm {
 
-    @NotEmpty
-    @Size(min=3)
+
     private String nick;
-    @Size(min=6)
-    @NotEmpty
+
     private String password;
-    @NotEmpty
+
     private String mail;
 
     private String firstName;

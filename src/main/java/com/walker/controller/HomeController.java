@@ -6,6 +6,7 @@ import com.walker.DataBase.UserData;
 import com.walker.DataBase.UserLogin;
 import com.walker.DataBase.UserRegister;
 import com.walker.DataBaseControl.ControlUser;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -43,11 +44,33 @@ public class HomeController {
     @RequestMapping(value = "/Profile")
     public String profile(Model model) {
 
+        final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        ControlUser controlUser = new ControlUser();
+        User user = controlUser.getUser(currentUser);
+        UserData userData = controlUser.getUserData(user.getUser_id());
+
+        model.addAttribute("firstName", userData.getName());
+        model.addAttribute("lastName", userData.getLastName());
+        model.addAttribute("City", userData.getCity());
+
         return "profile";
     }
 
     @RequestMapping(value = "/Profile-edit")
     public String profileEdit(Model model) {
+
+        final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        ControlUser controlUser = new ControlUser();
+        User user = controlUser.getUser(currentUser);
+        UserData userData = controlUser.getUserData(user.getUser_id());
+
+        model.addAttribute("mail", user.getMail());
+        model.addAttribute("nick", user.getNick());
+        model.addAttribute("firstName", userData.getName());
+        model.addAttribute("lastName", userData.getLastName());
+        model.addAttribute("City", userData.getCity());
 
         return "profile-edit";
     }
@@ -74,7 +97,10 @@ public class HomeController {
     public String register(Model model,
                            @RequestParam(required = false, value = "nick") String nick,
                            @RequestParam(required = false, value = "password") String password,
-                           @RequestParam(required = false, value = "mail") String mail) {
+                           @RequestParam(required = false, value = "mail") String mail,
+                           @RequestParam(required = false, value = "firstName") String firstName,
+                           @RequestParam(required = false, value = "lastName") String lastName,
+                           @RequestParam(required = false, value = "city") String city) {
         
         ControlUser controlUser = new ControlUser();
 
@@ -86,6 +112,11 @@ public class HomeController {
             user.setPassword(password);
             user.setMail(mail);
             controlUser.addUser(user);
+
+            int idUser = controlUser.getUserID(nick);
+            UserData userData = new UserData(idUser,firstName,lastName,city);
+            controlUser.addUserData(userData);
+
             model.addAttribute("message", "Rejestracja udana");
         }else {
             model.addAttribute("message", "Osoba o podanym nicku już istnieje");
@@ -109,7 +140,7 @@ public class HomeController {
             int user_id = controlUser.getUserID(user.getNick());
 
             UserData userData = new UserData(user_id, "firstname", "surname", "city");
-            controlUser.addUserData(user_id, userData);
+            controlUser.addUserData(userData);
 
             return gson.toJson(userData);
         }else{

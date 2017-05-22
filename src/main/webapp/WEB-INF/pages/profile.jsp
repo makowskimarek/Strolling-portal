@@ -204,11 +204,16 @@
                 </div>
 
                 <div class="row">
-                    Dawid Kubów
+                    <%
+                        out.println(request.getAttribute("firstName"));
+                        out.println(" ");
+                        out.println(request.getAttribute("lastName"));
+                    %>
                 </div>
 
                 <div class="row">
-                    Miejscowość: Gliwice
+                    Miejscowość:
+                    <% out.println(request.getAttribute("City")); %>
                 </div>
 
                 <div class="row">

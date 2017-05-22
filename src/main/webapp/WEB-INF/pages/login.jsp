@@ -25,37 +25,7 @@
     <link href="resources/sources/styles/strolling.css" rel="stylesheet"> 
 
     <!--Own JS script-->
-    <script type="text/javascript">
-        //function to validate login form
-        function validLogin(){
-            //init variables from form
-            var nick = document.login.nick.value;
-            var password = document.login.password.value;
-            
-            //check username
-            if(nick == "" || nick == null){
-                 alert("nie wypełniono loginu");
-                 document.login.nick.focus();
-                 return false;
-             }
-            
-            //check password
-            if(password == "" || password == null){
-                 alert("nie wypełniono hasła");
-                 document.login.password.focus();
-                 return false;
-             }
-            else
-                //check length of password
-                if(password.length < 6 || password.length > 15){
-                    alert("Hasło nie jest z zakresu 6-15 znaków");
-                    document.login.password.focus();
-                    return false;
-                }
-            
-            return ( true );
-        }
-    </script>
+    <script src="resources/sources/js/formValidator.js" type="text/javascript"></script>
 </head>
 <body>
     <div class = "container-fluid login">
@@ -68,7 +38,8 @@
                 class="formDisplay">    
               
 		    <h3 class="header">
-                Page disabled to watch while not login
+                Page not available<br>
+                To watch log in
             </h3>
                 
 			  

@@ -22,116 +22,10 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
     <!--Own CSS-->
-    <link href="resources/sources/styles/strolling.css" rel="stylesheet"> 
+    <link href="resources/sources/styles/strolling.css" rel="stylesheet">
 
-    
     <!--Own JS script-->
-    <script type="text/javascript">
-        //function to validate login form
-        function validLogin(){
-            //init variables from form
-            var username = document.login.username.value;
-            var password = document.login.password.value;
-            
-            //check username
-            if(username == "" || username == null){
-                 alert("nie wypełniono loginu");
-                 document.login.username.focus();
-                 return false;
-             }
-            
-            //check password
-            if(password == "" || password == null){
-                 alert("nie wypełniono hasła");
-                 document.login.password.focus();
-                 return false;
-             }
-            else
-                //check length of password
-                if(password.length < 6 || password.length > 15){
-                    alert("Hasło nie jest z zakresu 6-15 znaków");
-                    document.login.password.focus();
-                    return false;
-                }
-            
-            return ( true );
-        }
-        //function to validate register form
-        function validRegister(){
-            //init variables from form
-            var firstName = document.register.firstName.value;
-            var lastName = document.register.lastName.value;
-            var city = document.register.city.value;
-            
-            var nick = document.register.nick.value;
-            var mail = document.register.mail.value;
-            var password = document.register.password.value;
-            
-            //check if all fields are set
-            
-            //check fisrtname
-             if(firstName == "" || firstName == null){
-                 alert("nie wypełniono imienia");
-                 document.register.firstName.focus();
-                 return false;
-             }
-            
-            //check lastname
-            if(lastName == "" || lastName == null){
-                 alert("nie wypełniono nazwiska");
-                 document.register.lastName.focus();
-                 return false;
-             }
-            
-            //check city
-            if(city == "" || city == null){
-                 alert("nie wypełniono miejscowości");
-                 document.register.city.focus();
-                 return false;
-             }
-            
-            //check nick
-            if(nick == "" || nick == null){
-                 alert("nie wypełniono loginu");
-                 document.register.nick.focus();
-                 return false;
-             }
-            
-            //check mail
-            if(mail == "" || mail == null){
-                 alert("nie wypełniono mailu");
-                 document.register.mail.focus();
-                 return false;
-             }
-            else{
-                    atpos = mail.indexOf("@");
-                    dotpos = mail.lastIndexOf(".");
-
-                    if (atpos < 1 || dotpos < atpos+2 || dotpos+2 >= mail.length ) 
-                    {
-                        alert("Niepoprawny format maila")
-                        document.register.mail.focus() ;
-                        return false;
-                    }
-            }
-            
-            //check password
-            if(password == "" || password == null){
-                 alert("nie wypełniono hasła");
-                 document.register.password.focus();
-                 return false;
-             }
-            else
-                //check length of password
-                if(password.length < 6 || password.length > 15){
-                    alert("Hasło nie jest z zakresu 6-15 znaków");
-                    document.register.password.focus();
-                    return false;
-                }
-            
-            return ( true );
-        }
-    </script>
+    <script src="resources/sources/js/formValidator.js" type="text/javascript"> </script>
 
 </head>
 <body>
@@ -152,7 +46,7 @@
                 <!--Logowanie-->
                 <form id="login" name="login"
                       method="post"
-                      action="/Login" onsubmit="return validLogin();"
+                      action="/Login" onsubmit="return validLoginMain();"
                       class="navbar-form navbar-right" role="search">
                     <div class="form-group">
                         <input type="text" class="form-control" name="username" placeholder="Login">

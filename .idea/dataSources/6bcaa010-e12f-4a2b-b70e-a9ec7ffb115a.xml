@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataSource name="db1@localhost">
-  <database-model serializer="dbm" rdbms="MYSQL" format-version="4.0">
+  <database-model serializer="dbm" rdbms="MYSQL" format-version="4.1">
     <root id="1"/>
     <schema id="2" parent="1" name="db1">
       <Current>1</Current>
@@ -68,6 +68,7 @@
       <ColNames>user_id</ColNames>
     </index>
     <key id="30" parent="7" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
       <ColNames>ad_id</ColNames>
       <Primary>1</Primary>
     </key>
@@ -76,8 +77,6 @@
       <RefSchemaName>db1</RefSchemaName>
       <RefTableName>user</RefTableName>
       <RefColNames>user_id</RefColNames>
-      <OnUpdate>no-action</OnUpdate>
-      <OnDelete>no-action</OnDelete>
     </foreign-key>
     <column id="32" parent="8" name="ban_id">
       <Position>1</Position>
@@ -102,6 +101,7 @@
       <ColNames>user_id</ColNames>
     </index>
     <key id="37" parent="8" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
       <ColNames>ban_id</ColNames>
       <Primary>1</Primary>
     </key>
@@ -110,16 +110,12 @@
       <RefSchemaName>db1</RefSchemaName>
       <RefTableName>user</RefTableName>
       <RefColNames>user_id</RefColNames>
-      <OnUpdate>no-action</OnUpdate>
-      <OnDelete>no-action</OnDelete>
     </foreign-key>
     <foreign-key id="39" parent="8" name="banned_users_banned_user_id">
       <ColNames>banned_user_id</ColNames>
       <RefSchemaName>db1</RefSchemaName>
       <RefTableName>user</RefTableName>
       <RefColNames>user_id</RefColNames>
-      <OnUpdate>no-action</OnUpdate>
-      <OnDelete>no-action</OnDelete>
     </foreign-key>
     <column id="40" parent="9" name="friend_inv_notification_id">
       <Position>1</Position>
@@ -136,6 +132,7 @@
       <ColNames>user_id</ColNames>
     </index>
     <key id="43" parent="9" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
       <ColNames>friend_inv_notification_id</ColNames>
       <Primary>1</Primary>
     </key>
@@ -144,8 +141,6 @@
       <RefSchemaName>db1</RefSchemaName>
       <RefTableName>user</RefTableName>
       <RefColNames>user_id</RefColNames>
-      <OnUpdate>no-action</OnUpdate>
-      <OnDelete>no-action</OnDelete>
     </foreign-key>
     <column id="45" parent="10" name="user1_id">
       <Position>1</Position>
@@ -168,16 +163,12 @@
       <RefSchemaName>db1</RefSchemaName>
       <RefTableName>user</RefTableName>
       <RefColNames>user_id</RefColNames>
-      <OnUpdate>no-action</OnUpdate>
-      <OnDelete>no-action</OnDelete>
     </foreign-key>
     <foreign-key id="50" parent="10" name="user2_id">
       <ColNames>user2_id</ColNames>
       <RefSchemaName>db1</RefSchemaName>
       <RefTableName>user</RefTableName>
       <RefColNames>user_id</RefColNames>
-      <OnUpdate>no-action</OnUpdate>
-      <OnDelete>no-action</OnDelete>
     </foreign-key>
     <column id="51" parent="11" name="msg_id">
       <Position>1</Position>
@@ -212,6 +203,7 @@
       <ColNames>sender_id</ColNames>
     </index>
     <key id="58" parent="11" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
       <ColNames>msg_id</ColNames>
       <Primary>1</Primary>
     </key>
@@ -220,16 +212,12 @@
       <RefSchemaName>db1</RefSchemaName>
       <RefTableName>user</RefTableName>
       <RefColNames>user_id</RefColNames>
-      <OnUpdate>no-action</OnUpdate>
-      <OnDelete>no-action</OnDelete>
     </foreign-key>
     <foreign-key id="60" parent="11" name="messages_receiver_id">
       <ColNames>receiver_id</ColNames>
       <RefSchemaName>db1</RefSchemaName>
       <RefTableName>user</RefTableName>
       <RefColNames>user_id</RefColNames>
-      <OnUpdate>no-action</OnUpdate>
-      <OnDelete>no-action</OnDelete>
     </foreign-key>
     <column id="61" parent="12" name="message_notification_id">
       <Position>1</Position>
@@ -246,6 +234,7 @@
       <ColNames>message_id</ColNames>
     </index>
     <key id="64" parent="12" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
       <ColNames>message_notification_id</ColNames>
       <Primary>1</Primary>
     </key>
@@ -254,8 +243,6 @@
       <RefSchemaName>db1</RefSchemaName>
       <RefTableName>messages</RefTableName>
       <RefColNames>msg_id</RefColNames>
-      <OnUpdate>no-action</OnUpdate>
-      <OnDelete>no-action</OnDelete>
     </foreign-key>
     <column id="66" parent="13" name="notification_id">
       <Position>1</Position>
@@ -282,6 +269,7 @@
       <ColNames>user_id</ColNames>
     </index>
     <key id="71" parent="13" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
       <ColNames>notification_id</ColNames>
       <Primary>1</Primary>
     </key>
@@ -290,8 +278,6 @@
       <RefSchemaName>db1</RefSchemaName>
       <RefTableName>user</RefTableName>
       <RefColNames>user_id</RefColNames>
-      <OnUpdate>no-action</OnUpdate>
-      <OnDelete>no-action</OnDelete>
     </foreign-key>
     <column id="73" parent="14" name="user_id">
       <Position>1</Position>
@@ -322,16 +308,12 @@
       <RefSchemaName>db1</RefSchemaName>
       <RefTableName>user</RefTableName>
       <RefColNames>user_id</RefColNames>
-      <OnUpdate>no-action</OnUpdate>
-      <OnDelete>no-action</OnDelete>
     </foreign-key>
     <foreign-key id="80" parent="14" name="participants_stroll_id">
       <ColNames>stroll_id</ColNames>
       <RefSchemaName>db1</RefSchemaName>
       <RefTableName>stroll</RefTableName>
       <RefColNames>stroll_id</RefColNames>
-      <OnUpdate>no-action</OnUpdate>
-      <OnDelete>no-action</OnDelete>
     </foreign-key>
     <column id="81" parent="15" name="photo_id">
       <Position>1</Position>
@@ -350,6 +332,7 @@
       <NotNull>1</NotNull>
     </column>
     <key id="84" parent="15" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
       <ColNames>photo_id</ColNames>
       <Primary>1</Primary>
     </key>
@@ -392,6 +375,7 @@
       <NotNull>1</NotNull>
     </column>
     <key id="93" parent="16" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
       <ColNames>stroll_id</ColNames>
       <Primary>1</Primary>
     </key>
@@ -415,6 +399,7 @@
       <ColNames>stroll_id</ColNames>
     </index>
     <key id="98" parent="17" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
       <ColNames>notification_id</ColNames>
       <Primary>1</Primary>
     </key>
@@ -423,16 +408,12 @@
       <RefSchemaName>db1</RefSchemaName>
       <RefTableName>notifications</RefTableName>
       <RefColNames>notification_id</RefColNames>
-      <OnUpdate>no-action</OnUpdate>
-      <OnDelete>no-action</OnDelete>
     </foreign-key>
     <foreign-key id="100" parent="17" name="stroll_id">
       <ColNames>stroll_id</ColNames>
       <RefSchemaName>db1</RefSchemaName>
       <RefTableName>stroll</RefTableName>
       <RefColNames>stroll_id</RefColNames>
-      <OnUpdate>no-action</OnUpdate>
-      <OnDelete>no-action</OnDelete>
     </foreign-key>
     <column id="101" parent="18" name="user_id">
       <Position>1</Position>
@@ -456,6 +437,7 @@
       <NotNull>1</NotNull>
     </column>
     <key id="105" parent="18" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
       <ColNames>user_id</ColNames>
       <Primary>1</Primary>
     </key>
@@ -480,6 +462,7 @@
       <NotNull>1</NotNull>
     </column>
     <key id="110" parent="19" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
       <ColNames>user_id</ColNames>
       <Primary>1</Primary>
     </key>
@@ -488,8 +471,6 @@
       <RefSchemaName>db1</RefSchemaName>
       <RefTableName>user</RefTableName>
       <RefColNames>user_id</RefColNames>
-      <OnUpdate>no-action</OnUpdate>
-      <OnDelete>no-action</OnDelete>
     </foreign-key>
     <column id="112" parent="20" name="user_id">
       <Position>1</Position>
@@ -514,6 +495,7 @@
       <ColNames>photo_id</ColNames>
     </index>
     <key id="117" parent="20" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
       <ColNames>user_id</ColNames>
       <Primary>1</Primary>
     </key>
@@ -522,16 +504,12 @@
       <RefSchemaName>db1</RefSchemaName>
       <RefTableName>user</RefTableName>
       <RefColNames>user_id</RefColNames>
-      <OnUpdate>no-action</OnUpdate>
-      <OnDelete>no-action</OnDelete>
     </foreign-key>
     <foreign-key id="119" parent="20" name="photo_id">
       <ColNames>photo_id</ColNames>
       <RefSchemaName>db1</RefSchemaName>
       <RefTableName>photos</RefTableName>
       <RefColNames>photo_id</RefColNames>
-      <OnUpdate>no-action</OnUpdate>
-      <OnDelete>no-action</OnDelete>
     </foreign-key>
   </database-model>
 </dataSource>

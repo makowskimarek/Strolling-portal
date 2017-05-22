@@ -266,17 +266,17 @@
                         <form action="#" method="post" id="AccountDetails">
                             <div class="form-group">
                                 <label for="fisrtname">Imie:</label>
-                                <input type="text" class="form-control" id="firstname" placeholder="Dawid">
+                                <input type="text" class="form-control" id="firstname" placeholder="<%out.println(request.getAttribute("firstName"));%>">
                             </div>
 
                             <div class="form-group">
                                 <label for="lastName">Nazwisko:</label>
-                                <input type="text" class="form-control" id="surnamename" placeholder="Kubów">
+                                <input type="text" class="form-control" id="surnamename" placeholder="<%out.println(request.getAttribute("lastName"));%>">
                             </div>
 
                             <div class="form-group">
                                 <label for="city">Miejscowość:</label>
-                                <input type="text" class="form-control" id="city" placeholder="Gliwice">
+                                <input type="text" class="form-control" id="city" placeholder="<%out.println(request.getAttribute("City"));%>">
                             </div>
 
                             <div class="form-group">
@@ -294,14 +294,14 @@
                         <h3 class="text-center">Zmiana danych konta</h3>
 
                         <form action="#" method="post" id="AccountLogin">
-                            <div class="form-group">
+<%--                            <div class="form-group">
                                 <label for="login">Login:</label>
-                                <input type="text" class="form-control" id="login" placeholder="test">
-                            </div>
+                                <input type="text" class="form-control" id="login" placeholder="<%out.println(request.getAttribute("Login"));%>">
+                            </div>--%>
 
                             <div class="form-group">
                                 <label for="mail">Mail:</label>
-                                <input type="email" class="form-control" id="mail" placeholder="mail@strolling.pl">
+                                <input type="email" class="form-control" id="mail" placeholder="<%out.println(request.getAttribute("mail"));%>">
                             </div>
 
                             <div class="form-group">
