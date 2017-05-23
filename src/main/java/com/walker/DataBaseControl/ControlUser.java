@@ -1,7 +1,8 @@
 package com.walker.DataBaseControl;
 
-import com.walker.DataBase.User;
-import com.walker.DataBase.UserData;
+import com.walker.DataBase.*;
+import com.walker.model.Model;
+import com.walker.model.UserRange;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -147,6 +148,7 @@ public class ControlUser {
             return listUser.get(0).getUser_id();
     }
 
+
     public UserData getUserData(int idUser) {
         SQL_SELECT =
                 "SELECT * " +
@@ -161,6 +163,70 @@ public class ControlUser {
         else
             return listUser.get(0);
     }
+
+
+    public List<UserData> getUsersData(int[] users) {
+        SQL_SELECT =
+                "SELECT * " +
+                        "FROM user_data " +
+                        "WHERE user_id IN (?,?,?,?,?,?,?,?,?,?)";
+
+        List<UserData> usersList = jdbcTemplate.query(SQL_SELECT, this::mapUserData,
+                users[0], users[1], users[2], users[3], users[4], users[5], users[6], users[7], users[8], users[9]);
+        return usersList;
+    }
+
+    public UserProfileData getUserProfileData(int userId) {
+        SQL_SELECT =
+                "SELECT u.user_id, u.nick, " +
+                        "  ud.firstName, ud.lastName, ud.city, ud.birth_date, " +
+                        "  l.latitude, l.longtitude, " +
+                        "  up.description, " +
+                        "  p.photo_url " +
+                        "FROM user u " +
+                        "JOIN user_data ud " +
+                        "ON  u.user_id = ud.user_id " +
+                        "JOIN location l " +
+                        "ON u.user_id = l.user_id " +
+                        "JOIN user_profile up " +
+                        "ON u.user_id = up.user_id " +
+                        "JOIN photos p " +
+                        "ON up.photo_id = p.photo_id " +
+                        "WHERE u.user_id = ?";
+
+        List<UserProfileData> user = jdbcTemplate.query(SQL_SELECT, this::mapUserProfile, userId);
+        return user.get(0);
+    }
+
+    public List<UserRange> getUsersByCriteries(double latitude, double longtitude, double range, int ageFrom, int ageTo) {
+        Model model = new Model();
+
+        SQL_SELECT =
+                "SELECT ud.user_id, ud.birth_date, " +
+                        "l.latitude, l.longtitude " +
+                        "FROM user_data ud " +
+                        "JOIN location l " +
+                        "ON  l.user_id = ud.user_id " +
+                        "WHERE YEAR(ud.birth_date)< ? AND YEAR(ud.birth_date) > ?";
+
+        List<CriteriaData> locationList = jdbcTemplate.query(SQL_SELECT, this::mapCriteria, 2017-ageFrom, 2017-ageTo);
+        return model.getNearbyUsers(locationList, latitude, longtitude, range);
+
+/*
+        int[] usersArray = new int[model.getNearbyUsersLimit()];
+        for (int i = 0; i < usersArray.length; i++) {
+            if (i < nearbyUsersRange.size()) {
+                usersArray[i] = nearbyUsersRange.get(i).getUserId();
+            } else {
+                usersArray[i] = 0;
+            }
+        }
+
+        return getUsersData(usersArray);
+        */
+
+    }
+
 
     /**
      * Method to extract value from object resultSet and creating from then user
@@ -194,6 +260,32 @@ public class ControlUser {
                 rs.getString("firstName"),
                 rs.getString("lastName"),
                 rs.getString("city")
+        );
+    }
+
+    private CriteriaData mapCriteria(ResultSet rs, int row)
+            throws SQLException {
+        return new CriteriaData(
+                rs.getInt("user_id"),
+                rs.getString("birth_date"),
+                rs.getDouble("latitude"),
+                rs.getDouble("longtitude")
+        );
+    }
+
+    private UserProfileData mapUserProfile(ResultSet rs, int row)
+            throws SQLException {
+        return new UserProfileData(
+                rs.getInt("user_id"),
+                rs.getString("nick"),
+                rs.getString("firstName"),
+                rs.getString("lastName"),
+                rs.getString("city"),
+                rs.getString("birth_date"),
+                rs.getDouble("latitude"),
+                rs.getDouble("longtitude"),
+                rs.getString("description"),
+                rs.getString("photo_url")
         );
     }
 }

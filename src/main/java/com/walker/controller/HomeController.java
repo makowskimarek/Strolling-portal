@@ -1,15 +1,16 @@
 package com.walker.controller;
 
 import com.google.gson.Gson;
-import com.walker.DataBase.User;
-import com.walker.DataBase.UserData;
-import com.walker.DataBase.UserLogin;
-import com.walker.DataBase.UserRegister;
+import com.walker.DataBase.*;
 import com.walker.DataBaseControl.ControlUser;
+import com.walker.model.UserRange;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Swiety on 21.03.2017.
@@ -127,6 +128,7 @@ public class HomeController {
         return "message";
     }
 
+
     @RequestMapping(value = "/RegisterAndroid", method= RequestMethod.POST)
     public @ResponseBody
     String register(@RequestBody String jsonString)
@@ -154,7 +156,6 @@ public class HomeController {
     public @ResponseBody
     String login(@RequestBody String jsonString)
     {
-        jsonString.lastIndexOf("nick");
         Gson gson = new Gson();
         UserLogin userLogin = gson.fromJson(jsonString, UserLogin.class);
 
@@ -167,4 +168,25 @@ public class HomeController {
             return "{\"user_id\":\"" + user_id + "\"}";
         }
     }
+
+    @RequestMapping(value = "/GetPersonsAndroid", method= RequestMethod.POST)
+    public @ResponseBody
+    String getPersonsAndroid(@RequestBody String jsonString)
+    {
+        Gson gson = new Gson();
+        SearchCriteria searchCriteria = gson.fromJson(jsonString, SearchCriteria.class);
+
+        ControlUser controlUser = new ControlUser();
+
+        List<UserRange> usersRange = controlUser.getUsersByCriteries(searchCriteria.getUserLatitude(), searchCriteria.getUserLongtitude(),
+                searchCriteria.getDistance(), searchCriteria.getAgeFrom(), searchCriteria.getAgeTo());
+
+        List<UserProfileData> userProfileDataList = new ArrayList<UserProfileData>();
+        for (UserRange userRange : usersRange) {
+            userProfileDataList.add(controlUser.getUserProfileData(userRange.getUserId()));
+        }
+        return gson.toJson(userProfileDataList);
+    }
+
+
 }

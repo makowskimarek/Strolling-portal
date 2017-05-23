@@ -13,11 +13,8 @@ package com.walker.DataBase;
 public class UserData {
 
     private int user_id;
-
     private String firstName;
-
     private String lastName;
-
     private String city;
 
     public UserData(int user_id, String firstName, String lastName, String city) {
@@ -28,7 +25,6 @@ public class UserData {
     }
 
     public UserData() {
-
     }
 
     public int getUserId() {
