@@ -20,7 +20,26 @@ public class HomeController {
     @RequestMapping(value = "/")
     public String home(Model model) {
 
-        return "index";
+        final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        if(currentUser.equals("anonymousUser"))
+        {
+            return "index";
+        }
+        else
+        {
+            ControlUser controlUser = new ControlUser();
+            User user = controlUser.getUser(currentUser);
+            UserData userData = controlUser.getUserData(user.getUser_id());
+
+            model.addAttribute("ID", userData.getUserId());
+            model.addAttribute("firstName", userData.getName());
+            model.addAttribute("lastName", userData.getLastName());
+            model.addAttribute("City", userData.getCity());
+
+            return "profile";
+        }
+
     }
 
     @RequestMapping(value = "/Login")
@@ -56,25 +75,6 @@ public class HomeController {
         model.addAttribute("City", userData.getCity());
 
         return "profile";
-    }
-
-    @RequestMapping(value = "/Profile-edit")
-    public String profileEdit(Model model) {
-
-        final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
-
-        ControlUser controlUser = new ControlUser();
-        User user = controlUser.getUser(currentUser);
-        UserData userData = controlUser.getUserData(user.getUser_id());
-
-        model.addAttribute("ID", userData.getUserId());
-        model.addAttribute("mail", user.getMail());
-        model.addAttribute("nick", user.getNick());
-        model.addAttribute("firstName", userData.getName());
-        model.addAttribute("lastName", userData.getLastName());
-        model.addAttribute("City", userData.getCity());
-
-        return "profile-edit";
     }
 
     @RequestMapping(value = "/Friends")

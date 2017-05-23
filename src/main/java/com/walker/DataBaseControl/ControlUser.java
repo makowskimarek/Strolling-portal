@@ -62,8 +62,8 @@ public class ControlUser {
      * @param userData information of user
      */
     public void updateUserData(int IdUser, UserData userData) {
-        SQL_UPDATE = "UPDATE user_data" +
-                "SET name = ?, surname = ?, city = ?" +
+        SQL_UPDATE = "UPDATE user_data " +
+                "SET firstName = ?, lastName = ?, city = ?" +
                 "WHERE user_id = ?";
 
         jdbcTemplate.update(SQL_UPDATE,
@@ -100,8 +100,8 @@ public class ControlUser {
      * @param user   id of user
      */
     public void updateUser(int IdUser, User user) {
-        SQL_UPDATE = "UPDATE user" +
-                "SET nick = ?, PASSWORD = ?, mail = ?" +
+        SQL_UPDATE = "UPDATE user " +
+                "SET nick = ?, password = ?, mail = ?" +
                 "WHERE user_id = ?";
 
         jdbcTemplate.update(SQL_UPDATE,

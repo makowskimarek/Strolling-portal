@@ -43,7 +43,7 @@
             </h3>
                 
 			  
-			  <input type="text" class="form-control" name="nick" placeholder="Login" required="" autofocus="" />
+			  <input type="text" class="form-control" name="username" placeholder="Login" required="" autofocus="" />
 			  <input type="password" class="form-control" name="password" placeholder="Hasło" required=""/>     		  
 			 
 			  <button class="btn btn-lg btn-primary btn-block"  name="Submit" value="Login" type="Submit">Login</button>  			
