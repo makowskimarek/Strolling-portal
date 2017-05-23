@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `db1` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `db1`;
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: db1
@@ -9,7 +11,7 @@
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+01:00' */;
+/*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
@@ -123,6 +125,34 @@ CREATE TABLE `friends` (
 LOCK TABLES `friends` WRITE;
 /*!40000 ALTER TABLE `friends` DISABLE KEYS */;
 /*!40000 ALTER TABLE `friends` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `location`
+--
+
+DROP TABLE IF EXISTS `location`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `location` (
+  `location_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `latitude` double NOT NULL,
+  `longtitude` double NOT NULL,
+  PRIMARY KEY (`location_id`),
+  KEY `localization_user_data_user_id_fk_idx` (`user_id`),
+  CONSTRAINT `localization_user_data_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `location`
+--
+
+LOCK TABLES `location` WRITE;
+/*!40000 ALTER TABLE `location` DISABLE KEYS */;
+INSERT INTO `location` VALUES (1,1,45,5),(2,2,24,-31),(3,3,234,0),(4,4,0,46),(5,5,34,24),(6,6,34,0),(7,7,0,52),(8,8,15,0),(9,9,0,15),(10,10,1,1);
+/*!40000 ALTER TABLE `location` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -247,7 +277,7 @@ CREATE TABLE `photos` (
   `photo_url` varchar(100) NOT NULL,
   `took_time` datetime NOT NULL,
   PRIMARY KEY (`photo_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -256,6 +286,7 @@ CREATE TABLE `photos` (
 
 LOCK TABLES `photos` WRITE;
 /*!40000 ALTER TABLE `photos` DISABLE KEYS */;
+INSERT INTO `photos` VALUES (1,'http://static4.businessinsider.com/image/56c640526e97c625048b822a-480/donald-trump.jpg','2017-05-23 08:31:10'),(2,'http://static4.businessinsider.com/image/56c640526e97c625048b822a-480/donald-trump.jpg','2017-05-23 08:31:14'),(3,'http://static4.businessinsider.com/image/56c640526e97c625048b822a-480/donald-trump.jpg','2017-05-23 08:31:15'),(4,'http://static4.businessinsider.com/image/56c640526e97c625048b822a-480/donald-trump.jpg','2017-05-23 08:31:16'),(5,'http://static4.businessinsider.com/image/56c640526e97c625048b822a-480/donald-trump.jpg','2017-05-23 08:31:17'),(6,'http://static4.businessinsider.com/image/56c640526e97c625048b822a-480/donald-trump.jpg','2017-05-23 08:31:17'),(7,'http://static4.businessinsider.com/image/56c640526e97c625048b822a-480/donald-trump.jpg','2017-05-23 08:31:18'),(8,'http://static4.businessinsider.com/image/56c640526e97c625048b822a-480/donald-trump.jpg','2017-05-23 08:31:19'),(9,'http://static4.businessinsider.com/image/56c640526e97c625048b822a-480/donald-trump.jpg','2017-05-23 08:31:19'),(10,'http://static4.businessinsider.com/image/56c640526e97c625048b822a-480/donald-trump.jpg','2017-05-23 08:31:25');
 /*!40000 ALTER TABLE `photos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -328,7 +359,7 @@ CREATE TABLE `user` (
   `password` varchar(45) NOT NULL,
   `mail` varchar(45) NOT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -337,6 +368,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES (1,'11','111111','11@11.11'),(2,'111','111111','11@11.11'),(3,'111111','111111','111111@11111.11'),(4,'1111111','111111','111111@11111.11'),(5,'1','111111','11@11.11'),(6,'1234','111111','1234@1.1'),(7,'2','111111','11@11.11'),(8,'4','111111','11@11.11'),(9,'5','111111','11@11.11'),(10,'6','111111','11@11.11');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -352,7 +384,7 @@ CREATE TABLE `user_data` (
   `firstName` varchar(30) NOT NULL,
   `lastName` varchar(40) NOT NULL,
   `city` varchar(30) NOT NULL,
-  `birth_data` varchar(30) NOT NULL,
+  `birth_date` date NOT NULL,
   PRIMARY KEY (`user_id`),
   CONSTRAINT `user_data_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -364,6 +396,7 @@ CREATE TABLE `user_data` (
 
 LOCK TABLES `user_data` WRITE;
 /*!40000 ALTER TABLE `user_data` DISABLE KEYS */;
+INSERT INTO `user_data` VALUES (1,'1','1','11','1989-05-11'),(2,'2','2','22','2017-05-01'),(3,'3','3','33','2017-05-11'),(4,'4','4','33','2017-05-17'),(5,'5','5','33','1973-05-09'),(6,'6','6','33','2017-05-10'),(7,'7','7','33','2017-05-04'),(8,'8','8','33','1986-05-22'),(9,'9','9','33','2011-05-12'),(10,'10','10','33','2009-05-14');
 /*!40000 ALTER TABLE `user_data` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -392,6 +425,7 @@ CREATE TABLE `user_profile` (
 
 LOCK TABLES `user_profile` WRITE;
 /*!40000 ALTER TABLE `user_profile` DISABLE KEYS */;
+INSERT INTO `user_profile` VALUES (1,1,'1',1),(2,2,'2',2),(3,3,'3',3),(4,4,'4',4),(5,5,'5',5),(6,6,'6',6),(7,7,'7',7),(8,8,'8',8),(9,9,'9',9),(10,10,'10',10);
 /*!40000 ALTER TABLE `user_profile` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -404,4 +438,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-04-24 22:11:15
+-- Dump completed on 2017-05-23 11:21:05
