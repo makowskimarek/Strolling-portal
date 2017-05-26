@@ -1,12 +1,15 @@
 package com.walker.DataBaseControl;
 
 import com.walker.DataBase.*;
+import com.walker.config.DataBaseConfig;
 import com.walker.model.Model;
 import com.walker.model.UserRange;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
+import org.springframework.test.context.ContextConfiguration;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,6 +18,7 @@ import java.util.List;
 /**
  * Created by Rafal on 24.04.2017.
  */
+
 @Repository
 public class ControlUser {
 
@@ -48,7 +52,7 @@ public class ControlUser {
      */
     public void addUserData(UserData userData) {
         SQL_INSERT =
-                "INSERT INTO user_data (user_id, firstName, lastName, city) VALUES (?, ?, ? ,?)";
+                "INSERT INTO user_data (user_id, firstName, lastName, city, birth_date) VALUES (?, ?, ? ,?,'1989-05-11')";
         jdbcTemplate.update(SQL_INSERT,
                 userData.getUserId(),
                 userData.getName(),

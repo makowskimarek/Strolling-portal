@@ -4,6 +4,8 @@ package com.walker.DataBase;
  * Created by Rafal on 25.04.2017.
  */
 
+import java.util.Date;
+
 /**
  * Entity bean with JPA annotations
  * Hibernate provides JPA implementation
@@ -16,6 +18,7 @@ public class UserData {
     private String firstName;
     private String lastName;
     private String city;
+    private Date date;
 
     public UserData(int user_id, String firstName, String lastName, String city) {
         this.user_id = user_id;
@@ -26,6 +29,8 @@ public class UserData {
 
     public UserData() {
     }
+
+
 
     public int getUserId() {
         return user_id;

@@ -70,19 +70,19 @@ public class EditControler {
                 user.setPassword(newPassword);
                 controlUser.updateUser(user.getUser_id(), user);
                 sendUserAndUserDataFromNick(model,SecurityContextHolder.getContext().getAuthentication().getName());
-                return "profile-edit";
+                model.addAttribute("message", "hasło zostało zmienione");
             }
             else
             {
                 model.addAttribute("message", "niepoprawne potwierdzenie hasla");
-                return "message";
             }
 
         }
         else {
             model.addAttribute("message", "niepoprawne haslo");
-            return "message";
         }
+
+        return "message";
     }
 
 
