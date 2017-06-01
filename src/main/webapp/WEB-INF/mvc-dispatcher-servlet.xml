@@ -11,6 +11,10 @@
         http://www.springframework.org/schema/context/spring-context.xsd">
 
     <context:component-scan base-package="com.walker.*" />
+    
+    <mvc:resources mapping="/app/**" location="/app/build/"/>
+    
+    <mvc:annotation-driven />
 
     <bean
             class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -25,6 +29,6 @@
     <mvc:resources mapping="/resources/**" location="/resources/theme1/"
                    cache-period="31556926"/>
 
-    <mvc:annotation-driven />
+
 
 </beans>
