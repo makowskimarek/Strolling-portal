@@ -1,5 +1,6 @@
-package com.walker.config;
+package com.walker.security;
 
+import com.walker.config.DataBaseConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -23,12 +24,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     @Autowired
     private DataSource dataSource;
 
+    @Autowired
+    private AuthFailure authFailure;
+    @Autowired
+    private AuthSuccess authSuccess;
+
+    @Autowired
+    private EntryPointUnauthorizedHandler entryPointUnauthorizedHandler;
+
+
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .exceptionHandling()
+                    .authenticationEntryPoint(entryPointUnauthorizedHandler)
+                .and()
                 .formLogin()
                     .loginPage("/Login")
-                    .defaultSuccessUrl("/Main")
+                    .successHandler(authSuccess)
+                    .failureHandler(authFailure)
+                    //.defaultSuccessUrl("/Main")
                 .and()
                 .logout()
                     .logoutSuccessUrl("/")

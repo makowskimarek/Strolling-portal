@@ -1,5 +1,8 @@
 package com.walker.config;
 
+import com.walker.security.AuthFailure;
+import com.walker.security.AuthSuccess;
+import com.walker.security.EntryPointUnauthorizedHandler;
 import org.springframework.context.annotation.Bean;
 //import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -32,5 +35,20 @@ public class DataBaseConfig {
         return new JdbcTemplate(dataSource);
     }
 
+    @Bean
+    public AuthFailure authFailure()
+    {
+        return new AuthFailure();
+    }
 
+    @Bean
+    public AuthSuccess authSuccess()
+    {
+        return new AuthSuccess();
+    }
+
+    @Bean
+    public EntryPointUnauthorizedHandler entryPointUnauthorizedHandler() {
+        return new EntryPointUnauthorizedHandler();
+    }
 }
