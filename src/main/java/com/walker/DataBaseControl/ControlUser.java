@@ -1,15 +1,14 @@
 package com.walker.DataBaseControl;
 
 import com.walker.DataBase.*;
-import com.walker.config.DataBaseConfig;
+import com.walker.core.entities.User;
+import com.walker.core.entities.UserData;
 import com.walker.model.Model;
 import com.walker.model.UserRange;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
-import org.springframework.test.context.ContextConfiguration;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -52,12 +51,13 @@ public class ControlUser {
      */
     public void addUserData(UserData userData) {
         SQL_INSERT =
-                "INSERT INTO user_data (user_id, firstName, lastName, city, birth_date) VALUES (?, ?, ? ,?,'1989-05-11')";
+                "INSERT INTO user_data (user_id, firstName, lastName, city, birth_date) VALUES (?, ?, ?, ? ,?)";
         jdbcTemplate.update(SQL_INSERT,
                 userData.getUserId(),
-                userData.getName(),
+                userData.getFirstName(),
                 userData.getLastName(),
-                userData.getCity());
+                userData.getCity(),
+                userData.getDate());
     }
 
     /**
@@ -72,7 +72,7 @@ public class ControlUser {
                 "WHERE user_id = ?";
 
         jdbcTemplate.update(SQL_UPDATE,
-                userData.getName(),
+                userData.getFirstName(),
                 userData.getLastName(),
                 userData.getCity(),
                 IdUser);
@@ -116,6 +116,17 @@ public class ControlUser {
                 IdUser);
     }
 
+    public void updateUserMail(int IdUser, String mail)
+    {
+        SQL_UPDATE = "UPDATE user " +
+                "SET mail = ?" +
+                "WHERE user_id = ?";
+
+        jdbcTemplate.update(SQL_UPDATE,
+                mail,
+                IdUser);
+    }
+
     /**
      * Method to get user by nick
      *
@@ -130,6 +141,20 @@ public class ControlUser {
 
         List<User> listUser = jdbcTemplate.query(SQL_SELECT, this::mapUser,
                 nick);
+
+        if (listUser.size() == 0)
+            return null;
+        else
+            return listUser.get(0);
+    }
+
+    public User getUser(int userId){
+        SQL_SELECT =
+                "SELECT * " +
+                        "FROM user " +
+                        "WHERE user_id = ? ";
+
+        List<User> listUser = jdbcTemplate.query(SQL_SELECT, this::mapUser,userId);
 
         if (listUser.size() == 0)
             return null;
@@ -263,7 +288,8 @@ public class ControlUser {
                 rs.getInt("user_id"),
                 rs.getString("firstName"),
                 rs.getString("lastName"),
-                rs.getString("city")
+                rs.getString("city"),
+                rs.getString("birth_date")
         );
     }
 

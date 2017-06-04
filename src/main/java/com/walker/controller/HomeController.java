@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.walker.DataBase.*;
 import com.walker.DataBaseControl.ControlUser;
 import com.walker.core.entities.BlogEntry;
+import com.walker.core.entities.User;
+import com.walker.core.entities.UserData;
 import com.walker.model.UserRange;
 import com.walker.rest.resources.BlogEntryResource;
 import com.walker.rest.resources.asm.BlogEntryResourceAsm;
@@ -77,7 +79,7 @@ public class HomeController {
         return "announce";
     }
 
-    @RequestMapping(value = "/Profile")
+    /*@RequestMapping(value = "/Profile")
     public String profile(Model model) {
 
         final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -87,12 +89,12 @@ public class HomeController {
         UserData userData = controlUser.getUserData(user.getUser_id());
 
         model.addAttribute("ID", userData.getUserId());
-        model.addAttribute("firstName", userData.getName());
+        model.addAttribute("firstName", userData.getFirstName());
         model.addAttribute("lastName", userData.getLastName());
         model.addAttribute("City", userData.getCity());
 
         return "profile";
-    }
+    }*/
 
     @RequestMapping(value = "/Friends")
     public String friends(Model model) {
@@ -112,7 +114,7 @@ public class HomeController {
         return "main";
     }
 
-    @RequestMapping(value = "/Register", method= RequestMethod.POST)
+    /*@RequestMapping(value = "/Register", method= RequestMethod.POST)
     public String register(Model model,
                            @RequestParam(required = false, value = "nick") String nick,
                            @RequestParam(required = false, value = "password") String password,
@@ -133,7 +135,7 @@ public class HomeController {
             controlUser.addUser(user);
 
             int idUser = controlUser.getUserID(nick);
-            UserData userData = new UserData(idUser,firstName,lastName,city);
+            UserData userData = new UserData(idUser,firstName,lastName,city, "12-12-12");
             controlUser.addUserData(userData);
 
             model.addAttribute("message", "Rejestracja udana");
@@ -142,7 +144,7 @@ public class HomeController {
         }
 
         return "message";
-    }
+    }*/
 
 
     @RequestMapping(value = "/RegisterAndroid", method= RequestMethod.POST)
@@ -159,7 +161,7 @@ public class HomeController {
         if(controlUser.addUser(user)){
             int user_id = controlUser.getUserID(user.getNick());
 
-            UserData userData = new UserData(user_id, "firstname", "surname", "city");
+            UserData userData = new UserData(user_id, "firstname", "surname", "city", "12-12-12");
             controlUser.addUserData(userData);
 
             return gson.toJson(userData);

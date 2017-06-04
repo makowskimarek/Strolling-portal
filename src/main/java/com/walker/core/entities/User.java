@@ -1,4 +1,6 @@
-package com.walker.DataBase;
+package com.walker.core.entities;
+
+import com.walker.DataBase.UserRegister;
 
 /**
  * Created by Rafal on 25.04.2017.

@@ -1,13 +1,15 @@
-package com.walker.DataBase;
+package com.walker.core.entities;
 
 //import org.hibernate.validator.constraints.NotEmpty;
 
 //import javax.validation.constraints.Size;
 
+import java.sql.Date;
+
 /**
  * Created by Rafal on 09.05.2017.
  */
-public class RegisterForm {
+public class RegistrationForm {
 
 
     private String nick;
@@ -21,6 +23,16 @@ public class RegisterForm {
     private String lastName;
 
     private String city;
+
+    private String date;
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
 
     public String getNick() {
         return nick;
@@ -68,5 +80,20 @@ public class RegisterForm {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public UserAndUserData toUserAndUserData(int userId)
+    {
+        UserAndUserData result = new UserAndUserData();
+        result.setUser_id(userId);
+        result.setNick(this.nick);
+        result.setPassword(this.password);
+        result.setMail(this.mail);
+        result.setFirstName(this.firstName);
+        result.setLastName(this.lastName);
+        result.setCity(this.city);
+        result.setDate(this.date);
+        return result;
+
     }
 }

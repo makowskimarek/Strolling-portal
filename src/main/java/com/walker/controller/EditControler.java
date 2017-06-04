@@ -1,7 +1,7 @@
 package com.walker.controller;
 
-import com.walker.DataBase.User;
-import com.walker.DataBase.UserData;
+import com.walker.core.entities.User;
+import com.walker.core.entities.UserData;
 import com.walker.DataBaseControl.ControlUser;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class EditControler {
 
-    ControlUser controlUser;
+    /*ControlUser controlUser;
 
     public EditControler()
     {
@@ -34,7 +34,7 @@ public class EditControler {
 
         controlUser.updateUserData(
                 IDUser,
-                new UserData(IDUser, firstName, lastName, city ));
+                new UserData(IDUser, firstName, lastName, city ,"12-12-12"));
 
         sendUserAndUserDataFromNick(model,currentUser);
         return "profile-edit";
@@ -102,8 +102,8 @@ public class EditControler {
         model.addAttribute("ID", userData.getUserId());
         model.addAttribute("mail", user.getMail());
         model.addAttribute("nick", user.getNick());
-        model.addAttribute("firstName", userData.getName());
+        model.addAttribute("firstName", userData.getFirstName());
         model.addAttribute("lastName", userData.getLastName());
         model.addAttribute("City", userData.getCity());
-    }
+    }*/
 }
