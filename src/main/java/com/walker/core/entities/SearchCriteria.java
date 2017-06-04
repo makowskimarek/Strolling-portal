@@ -1,4 +1,4 @@
-package com.walker.DataBase;
+package com.walker.core.entities;
 
 /**
  * Created by Rafal on 25.04.2017.

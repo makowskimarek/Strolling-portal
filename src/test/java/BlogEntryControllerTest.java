@@ -1,23 +1,17 @@
-import com.walker.core.entities.BlogEntry;
-import com.walker.core.services.BlogEntryService;
-import com.walker.rest.mvc.BlogEntryController;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import com.fasterxml.jackson.core.util.DefaultIndenter;
 
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasItem;
-import static org.mockito.Matchers.endsWith;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -31,7 +25,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @RunWith(MockitoJUnitRunner.class)
 public class BlogEntryControllerTest {
 
-    @InjectMocks
+    /*@InjectMocks
     private BlogEntryController controller;
 
 
@@ -47,7 +41,7 @@ public class BlogEntryControllerTest {
 
         mockMvc = MockMvcBuilders.standaloneSetup(controller)
                     .build();
-    }
+    }*/
 
     /*@Test
     public void test() throws Exception {
@@ -60,7 +54,7 @@ public class BlogEntryControllerTest {
 
     }*/
 
-    @Test
+    /*@Test
     public void getExistingBlogEntry() throws Exception{
         BlogEntry entry = new BlogEntry();
 
@@ -75,7 +69,7 @@ public class BlogEntryControllerTest {
                 //.andExpect(jsonPath("$.links[*].href",hasItem(endsWith("/blog-entries/1"))))
                 .andExpect(status().isOk());
 
-    }
+    }*/
 
 
 

@@ -3,13 +3,16 @@ package com.walker.rest.mvc;
 import com.walker.core.entities.PasswordForm;
 import com.walker.core.entities.UserAndUserData;
 import com.walker.core.entities.UserMail;
+import com.walker.core.entities.UserProfileData;
 import com.walker.core.services.UserService;
 import com.walker.core.services.exception.PasswordException;
 import com.walker.core.services.impl.UserServiceImpl;
 import com.walker.rest.resources.UserAndUserDataResource;
 import com.walker.rest.resources.UserDataResource;
 import com.walker.rest.resources.UserMailResource;
+import com.walker.rest.resources.UserProfileDataResources;
 import com.walker.rest.resources.asm.UserAndUserDataResourceAsm;
+import com.walker.rest.resources.asm.UserProfileDataResourceAsm;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -34,67 +37,66 @@ public class UserController {
     }
 
     @RequestMapping("/{idUser}")
-    public ResponseEntity<UserAndUserDataResource> getUserAndUserData(@PathVariable int idUser)
+    public ResponseEntity<UserProfileDataResources> getUserProfileData(@PathVariable int idUser)
     {
-        UserAndUserData userAndUserData = service.getUserAndUserData(idUser);
+        UserProfileData userProfileData = service.getUserProfileData(idUser);
 
-        if(userAndUserData != null)
+        if(userProfileData != null)
         {
-            UserAndUserDataResource res = new UserAndUserDataResourceAsm().toResource(userAndUserData);
-            return new ResponseEntity<UserAndUserDataResource>(res, HttpStatus.OK);
+            UserProfileDataResources res = new UserProfileDataResourceAsm().toResource(userProfileData);
+            return new ResponseEntity<UserProfileDataResources>(res, HttpStatus.OK);
         }
         else
-            return new ResponseEntity<UserAndUserDataResource>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<UserProfileDataResources>(HttpStatus.NOT_FOUND);
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<UserAndUserDataResource> getUserAndUserData()
+    public ResponseEntity<UserProfileDataResources> getUserAndUserData()
     {
-        final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
-        UserAndUserData userAndUserData = service.getUserAndUserData(currentUser);
+        UserProfileData userProfileData = service.getUserProfileData(getCurrentUserId());
 
-        if(userAndUserData != null)
+        if(userProfileData != null)
         {
-            UserAndUserDataResource res = new UserAndUserDataResourceAsm().toResource(userAndUserData);
-            return new ResponseEntity<UserAndUserDataResource>(res, HttpStatus.OK);
+            UserProfileDataResources res = new UserProfileDataResourceAsm().toResource(userProfileData);
+            return new ResponseEntity<UserProfileDataResources>(res, HttpStatus.OK);
         }
         else
-            return new ResponseEntity<UserAndUserDataResource>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<UserProfileDataResources>(HttpStatus.NOT_FOUND);
     }
 
     @RequestMapping(value = "/updateData", method = RequestMethod.POST)
-    public ResponseEntity<UserAndUserDataResource> updateData(@RequestBody UserDataResource userDataResource)
+    public ResponseEntity<UserProfileDataResources> updateData(@RequestBody UserDataResource userDataResource)
     {
         int userId = getCurrentUserId();
         service.updateUserData(userId, userDataResource.toUserData());
-        UserAndUserData userAndUserData = service.getUserAndUserData(userId);
-        UserAndUserDataResource res = new UserAndUserDataResourceAsm().toResource(userAndUserData);
-        return new ResponseEntity<UserAndUserDataResource>(res, HttpStatus.OK);
+        UserProfileData userProfileData = service.getUserProfileData(userId);
+        UserProfileDataResources res = new UserProfileDataResourceAsm().toResource(userProfileData);
+        return new ResponseEntity<UserProfileDataResources>(res, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/updateMail", method = RequestMethod.POST)
-    public ResponseEntity<UserAndUserDataResource> updateMail(@RequestBody UserMailResource userMailResource)
+    public ResponseEntity<UserProfileDataResources> updateMail(@RequestBody UserMailResource userMailResource)
     {
         int userId = getCurrentUserId();
         service.updateUserMail(userId, userMailResource.toUserMail());
-        UserAndUserData userAndUserData = service.getUserAndUserData(userId);
-        UserAndUserDataResource res = new UserAndUserDataResourceAsm().toResource(userAndUserData);
-        return new ResponseEntity<UserAndUserDataResource>(res, HttpStatus.OK);
+        UserProfileData userProfileData = service.getUserProfileData(userId);
+        UserProfileDataResources res = new UserProfileDataResourceAsm().toResource(userProfileData);
+        return new ResponseEntity<UserProfileDataResources>(res, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/updatePassword", method = RequestMethod.POST)
-    public ResponseEntity<UserAndUserDataResource> updatePassword(@RequestBody PasswordForm passwordForm)
+    public ResponseEntity<UserProfileDataResources> updatePassword(@RequestBody PasswordForm passwordForm)
     {
         int userId = getCurrentUserId();
 
         try{
             service.updatePassword(userId,passwordForm);
-            UserAndUserData userAndUserData = service.getUserAndUserData(userId);
-            UserAndUserDataResource res = new UserAndUserDataResourceAsm().toResource(userAndUserData);
-            return new ResponseEntity<UserAndUserDataResource>(res, HttpStatus.OK);
+            UserProfileData userProfileData = service.getUserProfileData(userId);
+            UserProfileDataResources res = new UserProfileDataResourceAsm().toResource(userProfileData);
+            return new ResponseEntity<UserProfileDataResources>(res, HttpStatus.OK);
         }
         catch (PasswordException e) {
-            return new ResponseEntity<UserAndUserDataResource>(HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<UserProfileDataResources>(HttpStatus.NOT_ACCEPTABLE);
         }
 
     }

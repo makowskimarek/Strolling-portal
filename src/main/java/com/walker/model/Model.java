@@ -1,6 +1,7 @@
 package com.walker.model;
 
 import com.walker.DataBase.CriteriaData;
+import com.walker.core.entities.UserRange;
 
 import java.util.ArrayList;
 import java.util.Comparator;

@@ -1,10 +1,13 @@
-package com.walker.DataBase;
+package com.walker.rest.resources;
+
+import com.walker.core.entities.UserProfileData;
+import org.springframework.hateoas.ResourceSupport;
 
 /**
- * @author Marek Makowski
- * @version 1.0
+ * Created by Rafal on 04.06.2017.
  */
-public class UserProfileData {
+public class UserProfileDataResources extends ResourceSupport {
+
     private int user_id;
     private String nick;
     private String firstName;
@@ -16,7 +19,7 @@ public class UserProfileData {
     private String description;
     private String photo_url;
 
-    public UserProfileData(int user_id, String nick, String firstName, String lastName, String city,
+    public UserProfileDataResources(int user_id, String nick, String firstName, String lastName, String city,
                            String birth_date, double latitude, double longtitude, String description, String photo_url) {
         this.user_id = user_id;
         this.nick = nick;
@@ -108,5 +111,19 @@ public class UserProfileData {
 
     public void setPhoto_url(String photo_url) {
         this.photo_url = photo_url;
+    }
+
+    public UserProfileData toUserProfileData()
+    {
+        return new UserProfileData(this.getUser_id(),
+                this.nick,
+                this.firstName,
+                this.lastName,
+                this.city,
+                this.birth_date,
+                this.latitude,
+                this.longtitude,
+                this.description,
+                this.photo_url);
     }
 }

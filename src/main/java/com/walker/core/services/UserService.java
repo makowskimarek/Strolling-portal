@@ -14,4 +14,5 @@ public interface UserService {
     public void updatePassword(int userId, PasswordForm passwordForm);
     public UserAndUserData getUserAndUserData(int userId);
     public UserAndUserData getUserAndUserData(String nick);
+    public UserProfileData getUserProfileData(int IdUser);
 }

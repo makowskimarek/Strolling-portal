@@ -3,12 +3,7 @@ package com.walker.controller;
 import com.google.gson.Gson;
 import com.walker.DataBase.*;
 import com.walker.DataBaseControl.ControlUser;
-import com.walker.core.entities.BlogEntry;
-import com.walker.core.entities.User;
-import com.walker.core.entities.UserData;
-import com.walker.model.UserRange;
-import com.walker.rest.resources.BlogEntryResource;
-import com.walker.rest.resources.asm.BlogEntryResourceAsm;
+import com.walker.core.entities.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,7 +20,7 @@ import java.util.List;
 @Controller
 public class HomeController {
 
-    /*@RequestMapping(value = "/")
+    @RequestMapping(value = "/")
     public String home(Model model) {
 
         final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -41,23 +36,12 @@ public class HomeController {
             UserData userData = controlUser.getUserData(user.getUser_id());
 
             model.addAttribute("ID", userData.getUserId());
-            model.addAttribute("firstName", userData.getName());
+            model.addAttribute("firstName", userData.getFirstName());
             model.addAttribute("lastName", userData.getLastName());
             model.addAttribute("City", userData.getCity());
 
             return "profile";
         }
-
-    }*/
-
-    @RequestMapping(value = "/",
-            method = RequestMethod.GET)
-    public ResponseEntity<BlogEntryResource> getBlogEntry2()
-    {
-        BlogEntry entry = new BlogEntry();
-        entry.setTitle("test");
-        BlogEntryResource res = new BlogEntryResourceAsm().toResource(entry);
-        return new ResponseEntity<BlogEntryResource>(res, HttpStatus.OK);
 
     }
 

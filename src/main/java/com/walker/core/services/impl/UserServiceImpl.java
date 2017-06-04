@@ -101,4 +101,9 @@ public class UserServiceImpl implements UserService {
         else
             return null;
     }
+
+    public UserProfileData getUserProfileData(int IdUser)
+    {
+        return controlUser.getUserProfileData(IdUser);
+    }
 }

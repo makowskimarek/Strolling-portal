@@ -1,4 +1,4 @@
-package com.walker.model;
+package com.walker.core.entities;
 
 /**
  * @author Marek Makowski
