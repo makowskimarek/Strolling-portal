@@ -68,13 +68,14 @@ public class ControlUser {
      */
     public void updateUserData(int IdUser, UserData userData) {
         SQL_UPDATE = "UPDATE user_data " +
-                "SET firstName = ?, lastName = ?, city = ?" +
+                "SET firstName = ?, lastName = ?, city = ? , birth_date = ?" +
                 "WHERE user_id = ?";
 
         jdbcTemplate.update(SQL_UPDATE,
                 userData.getFirstName(),
                 userData.getLastName(),
                 userData.getCity(),
+                userData.getDate(),
                 IdUser);
     }
 

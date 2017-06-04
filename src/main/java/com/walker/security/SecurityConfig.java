@@ -59,6 +59,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 .antMatchers("/Meeting").authenticated()
                 .antMatchers("/Announce").authenticated()
                 .antMatchers("/Profile-edit").authenticated()
+                .antMatchers("/user").authenticated()
+                .antMatchers("/user/*").authenticated()
                 .antMatchers("/AnnounceTest").authenticated()
                 .anyRequest().permitAll();
     }

@@ -33,8 +33,9 @@ public class UserServiceImpl implements UserService {
 
             user = new User(0,
                     form.getNick(),
-                    form.getMail(),
-                    form.getPassword());
+                    form.getPassword(),
+                    form.getMail()
+                    );
             controlUser.addUser(user);
 
             IdUser = controlUser.getUserID(form.getNick());
@@ -67,7 +68,7 @@ public class UserServiceImpl implements UserService {
     public void updatePassword(int userId, PasswordForm form) throws PasswordException{
 
         User user = controlUser.getUser(userId);
-        if(user.getPassword().equals(form.getOldPassword())||form.getNewPassword().equals(form.getConfirmPassword()))
+        if(user.getPassword().equals(form.getOldPassword())&&form.getNewPassword().equals(form.getConfirmPassword()))
         {
                 user.setPassword(form.getNewPassword());
                 controlUser.updateUser(user.getUser_id(), user);

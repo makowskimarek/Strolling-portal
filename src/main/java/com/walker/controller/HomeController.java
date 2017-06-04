@@ -79,7 +79,7 @@ public class HomeController {
         return "announce";
     }
 
-    /*@RequestMapping(value = "/Profile")
+    @RequestMapping(value = "/Profile")
     public String profile(Model model) {
 
         final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -94,7 +94,7 @@ public class HomeController {
         model.addAttribute("City", userData.getCity());
 
         return "profile";
-    }*/
+    }
 
     @RequestMapping(value = "/Friends")
     public String friends(Model model) {
