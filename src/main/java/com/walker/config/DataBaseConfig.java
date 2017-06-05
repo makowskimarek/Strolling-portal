@@ -1,5 +1,6 @@
 package com.walker.config;
 
+import com.walker.core.entities.Id;
 import com.walker.security.AuthFailure;
 import com.walker.security.AuthSuccess;
 import com.walker.security.EntryPointUnauthorizedHandler;
@@ -51,4 +52,7 @@ public class DataBaseConfig {
     public EntryPointUnauthorizedHandler entryPointUnauthorizedHandler() {
         return new EntryPointUnauthorizedHandler();
     }
+
+    @Bean
+    public Id id() {return new Id();}
 }

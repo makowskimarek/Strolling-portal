@@ -1,6 +1,9 @@
 package com.walker.rest.mvc;
 
+import com.walker.core.entities.Id;
 import com.walker.core.entities.LoginData;
+import com.walker.core.services.UserService;
+import com.walker.core.services.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
@@ -28,6 +31,11 @@ public class LoginController {
     @Autowired
     private AuthenticationManager myAuthenticationManager;
 
+    @Autowired
+    private Id id;
+
+    private UserService service = new UserServiceImpl();
+
     @RequestMapping(value = "/rest/login", method = RequestMethod.POST)
     public ResponseEntity<LoginData> login(@RequestBody LoginData loginData , HttpServletRequest request)
     {
@@ -42,6 +50,11 @@ public class LoginController {
             if(auth.isAuthenticated()) {
                 HttpSession session = request.getSession(true);
                 session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
+
+                //wstawka-------------------------
+                String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
+                id.setId(service.getUserIdFromNick(currentUser));
+                //koniec wstawki-------------------------
 
                 return new ResponseEntity<LoginData>(HttpStatus.OK);
             }

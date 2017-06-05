@@ -1,9 +1,6 @@
 package com.walker.rest.mvc;
 
-import com.walker.core.entities.PasswordForm;
-import com.walker.core.entities.UserAndUserData;
-import com.walker.core.entities.UserMail;
-import com.walker.core.entities.UserProfileData;
+import com.walker.core.entities.*;
 import com.walker.core.services.UserService;
 import com.walker.core.services.exception.PasswordException;
 import com.walker.core.services.impl.UserServiceImpl;
@@ -13,6 +10,7 @@ import com.walker.rest.resources.UserMailResource;
 import com.walker.rest.resources.UserProfileDataResources;
 import com.walker.rest.resources.asm.UserAndUserDataResourceAsm;
 import com.walker.rest.resources.asm.UserProfileDataResourceAsm;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * Created by Rafal on 04.06.2017.
  */
@@ -30,6 +30,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class UserController {
 
     private UserService service;
+
+    @Autowired
+    private Id id;
 
     public UserController()
     {
@@ -51,7 +54,7 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<UserProfileDataResources> getUserAndUserData()
+    public ResponseEntity<UserProfileDataResources> getUserAndUserData(HttpServletRequest request)
     {
         UserProfileData userProfileData = service.getUserProfileData(getCurrentUserId());
 
@@ -103,8 +106,7 @@ public class UserController {
 
     private int getCurrentUserId()
     {
-        final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
-        return service.getUserIdFromNick(currentUser);
+        return id.getId();
     }
 
 }
