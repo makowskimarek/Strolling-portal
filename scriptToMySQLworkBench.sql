@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `db1` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `db1`;
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: db1
@@ -17,6 +15,7 @@ USE `db1`;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 SET GLOBAL time_zone = '+1:00';
+
 --
 -- Table structure for table `ad`
 --
@@ -27,14 +26,15 @@ DROP TABLE IF EXISTS `ad`;
 CREATE TABLE `ad` (
   `ad_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
-  `place` varchar(30) NOT NULL,
+  `location_id` int(11) NOT NULL,
   `description` varchar(500) DEFAULT NULL,
   `stroll_starttime` datetime NOT NULL,
-  `stroll_endtime` datetime NOT NULL,
   `ad_endtime` datetime NOT NULL,
   `privacy` varchar(5) NOT NULL,
   PRIMARY KEY (`ad_id`),
   KEY `ad_user_id_idx` (`user_id`),
+  KEY `ad_location_id_idx` (`location_id`),
+  CONSTRAINT `ad_location_id` FOREIGN KEY (`location_id`) REFERENCES `location` (`location_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `ad_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -136,12 +136,10 @@ DROP TABLE IF EXISTS `location`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `location` (
   `location_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
   `latitude` double NOT NULL,
   `longtitude` double NOT NULL,
-  PRIMARY KEY (`location_id`),
-  KEY `localization_user_data_user_id_fk_idx` (`user_id`),
-  CONSTRAINT `localization_user_data_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
+  `description` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`location_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -151,7 +149,7 @@ CREATE TABLE `location` (
 
 LOCK TABLES `location` WRITE;
 /*!40000 ALTER TABLE `location` DISABLE KEYS */;
-INSERT INTO `location` VALUES (1,1,45,5),(2,2,24,-31),(3,3,234,0),(4,4,0,46),(5,5,34,24),(6,6,34,0),(7,7,0,52),(8,8,15,0),(9,9,0,15),(10,10,1,1);
+INSERT INTO `location` VALUES (1,45,5,NULL),(2,24,-31,NULL),(3,234,0,NULL),(4,0,46,NULL),(5,34,24,NULL),(6,34,0,NULL),(7,0,52,NULL),(8,15,0,NULL),(9,0,15,NULL),(10,1,1,NULL);
 /*!40000 ALTER TABLE `location` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -299,14 +297,16 @@ DROP TABLE IF EXISTS `stroll`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `stroll` (
   `stroll_id` int(11) NOT NULL AUTO_INCREMENT,
-  `place` int(11) NOT NULL,
+  `location_id` int(11) NOT NULL,
   `info` varchar(500) DEFAULT NULL,
   `data_start` datetime DEFAULT NULL,
   `data_end` datetime DEFAULT NULL,
   `status` varchar(5) NOT NULL,
-  `ad_id` int(11) NOT NULL,
+  `ad_id` int(11) DEFAULT NULL,
   `privacy` varchar(3) NOT NULL,
-  PRIMARY KEY (`stroll_id`)
+  PRIMARY KEY (`stroll_id`),
+  KEY `stroll_location_id_idx` (`location_id`),
+  CONSTRAINT `stroll_location_id` FOREIGN KEY (`location_id`) REFERENCES `location` (`location_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -381,10 +381,10 @@ DROP TABLE IF EXISTS `user_data`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user_data` (
   `user_id` int(11) NOT NULL,
-  `firstName` varchar(30) NOT NULL,
-  `lastName` varchar(40) NOT NULL,
-  `city` varchar(30) NOT NULL,
-  `birth_date` date NOT NULL,
+  `firstName` varchar(30) DEFAULT NULL,
+  `lastName` varchar(40) DEFAULT NULL,
+  `city` varchar(30) DEFAULT NULL,
+  `birth_date` date DEFAULT NULL,
   PRIMARY KEY (`user_id`),
   CONSTRAINT `user_data_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -409,13 +409,16 @@ DROP TABLE IF EXISTS `user_profile`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user_profile` (
   `user_id` int(11) NOT NULL,
-  `photo_id` int(11) NOT NULL,
+  `photo_id` int(11) DEFAULT NULL,
   `description` varchar(250) DEFAULT NULL,
-  `preferences` int(11) NOT NULL,
+  `preferences` int(11) DEFAULT NULL,
+  `location_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`user_id`),
   KEY `photo_id_idx` (`photo_id`),
-  CONSTRAINT `photo_id` FOREIGN KEY (`photo_id`) REFERENCES `photos` (`photo_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `user_profile_location_id_idx` (`location_id`),
+  CONSTRAINT `user_profile_location_id` FOREIGN KEY (`location_id`) REFERENCES `location` (`location_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `user_profile_photo_id` FOREIGN KEY (`photo_id`) REFERENCES `photos` (`photo_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `user_profile_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -425,7 +428,7 @@ CREATE TABLE `user_profile` (
 
 LOCK TABLES `user_profile` WRITE;
 /*!40000 ALTER TABLE `user_profile` DISABLE KEYS */;
-INSERT INTO `user_profile` VALUES (1,1,'1',1),(2,2,'2',2),(3,3,'3',3),(4,4,'4',4),(5,5,'5',5),(6,6,'6',6),(7,7,'7',7),(8,8,'8',8),(9,9,'9',9),(10,10,'10',10);
+INSERT INTO `user_profile` VALUES (1,1,'1',1,1),(2,2,'2',2,2),(3,3,'3',3,3),(4,4,'4',4,4),(5,5,'5',5,5),(6,6,'6',6,6),(7,7,'7',7,7),(8,8,'8',8,8),(9,9,'9',9,9),(10,10,'10',10,10);
 /*!40000 ALTER TABLE `user_profile` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -438,4 +441,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-05-23 11:21:05
+-- Dump completed on 2017-06-05 23:44:21
