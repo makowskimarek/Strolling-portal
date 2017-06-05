@@ -1,6 +1,7 @@
 package com.walker.rest.mvc;
 
 import com.walker.core.entities.ListOfUserProfileData;
+import com.walker.core.entities.UserProfileData;
 import com.walker.core.services.SearchService;
 import com.walker.core.services.impl.SearchServiceImpl;
 import com.walker.rest.resources.ListOfUserProfileDataResource;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 /**
  * Created by Rafal on 04.06.2017.
@@ -28,9 +31,10 @@ public class SearchController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public @ResponseBody ListOfUserProfileDataResource basicSearch(@RequestBody SearchCriteriaResource searchCriteriaResource)
+    public @ResponseBody
+    List<UserProfileData> basicSearch(@RequestBody SearchCriteriaResource searchCriteriaResource)
     {
         ListOfUserProfileData list = service.searchUserProfileWithCriteria(searchCriteriaResource.toSearchCriteria());
-        return new ListOfUserProfileDataResourceAsm().toResource(list);
+        return list.getUserProfileDataList();
     }
 }

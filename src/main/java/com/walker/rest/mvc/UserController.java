@@ -40,6 +40,66 @@ public class UserController {
     }
 
     @RequestMapping("/{idUser}")
+    public ResponseEntity<UserProfileData> getUserProfileData(@PathVariable int idUser)
+    {
+        UserProfileData userProfileData = service.getUserProfileData(idUser);
+
+        if(userProfileData != null)
+        {
+            return new ResponseEntity<UserProfileData>(userProfileData, HttpStatus.OK);
+        }
+        else
+            return new ResponseEntity<UserProfileData>(HttpStatus.NOT_FOUND);
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<UserProfileData> getUserAndUserData(HttpServletRequest request)
+    {
+        UserProfileData userProfileData = service.getUserProfileData(getCurrentUserId());
+
+        if(userProfileData != null)
+        {
+            return new ResponseEntity<UserProfileData>(userProfileData, HttpStatus.OK);
+        }
+        else
+            return new ResponseEntity<UserProfileData>(HttpStatus.NOT_FOUND);
+    }
+
+    @RequestMapping(value = "/updateData", method = RequestMethod.POST)
+    public ResponseEntity<UserProfileData> updateData(@RequestBody UserDataResource userDataResource)
+    {
+        int userId = getCurrentUserId();
+        service.updateUserData(userId, userDataResource.toUserData());
+        UserProfileData userProfileData = service.getUserProfileData(userId);
+        return new ResponseEntity<UserProfileData>(userProfileData, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/updateMail", method = RequestMethod.POST)
+    public ResponseEntity<UserProfileData> updateMail(@RequestBody UserMailResource userMailResource)
+    {
+        int userId = getCurrentUserId();
+        service.updateUserMail(userId, userMailResource.toUserMail());
+        UserProfileData userProfileData = service.getUserProfileData(userId);
+        return new ResponseEntity<UserProfileData>(userProfileData, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/updatePassword", method = RequestMethod.POST)
+    public ResponseEntity<UserProfileData> updatePassword(@RequestBody PasswordForm passwordForm)
+    {
+        int userId = getCurrentUserId();
+
+        try{
+            service.updatePassword(userId,passwordForm);
+            UserProfileData userProfileData = service.getUserProfileData(userId);
+            return new ResponseEntity<UserProfileData>(userProfileData, HttpStatus.OK);
+        }
+        catch (PasswordException e) {
+            return new ResponseEntity<UserProfileData>(HttpStatus.NOT_ACCEPTABLE);
+        }
+
+    }
+
+    /*@RequestMapping("/{idUser}")
     public ResponseEntity<UserProfileDataResources> getUserProfileData(@PathVariable int idUser)
     {
         UserProfileData userProfileData = service.getUserProfileData(idUser);
@@ -102,7 +162,9 @@ public class UserController {
             return new ResponseEntity<UserProfileDataResources>(HttpStatus.NOT_ACCEPTABLE);
         }
 
-    }
+    }*/
+
+
 
     private int getCurrentUserId()
     {
