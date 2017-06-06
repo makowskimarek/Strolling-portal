@@ -1,11 +1,10 @@
 package com.walker.DataBaseControl;
 
-import com.walker.DataBase.*;
-import com.walker.core.entities.User;
-import com.walker.core.entities.UserData;
-import com.walker.core.entities.UserProfileData;
+import com.walker.DataBase.CriteriaData;
+import com.walker.DataBaseControl.databaseException.NoUserException;
+import com.walker.DataBaseControl.databaseException.WrongLocationException;
+import com.walker.core.entities.*;
 import com.walker.model.Model;
-import com.walker.core.entities.UserRange;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -118,8 +117,7 @@ public class ControlUser {
                 IdUser);
     }
 
-    public void updateUserMail(int IdUser, String mail)
-    {
+    public void updateUserMail(int IdUser, String mail) {
         SQL_UPDATE = "UPDATE user " +
                 "SET mail = ?" +
                 "WHERE user_id = ?";
@@ -150,13 +148,13 @@ public class ControlUser {
             return listUser.get(0);
     }
 
-    public User getUser(int userId){
+    public User getUser(int userId) {
         SQL_SELECT =
                 "SELECT * " +
                         "FROM user " +
                         "WHERE user_id = ? ";
 
-        List<User> listUser = jdbcTemplate.query(SQL_SELECT, this::mapUser,userId);
+        List<User> listUser = jdbcTemplate.query(SQL_SELECT, this::mapUser, userId);
 
         if (listUser.size() == 0)
             return null;
@@ -215,13 +213,13 @@ public class ControlUser {
                         "  up.description, " +
                         "  p.photo_url " +
                         "FROM user u " +
-                        "JOIN user_data ud " +
+                        "LEFT JOIN user_data ud " +
                         "ON  u.user_id = ud.user_id " +
-                        "JOIN location l " +
-                        "ON u.user_id = l.user_id " +
-                        "JOIN user_profile up " +
+                        "LEFT JOIN user_profile up " +
                         "ON u.user_id = up.user_id " +
-                        "JOIN photos p " +
+                        "LEFT JOIN location l " +
+                        "ON  l.location_id = up.location_id " +
+                        "LEFT JOIN photos p " +
                         "ON up.photo_id = p.photo_id " +
                         "WHERE u.user_id = ?";
 
@@ -236,11 +234,13 @@ public class ControlUser {
                 "SELECT ud.user_id, ud.birth_date, " +
                         "l.latitude, l.longtitude " +
                         "FROM user_data ud " +
-                        "JOIN location l " +
-                        "ON  l.user_id = ud.user_id " +
+                        "LEFT JOIN user_profile up " +
+                        "ON ud.user_id = up.user_id " +
+                        "LEFT JOIN location l " +
+                        "ON  l.location_id = up.location_id " +
                         "WHERE YEAR(ud.birth_date)< ? AND YEAR(ud.birth_date) > ?";
 
-        List<CriteriaData> locationList = jdbcTemplate.query(SQL_SELECT, this::mapCriteria, 2017-ageFrom, 2017-ageTo);
+        List<CriteriaData> locationList = jdbcTemplate.query(SQL_SELECT, this::mapCriteria, 2017 - ageFrom, 2017 - ageTo);
         return model.getNearbyUsers(locationList, latitude, longtitude, range);
 
 /*
@@ -319,5 +319,60 @@ public class ControlUser {
                 rs.getString("description"),
                 rs.getString("photo_url")
         );
+    }
+
+    private LocationData mapLocationData(ResultSet rs, int row)
+            throws SQLException {
+        return new LocationData(
+                rs.getInt("location_id"),
+                rs.getDouble("latitude"),
+                rs.getDouble("longtitude"),
+                rs.getString("description")
+        );
+    }
+
+    public void inviteUser(InvitationData invitation) throws NoUserException, WrongLocationException {
+        if (invitation.getCurrentUserId() < 1 || invitation.getUserId() < 1) {
+            throw new NoUserException();
+        } else {
+            int location_id = getLocationId(invitation.getLatitude(),invitation.getLongtitude());
+            SQL_INSERT =
+                    "INSERT INTO location " +
+                            "(latitide, longtitude, description) " +
+                            "VALUES (?, ?, ?)";
+
+            jdbcTemplate.update(SQL_INSERT,
+                    invitation.getLatitude(),
+                    invitation.getLongtitude(),
+                    invitation.getLocationName());
+
+            SQL_INSERT =
+                    "INSERT INTO ad " +
+                            "(location_id, info, data_start, data_end, status, ad_id, privacy) " +
+                            "VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+            jdbcTemplate.update(SQL_INSERT,
+                    location_id,
+                    "Some static info",
+                    null,
+                    null,
+                    "Actv",
+                    null,
+                    "All");
+        }
+    }
+
+    public int getLocationId(double latitude, double longtitude) throws WrongLocationException {
+        SQL_SELECT =
+                "SELECT * " +
+                        "FROM location l" +
+                        "WHERE l.latitude = ? AND l.longtitude = ?";
+
+        List<LocationData> locationList = jdbcTemplate.query(SQL_SELECT, this::mapLocationData,
+                latitude, longtitude);
+        if(locationList.get(0)==null){
+            throw new WrongLocationException();
+        }
+        return locationList.get(0).getLocation_id();
     }
 }

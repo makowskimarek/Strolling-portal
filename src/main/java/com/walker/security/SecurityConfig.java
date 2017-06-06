@@ -6,19 +6,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.ProviderManager;
-import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.sql.DataSource;
-import java.security.AuthProvider;
-import java.util.Arrays;
 
 /**
  * Created by Rafal on 06.05.2017.
@@ -78,8 +71,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 .antMatchers("/Meeting").authenticated()
                 .antMatchers("/Announce").authenticated()
                 .antMatchers("/Profile-edit").authenticated()
-                .antMatchers("/user").authenticated()
-                .antMatchers("/user/*").authenticated()
+                //.antMatchers("/user").authenticated()
+                //.antMatchers("/user/*").authenticated()
                 .antMatchers("/AnnounceTest").authenticated()
                 .anyRequest().permitAll();
     }

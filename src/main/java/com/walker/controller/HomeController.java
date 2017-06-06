@@ -1,15 +1,17 @@
 package com.walker.controller;
 
 import com.google.gson.Gson;
-import com.walker.DataBase.*;
+import com.walker.DataBase.UserLogin;
+import com.walker.DataBase.UserRegister;
 import com.walker.DataBaseControl.ControlUser;
 import com.walker.core.entities.*;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -189,6 +191,4 @@ public class HomeController {
         }
         return gson.toJson(userProfileDataList);
     }
-
-
 }

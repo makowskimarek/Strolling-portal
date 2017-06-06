@@ -1,19 +1,16 @@
 package com.walker.rest.mvc;
 
-import com.walker.core.entities.*;
+import com.walker.core.entities.Id;
+import com.walker.core.entities.InvitationData;
+import com.walker.core.entities.PasswordForm;
+import com.walker.core.entities.UserProfileData;
 import com.walker.core.services.UserService;
 import com.walker.core.services.exception.PasswordException;
-import com.walker.core.services.impl.UserServiceImpl;
-import com.walker.rest.resources.UserAndUserDataResource;
 import com.walker.rest.resources.UserDataResource;
 import com.walker.rest.resources.UserMailResource;
-import com.walker.rest.resources.UserProfileDataResources;
-import com.walker.rest.resources.asm.UserAndUserDataResourceAsm;
-import com.walker.rest.resources.asm.UserProfileDataResourceAsm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,15 +26,12 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/user")
 public class UserController {
 
+    @Autowired
     private UserService service;
 
     @Autowired
     private Id id;
 
-    public UserController()
-    {
-        this.service = new UserServiceImpl();
-    }
 
     @RequestMapping("/{idUser}")
     public ResponseEntity<UserProfileData> getUserProfileData(@PathVariable int idUser)
@@ -99,6 +93,23 @@ public class UserController {
 
     }
 
+    @RequestMapping(value = "/makeStroll", method = RequestMethod.POST)
+    public ResponseEntity makeStroll(@RequestBody InvitationData invitationData)
+    {
+        //Jak daje LoginData loginData zamiast InvitationData invitationData
+        // to postman bez problemów się komunikuje jak jest tak jak teraz to dupa
+        int userId = getCurrentUserId();
+
+        try{
+         //   service.inviteUserToStroll(invitationData);
+            return new ResponseEntity(HttpStatus.OK);
+        }
+        catch (PasswordException e) {
+            return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);
+
+        }
+
+    }
     /*@RequestMapping("/{idUser}")
     public ResponseEntity<UserProfileDataResources> getUserProfileData(@PathVariable int idUser)
     {
