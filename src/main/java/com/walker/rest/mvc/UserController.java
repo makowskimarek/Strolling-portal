@@ -1,5 +1,7 @@
 package com.walker.rest.mvc;
 
+import com.walker.DataBaseControl.databaseException.NoUserException;
+import com.walker.DataBaseControl.databaseException.WrongLocationException;
 import com.walker.core.entities.Id;
 import com.walker.core.entities.InvitationData;
 import com.walker.core.entities.PasswordForm;
@@ -101,12 +103,11 @@ public class UserController {
         int userId = getCurrentUserId();
 
         try{
-         //   service.inviteUserToStroll(invitationData);
+            service.inviteUserToStroll(invitationData);
             return new ResponseEntity(HttpStatus.OK);
         }
-        catch (PasswordException e) {
+        catch (PasswordException | NoUserException | WrongLocationException e) {
             return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);
-
         }
 
     }
