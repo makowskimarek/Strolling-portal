@@ -96,7 +96,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/makeStroll", method = RequestMethod.POST)
-    public ResponseEntity makeStroll(@RequestBody InvitationData invitationData)
+    public ResponseEntity<UserProfileData> makeStroll(@RequestBody InvitationData invitationData)
     {
         //Jak daje LoginData loginData zamiast InvitationData invitationData
         // to postman bez problemów się komunikuje jak jest tak jak teraz to dupa
@@ -104,13 +104,15 @@ public class UserController {
 
         try{
             service.inviteUserToStroll(invitationData);
-            return new ResponseEntity(HttpStatus.OK);
+            return new ResponseEntity<UserProfileData>(HttpStatus.CREATED);
         }
         catch (PasswordException | NoUserException | WrongLocationException e) {
-            return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<UserProfileData>(HttpStatus.NOT_ACCEPTABLE);
         }
 
     }
+
+
     /*@RequestMapping("/{idUser}")
     public ResponseEntity<UserProfileDataResources> getUserProfileData(@PathVariable int idUser)
     {

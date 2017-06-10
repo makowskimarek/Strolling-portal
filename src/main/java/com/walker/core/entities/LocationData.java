@@ -17,6 +17,8 @@ public class LocationData {
         this.description = description;
     }
 
+    public LocationData() {
+    }
 
     public double getLatitude() {
         return latitude;

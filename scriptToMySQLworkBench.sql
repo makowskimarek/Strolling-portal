@@ -20,17 +20,18 @@ SET GLOBAL time_zone = '+1:00';
 -- Table structure for table `ad`
 --
 
-DROP TABLE IF EXISTS `ad`;
+DROP TABLE IF EXISTS `advertisement`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ad` (
+CREATE TABLE `advertisement` (
   `ad_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `location_id` int(11) NOT NULL,
   `description` varchar(500) DEFAULT NULL,
   `stroll_starttime` datetime NOT NULL,
+  `stroll_endtime` datetime NOT NULL,
   `ad_endtime` datetime NOT NULL,
-  `privacy` varchar(5) NOT NULL,
+  `privacy` varchar(10) NOT NULL,
   PRIMARY KEY (`ad_id`),
   KEY `ad_user_id_idx` (`user_id`),
   KEY `ad_location_id_idx` (`location_id`),
@@ -43,9 +44,9 @@ CREATE TABLE `ad` (
 -- Dumping data for table `ad`
 --
 
-LOCK TABLES `ad` WRITE;
-/*!40000 ALTER TABLE `ad` DISABLE KEYS */;
-/*!40000 ALTER TABLE `ad` ENABLE KEYS */;
+LOCK TABLES `advertisement` WRITE;
+/*!40000 ALTER TABLE `advertisement` DISABLE KEYS */;
+/*!40000 ALTER TABLE `advertisement` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -135,7 +136,7 @@ DROP TABLE IF EXISTS `location`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `location` (
-  `location_id` int(11) NOT NULL,
+  `location_id` int(11) NOT NULL AUTO_INCREMENT,
   `latitude` double NOT NULL,
   `longtitude` double NOT NULL,
   `description` varchar(100) DEFAULT NULL,
@@ -218,8 +219,10 @@ DROP TABLE IF EXISTS `notifications`;
 CREATE TABLE `notifications` (
   `notification_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
-  `status` varchar(3) NOT NULL,
-  `type` varchar(3) NOT NULL,
+  `status` varchar(10) NOT NULL,
+  `type` varchar(10) NOT NULL,
+  `event_id` int(11) NOT NULL,
+  `sender_id` int(11) NOT NULL,
   PRIMARY KEY (`notification_id`),
   KEY `notifications_user_id_idx` (`user_id`),
   CONSTRAINT `notifications_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -319,32 +322,8 @@ LOCK TABLES `stroll` WRITE;
 /*!40000 ALTER TABLE `stroll` ENABLE KEYS */;
 UNLOCK TABLES;
 
---
--- Table structure for table `strolls_notifications`
---
 
-DROP TABLE IF EXISTS `strolls_notifications`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `strolls_notifications` (
-  `notification_id` int(11) NOT NULL AUTO_INCREMENT,
-  `stroll_id` int(11) NOT NULL,
-  `type` varchar(3) NOT NULL,
-  PRIMARY KEY (`notification_id`),
-  KEY `stroll_id_idx` (`stroll_id`),
-  CONSTRAINT `notification_id` FOREIGN KEY (`notification_id`) REFERENCES `notifications` (`notification_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `stroll_id` FOREIGN KEY (`stroll_id`) REFERENCES `stroll` (`stroll_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `strolls_notifications`
---
-
-LOCK TABLES `strolls_notifications` WRITE;
-/*!40000 ALTER TABLE `strolls_notifications` DISABLE KEYS */;
-/*!40000 ALTER TABLE `strolls_notifications` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `user`
