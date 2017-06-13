@@ -1,8 +1,6 @@
 package com.walker.DataBaseControl;
 
 import com.walker.DataBase.CriteriaData;
-import com.walker.DataBaseControl.databaseException.NoUserException;
-import com.walker.DataBaseControl.databaseException.WrongLocationException;
 import com.walker.core.entities.*;
 import com.walker.model.Model;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -243,20 +241,9 @@ public class ControlUser {
         List<CriteriaData> locationList = jdbcTemplate.query(SQL_SELECT, this::mapCriteria, 2017 - ageFrom, 2017 - ageTo);
         return model.getNearbyUsers(locationList, latitude, longtitude, range);
 
-/*
-        int[] usersArray = new int[model.getNearbyUsersLimit()];
-        for (int i = 0; i < usersArray.length; i++) {
-            if (i < nearbyUsersRange.size()) {
-                usersArray[i] = nearbyUsersRange.get(i).getUserId();
-            } else {
-                usersArray[i] = 0;
-            }
-        }
-
-        return getUsersData(usersArray);
-        */
-
     }
+
+
 
 
     /**
@@ -321,58 +308,5 @@ public class ControlUser {
         );
     }
 
-    private LocationData mapLocationData(ResultSet rs, int row)
-            throws SQLException {
-        return new LocationData(
-                rs.getInt("location_id"),
-                rs.getDouble("latitude"),
-                rs.getDouble("longtitude"),
-                rs.getString("description")
-        );
-    }
 
-    public void inviteUser(InvitationData invitation) throws NoUserException, WrongLocationException {
-        if (invitation.getCurrentUserId() < 1 || invitation.getUserId() < 1) {
-            throw new NoUserException();
-        } else {
-            int location_id = getLocationId(invitation.getLatitude(),invitation.getLongtitude());
-            SQL_INSERT =
-                    "INSERT INTO location " +
-                            "(latitide, longtitude, description) " +
-                            "VALUES (?, ?, ?)";
-
-            jdbcTemplate.update(SQL_INSERT,
-                    invitation.getLatitude(),
-                    invitation.getLongtitude(),
-                    invitation.getLocationName());
-
-            SQL_INSERT =
-                    "INSERT INTO ad " +
-                            "(location_id, info, data_start, data_end, status, ad_id, privacy) " +
-                            "VALUES (?, ?, ?, ?, ?, ?, ?)";
-
-            jdbcTemplate.update(SQL_INSERT,
-                    location_id,
-                    "Some static info",
-                    null,
-                    null,
-                    "Actv",
-                    null,
-                    "All");
-        }
-    }
-
-    public int getLocationId(double latitude, double longtitude) throws WrongLocationException {
-        SQL_SELECT =
-                "SELECT * " +
-                        "FROM location l" +
-                        "WHERE l.latitude = ? AND l.longtitude = ?";
-
-        List<LocationData> locationList = jdbcTemplate.query(SQL_SELECT, this::mapLocationData,
-                latitude, longtitude);
-        if(locationList.get(0)==null){
-            throw new WrongLocationException();
-        }
-        return locationList.get(0).getLocation_id();
-    }
 }

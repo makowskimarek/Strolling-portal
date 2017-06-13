@@ -1,8 +1,6 @@
 package com.walker.core.services.impl;
 
 import com.walker.DataBaseControl.ControlUser;
-import com.walker.DataBaseControl.databaseException.NoUserException;
-import com.walker.DataBaseControl.databaseException.WrongLocationException;
 import com.walker.core.entities.*;
 import com.walker.core.services.UserService;
 import com.walker.core.services.exception.PasswordException;
@@ -27,7 +25,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public RegistrationForm addUserRegistration(RegistrationForm form) throws UserExsistException{
-        int IdUser = -1;
+        int IdUser;
         User user;
 
         user = controlUser.getUser(form.getNick());
@@ -109,8 +107,4 @@ public class UserServiceImpl implements UserService {
         return controlUser.getUserProfileData(userId);
     }
 
-    @Override
-    public void inviteUserToStroll(InvitationData invitationData) throws NoUserException, WrongLocationException {
-        controlUser.inviteUser(invitationData);
-    }
 }

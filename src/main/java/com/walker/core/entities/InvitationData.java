@@ -16,9 +16,7 @@ public class InvitationData {
     private double latitude;
 
     public InvitationData()
-    {
-
-    }
+    {}
 
     public InvitationData(int currentUserId, int userId, String date, String time, String locationName, double longtitude, double latitude) {
         this.currentUserId = currentUserId;

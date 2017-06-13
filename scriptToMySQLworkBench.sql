@@ -46,6 +46,7 @@ CREATE TABLE `advertisement` (
 
 LOCK TABLES `advertisement` WRITE;
 /*!40000 ALTER TABLE `advertisement` DISABLE KEYS */;
+INSERT INTO `advertisement` VALUES (1,1,1,NULL,'1991-11-11 00:00:00','1991-11-11 00:00:00','\"All\"'),(2,2,1,NULL,'0199-10-10 00:00:00','1991-11-11 00:00:00','\"All\"'),(3,3,1,'','1991-11-11 00:00:00','1991-11-11 00:00:00','\"All\"'),(4,4,1,NULL,'1991-11-11 00:00:00','1991-11-11 00:00:00','\"All\"'),(5,5,1,NULL,'1991-11-11 00:00:00','1991-11-11 00:00:00','\"All\"');
 /*!40000 ALTER TABLE `advertisement` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -139,9 +140,9 @@ CREATE TABLE `location` (
   `location_id` int(11) NOT NULL AUTO_INCREMENT,
   `latitude` double NOT NULL,
   `longtitude` double NOT NULL,
-  `description` varchar(100) DEFAULT NULL,
+  `description` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`location_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -150,7 +151,7 @@ CREATE TABLE `location` (
 
 LOCK TABLES `location` WRITE;
 /*!40000 ALTER TABLE `location` DISABLE KEYS */;
-INSERT INTO `location` VALUES (1,45,5,NULL),(2,24,-31,NULL),(3,234,0,NULL),(4,0,46,NULL),(5,34,24,NULL),(6,34,0,NULL),(7,0,52,NULL),(8,15,0,NULL),(9,0,15,NULL),(10,1,1,NULL);
+INSERT INTO `location` VALUES (1,45,5,NULL),(2,24,-31,NULL),(3,234,0,NULL),(4,0,46,NULL),(5,34,24,NULL),(6,34,0,NULL),(7,0,52,NULL),(8,15,0,NULL),(9,0,15,NULL),(10,1,1,NULL),(11,1,2,'cokolowiek'),(12,5,0,'adsasda'),(13,5,0,'adsasda'),(14,5,0,'adsasda'),(15,5,0,'adsasda'),(16,0,0,''),(17,5,0,'adsasda'),(18,5,0,'adsasda');
 /*!40000 ALTER TABLE `location` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -263,6 +264,7 @@ CREATE TABLE `participants` (
 
 LOCK TABLES `participants` WRITE;
 /*!40000 ALTER TABLE `participants` DISABLE KEYS */;
+INSERT INTO `participants` VALUES (5,5,NULL,NULL);
 /*!40000 ALTER TABLE `participants` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -309,8 +311,10 @@ CREATE TABLE `stroll` (
   `privacy` varchar(3) NOT NULL,
   PRIMARY KEY (`stroll_id`),
   KEY `stroll_location_id_idx` (`location_id`),
+  KEY `stroll_ad_id_idx` (`ad_id`),
+  CONSTRAINT `stroll_ad_id` FOREIGN KEY (`ad_id`) REFERENCES `ad` (`ad_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `stroll_location_id` FOREIGN KEY (`location_id`) REFERENCES `location` (`location_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -319,11 +323,36 @@ CREATE TABLE `stroll` (
 
 LOCK TABLES `stroll` WRITE;
 /*!40000 ALTER TABLE `stroll` DISABLE KEYS */;
+INSERT INTO `stroll` VALUES (1,3,NULL,NULL,NULL,'inv',1,'all'),(2,12,'Some static info',NULL,NULL,'Actv',5,'All'),(3,12,'Some static info',NULL,NULL,'Actv',2,'All'),(4,16,'Some static info',NULL,NULL,'Actv',3,'All'),(5,3,NULL,NULL,NULL,'inv',4,'all'),(7,3,'jakies info',NULL,NULL,'activ',5,'ALl');
 /*!40000 ALTER TABLE `stroll` ENABLE KEYS */;
 UNLOCK TABLES;
 
+--
+-- Table structure for table `strolls_notifications`
+--
 
+DROP TABLE IF EXISTS `strolls_notifications`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `strolls_notifications` (
+  `notification_id` int(11) NOT NULL AUTO_INCREMENT,
+  `stroll_id` int(11) NOT NULL,
+  `type` varchar(3) NOT NULL,
+  PRIMARY KEY (`notification_id`),
+  KEY `stroll_id_idx` (`stroll_id`),
+  CONSTRAINT `notification_id` FOREIGN KEY (`notification_id`) REFERENCES `notifications` (`notification_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `stroll_id` FOREIGN KEY (`stroll_id`) REFERENCES `stroll` (`stroll_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
+--
+-- Dumping data for table `strolls_notifications`
+--
+
+LOCK TABLES `strolls_notifications` WRITE;
+/*!40000 ALTER TABLE `strolls_notifications` DISABLE KEYS */;
+/*!40000 ALTER TABLE `strolls_notifications` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `user`
@@ -420,4 +449,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-06-05 23:44:21
+-- Dump completed on 2017-06-13 19:33:07

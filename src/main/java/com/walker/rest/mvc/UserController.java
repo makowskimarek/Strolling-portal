@@ -1,9 +1,6 @@
 package com.walker.rest.mvc;
 
-import com.walker.DataBaseControl.databaseException.NoUserException;
-import com.walker.DataBaseControl.databaseException.WrongLocationException;
 import com.walker.core.entities.Id;
-import com.walker.core.entities.InvitationData;
 import com.walker.core.entities.PasswordForm;
 import com.walker.core.entities.UserProfileData;
 import com.walker.core.services.UserService;
@@ -90,23 +87,6 @@ public class UserController {
             return new ResponseEntity<UserProfileData>(userProfileData, HttpStatus.OK);
         }
         catch (PasswordException e) {
-            return new ResponseEntity<UserProfileData>(HttpStatus.NOT_ACCEPTABLE);
-        }
-
-    }
-
-    @RequestMapping(value = "/makeStroll", method = RequestMethod.POST)
-    public ResponseEntity<UserProfileData> makeStroll(@RequestBody InvitationData invitationData)
-    {
-        //Jak daje LoginData loginData zamiast InvitationData invitationData
-        // to postman bez problemów się komunikuje jak jest tak jak teraz to dupa
-        int userId = getCurrentUserId();
-
-        try{
-            service.inviteUserToStroll(invitationData);
-            return new ResponseEntity<UserProfileData>(HttpStatus.CREATED);
-        }
-        catch (PasswordException | NoUserException | WrongLocationException e) {
             return new ResponseEntity<UserProfileData>(HttpStatus.NOT_ACCEPTABLE);
         }
 

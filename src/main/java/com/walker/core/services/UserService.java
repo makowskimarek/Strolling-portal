@@ -1,7 +1,5 @@
 package com.walker.core.services;
 
-import com.walker.DataBaseControl.databaseException.NoUserException;
-import com.walker.DataBaseControl.databaseException.WrongLocationException;
 import com.walker.core.entities.*;
 
 /**
@@ -9,13 +7,12 @@ import com.walker.core.entities.*;
  */
 public interface UserService {
 
-    public int getUserIdFromNick(String nick);
-    public RegistrationForm addUserRegistration(RegistrationForm form);
-    public void updateUserData(int userId,UserData userData);
-    public void updateUserMail(int userId, UserMail userMail);
-    public void updatePassword(int userId, PasswordForm passwordForm);
-    public UserAndUserData getUserAndUserData(int userId);
-    public UserAndUserData getUserAndUserData(String nick);
-    public UserProfileData getUserProfileData(int IdUser);
-    public void inviteUserToStroll(InvitationData invitationData) throws NoUserException, WrongLocationException;
+    int getUserIdFromNick(String nick);
+    RegistrationForm addUserRegistration(RegistrationForm form);
+    void updateUserData(int userId,UserData userData);
+    void updateUserMail(int userId, UserMail userMail);
+    void updatePassword(int userId, PasswordForm passwordForm);
+    UserAndUserData getUserAndUserData(int userId);
+    UserAndUserData getUserAndUserData(String nick);
+    UserProfileData getUserProfileData(int IdUser);
 }
