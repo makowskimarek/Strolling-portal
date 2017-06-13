@@ -15,9 +15,8 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 SET GLOBAL time_zone = '+1:00';
-
 --
--- Table structure for table `ad`
+-- Table structure for table `advertisement`
 --
 
 DROP TABLE IF EXISTS `advertisement`;
@@ -37,16 +36,16 @@ CREATE TABLE `advertisement` (
   KEY `ad_location_id_idx` (`location_id`),
   CONSTRAINT `ad_location_id` FOREIGN KEY (`location_id`) REFERENCES `location` (`location_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `ad_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `ad`
+-- Dumping data for table `advertisement`
 --
 
 LOCK TABLES `advertisement` WRITE;
 /*!40000 ALTER TABLE `advertisement` DISABLE KEYS */;
-INSERT INTO `advertisement` VALUES (1,1,1,NULL,'1991-11-11 00:00:00','1991-11-11 00:00:00','\"All\"'),(2,2,1,NULL,'0199-10-10 00:00:00','1991-11-11 00:00:00','\"All\"'),(3,3,1,'','1991-11-11 00:00:00','1991-11-11 00:00:00','\"All\"'),(4,4,1,NULL,'1991-11-11 00:00:00','1991-11-11 00:00:00','\"All\"'),(5,5,1,NULL,'1991-11-11 00:00:00','1991-11-11 00:00:00','\"All\"');
+INSERT INTO `advertisement` VALUES (1,1,1,'\"opis jakis\"','2017-06-15 20:50:11','2017-06-13 20:50:15','2017-06-13 20:50:16','\"All\"'),(2,2,2,'\"opis jakis\"','2017-06-15 20:50:11','2017-06-13 20:50:15','2017-06-13 20:50:16','\"All\"');
 /*!40000 ALTER TABLE `advertisement` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -264,7 +263,7 @@ CREATE TABLE `participants` (
 
 LOCK TABLES `participants` WRITE;
 /*!40000 ALTER TABLE `participants` DISABLE KEYS */;
-INSERT INTO `participants` VALUES (5,5,NULL,NULL);
+INSERT INTO `participants` VALUES (5,5,NULL,NULL),(1,1,NULL,NULL),(1,1,NULL,NULL),(1,22,NULL,NULL),(3,22,NULL,NULL),(1,27,NULL,NULL),(3,27,NULL,NULL),(1,27,NULL,NULL),(1,27,NULL,NULL),(1,28,NULL,NULL),(3,28,NULL,NULL);
 /*!40000 ALTER TABLE `participants` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -307,14 +306,15 @@ CREATE TABLE `stroll` (
   `data_start` datetime DEFAULT NULL,
   `data_end` datetime DEFAULT NULL,
   `status` varchar(5) NOT NULL,
-  `ad_id` int(11) DEFAULT NULL,
+  `ad_id` int(11) NOT NULL,
   `privacy` varchar(3) NOT NULL,
   PRIMARY KEY (`stroll_id`),
+  UNIQUE KEY `ad_id_UNIQUE` (`ad_id`),
   KEY `stroll_location_id_idx` (`location_id`),
   KEY `stroll_ad_id_idx` (`ad_id`),
-  CONSTRAINT `stroll_ad_id` FOREIGN KEY (`ad_id`) REFERENCES `ad` (`ad_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `stroll_ad_id` FOREIGN KEY (`ad_id`) REFERENCES `advertisement` (`ad_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `stroll_location_id` FOREIGN KEY (`location_id`) REFERENCES `location` (`location_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -323,7 +323,7 @@ CREATE TABLE `stroll` (
 
 LOCK TABLES `stroll` WRITE;
 /*!40000 ALTER TABLE `stroll` DISABLE KEYS */;
-INSERT INTO `stroll` VALUES (1,3,NULL,NULL,NULL,'inv',1,'all'),(2,12,'Some static info',NULL,NULL,'Actv',5,'All'),(3,12,'Some static info',NULL,NULL,'Actv',2,'All'),(4,16,'Some static info',NULL,NULL,'Actv',3,'All'),(5,3,NULL,NULL,NULL,'inv',4,'all'),(7,3,'jakies info',NULL,NULL,'activ',5,'ALl');
+INSERT INTO `stroll` VALUES (2,12,'Some static info',NULL,NULL,'Actv',999,'All'),(4,16,'Some static info',NULL,NULL,'Actv',3,'All'),(5,3,NULL,NULL,NULL,'inv',4,'all'),(7,3,'jakies info',NULL,NULL,'activ',5,'ALl'),(12,1,NULL,NULL,NULL,'Actv',6,'All'),(13,1,NULL,NULL,NULL,'Actv',7,'All'),(14,1,NULL,NULL,NULL,'Actv',8,'All'),(15,1,NULL,NULL,NULL,'Actv',9,'All'),(27,1,'info',NULL,NULL,'activ',2,'All'),(28,1,'info',NULL,NULL,'activ',1,'All');
 /*!40000 ALTER TABLE `stroll` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -449,4 +449,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-06-13 19:33:07
+-- Dump completed on 2017-06-13 23:47:00
