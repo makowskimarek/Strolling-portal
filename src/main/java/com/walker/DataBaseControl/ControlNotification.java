@@ -88,7 +88,7 @@ public class ControlNotification {
         SQL_SELECT =
                 "SELECT * " +
                         "FROM notifications n " +
-                        "WHERE n.user_id = ? " ;
+                        "WHERE n.user_id = ? ";
 
         List<NotificationData> list = jdbcTemplate.query(SQL_SELECT, this::mapNotificationData,
                 userId);

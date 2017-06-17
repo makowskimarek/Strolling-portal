@@ -37,7 +37,7 @@ public class AdvertisementController {
     public ResponseEntity createAdvertisement(@RequestBody AdvertisementData  advertisementData)
     {
         advertisementData.setUserId(id.getId());
-        service.createAdvertisement(advertisementData);
+        service.createAdvertisement(id.getId(),advertisementData);
 
         return new ResponseEntity(HttpStatus.CREATED);
     }
@@ -65,9 +65,36 @@ public class AdvertisementController {
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<AdvertisementData>> getUserAdvertisement()
     {
-        List<AdvertisementData> list = service.getUserAdvertisement(id.getId());
-        if(list.size() == 0)
+        List<AdvertisementData> list = null;
+        try {
+            list = service.getUserAdvertisement(id.getId());
+        } catch (NotFoundException e) {
             return new ResponseEntity<List<AdvertisementData>>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<List<AdvertisementData>>(list, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    public ResponseEntity<List<AdvertisementData>> getAllAdvertisement()
+    {
+        List<AdvertisementData> list = null;
+        try {
+            list = service.getAllAdvertisement();
+        } catch (NotFoundException e) {
+            return new ResponseEntity<List<AdvertisementData>>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<List<AdvertisementData>>(list, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/friends", method = RequestMethod.GET)
+    public ResponseEntity<List<AdvertisementData>> getFriendAdvertisement()
+    {
+        List<AdvertisementData> list = null;
+        try {
+            list = service.getFriendsAdvertisement(id.getId());
+        } catch (NotFoundException e) {
+            return new ResponseEntity<List<AdvertisementData>>(HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<List<AdvertisementData>>(list, HttpStatus.OK);
     }
 
@@ -94,6 +121,8 @@ public class AdvertisementController {
         }
         return new ResponseEntity(HttpStatus.OK);
     }
+
+
 
 
 }

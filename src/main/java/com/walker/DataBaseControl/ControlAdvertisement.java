@@ -110,6 +110,7 @@ public class ControlAdvertisement {
         return locationList.get(0);
     }
 
+
     public int getLastAdvertisementId()
     {
         SQL_SELECT = "SELECT MAX(ad_id)" +
@@ -197,6 +198,19 @@ public class ControlAdvertisement {
 
         List<AdvertisementData> list = jdbcTemplate.query(SQL_SELECT, this::mapAdvertisementData,
                 userId);
+
+        return list;
+    }
+
+    public List<AdvertisementData> getAdvertisementwithPrivacy(String privacy)
+    {
+        SQL_SELECT =
+                "SELECT * " +
+                        "FROM advertisement a " +
+                        "WHERE a.privacy like ? ";
+
+        List<AdvertisementData> list = jdbcTemplate.query(SQL_SELECT, this::mapAdvertisementData,
+                privacy);
 
         return list;
     }

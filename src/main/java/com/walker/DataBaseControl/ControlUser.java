@@ -191,6 +191,22 @@ public class ControlUser {
             return listUser.get(0);
     }
 
+    public boolean checktUserExsist(int idUser)
+    {
+        SQL_SELECT =
+                "SELECT * " +
+                        "FROM user_data " +
+                        "WHERE user_id = ? ";
+
+        List<UserData> listUser = jdbcTemplate.query(SQL_SELECT, this::mapUserData,
+                idUser);
+
+        if (listUser.size() == 0)
+            return false;
+        else
+            return true;
+    }
+
 
     public List<UserData> getUsersData(int[] users) {
         SQL_SELECT =
@@ -222,6 +238,9 @@ public class ControlUser {
                         "WHERE u.user_id = ?";
 
         List<UserProfileData> user = jdbcTemplate.query(SQL_SELECT, this::mapUserProfile, userId);
+
+        if (user.size()==0) return null;
+
         return user.get(0);
     }
 
