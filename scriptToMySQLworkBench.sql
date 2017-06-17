@@ -312,7 +312,7 @@ CREATE TABLE `stroll` (
   UNIQUE KEY `ad_id_UNIQUE` (`ad_id`),
   KEY `stroll_location_id_idx` (`location_id`),
   KEY `stroll_ad_id_idx` (`ad_id`),
-  CONSTRAINT `stroll_ad_id` FOREIGN KEY (`ad_id`) REFERENCES `advertisement` (`ad_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `stroll_ad_id` FOREIGN KEY (`ad_id`) REFERENCES `advertisement` (`ad_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `stroll_location_id` FOREIGN KEY (`location_id`) REFERENCES `location` (`location_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -449,4 +449,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-06-13 23:47:00
+-- Dump completed on 2017-06-17 14:16:22
