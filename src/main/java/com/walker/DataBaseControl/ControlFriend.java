@@ -31,8 +31,8 @@ public class ControlFriend {
             "WHERE f.user1_id = ? OR f.user2_id = ?";
 
     private String SQL_DELETE =
-            "DELETE FROM friends f " +
-            "WHERE f.user1_id = ? AND f.user2_id = ?";
+            "DELETE FROM friends " +
+            "WHERE user1_id = ? AND user2_id = ?";
 
     /**
      * Object of JdbcTemplate

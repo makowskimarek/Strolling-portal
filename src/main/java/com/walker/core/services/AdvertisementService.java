@@ -13,7 +13,7 @@ public interface AdvertisementService {
     public void createAdvertisement(int userId, AdvertisementData advertisementData);
     public void invitePersonToStroll(int senderId, int userId, AdvertisementData advertisementData);
     public List<AdvertisementData> getUserAdvertisement(int userId) throws NotFoundException;
-    public void deleteAdvertisement(int advertisementId);
+    public void deleteAdvertisement(int userId, int advertisementId) throws NotFoundException;
     public void updateAdvertisement(AdvertisementData advertisementData) throws NotFoundException;
     public AdvertisementData getAdvertisementById(int id) throws NotFoundException;
     public List<AdvertisementData> getAllAdvertisement() throws NotFoundException;

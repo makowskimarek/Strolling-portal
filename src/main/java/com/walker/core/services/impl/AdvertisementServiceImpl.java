@@ -31,6 +31,8 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
     @Override
     public void createAdvertisement(int senderId, AdvertisementData advertisementData) {
+
+        advertisementData.setUserId(senderId);
         int advertisementId = controlAdvertisement.setAdvertisementData(advertisementData);
 
         if(advertisementData.getPrivacy().equals("Friends"))
@@ -93,7 +95,11 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     }
 
     @Override
-    public void deleteAdvertisement(int advertisementId) {
+    public void deleteAdvertisement(int usereId, int advertisementId) throws NotFoundException {
+        AdvertisementData advertisement = controlAdvertisement.getAdvertisementData(advertisementId);
+
+        if(advertisement.getUserId() != usereId) throw new NotFoundException();
+
         controlAdvertisement.deleteAdvertisementData(advertisementId);
     }
 
@@ -137,7 +143,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
                     friendId = friends.getUser1Id();
 
                 if(friendId == listOfFriendsAdvertisement.get(i).getUserId())
-                    advertisementToyou = false;
+                    advertisementToyou = true;
 
 
             }

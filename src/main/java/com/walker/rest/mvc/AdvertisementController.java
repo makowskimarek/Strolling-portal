@@ -102,11 +102,11 @@ public class AdvertisementController {
     public ResponseEntity deleteAdvertisement(@PathVariable int idAdvertisement)
     {
         try {
-            service.getAdvertisementById(idAdvertisement);
+            service.deleteAdvertisement(id.getId(), idAdvertisement);
         } catch (NotFoundException e) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        service.deleteAdvertisement(idAdvertisement);
+
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
