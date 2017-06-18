@@ -15,6 +15,7 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 SET GLOBAL time_zone = '+1:00';
+
 --
 -- Table structure for table `advertisement`
 --
@@ -35,8 +36,8 @@ CREATE TABLE `advertisement` (
   KEY `ad_user_id_idx` (`user_id`),
   KEY `ad_location_id_idx` (`location_id`),
   CONSTRAINT `ad_location_id` FOREIGN KEY (`location_id`) REFERENCES `location` (`location_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `ad_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  CONSTRAINT `ad_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -63,8 +64,8 @@ CREATE TABLE `banned_users` (
   PRIMARY KEY (`ban_id`),
   KEY `banned_users_user_id_idx` (`user_id`),
   KEY `banned_users_banned_user_id_idx` (`banned_user_id`),
-  CONSTRAINT `banned_users_banned_user_id` FOREIGN KEY (`banned_user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `banned_users_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `banned_users_banned_user_id` FOREIGN KEY (`banned_user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `banned_users_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -114,8 +115,8 @@ CREATE TABLE `friends` (
   `user2_id` int(11) NOT NULL,
   KEY `user1_id_idx` (`user1_id`),
   KEY `user2_id_idx` (`user2_id`),
-  CONSTRAINT `user1_id` FOREIGN KEY (`user1_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `user2_id` FOREIGN KEY (`user2_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `user1_id` FOREIGN KEY (`user1_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `user2_id` FOREIGN KEY (`user2_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -163,15 +164,15 @@ DROP TABLE IF EXISTS `messages`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `messages` (
   `msg_id` int(11) NOT NULL AUTO_INCREMENT,
-  `sender_id` int(11) NOT NULL,
-  `receiver_id` int(11) NOT NULL,
+  `sender_id` int(11) DEFAULT NULL,
+  `receiver_id` int(11) DEFAULT NULL,
   `status` varchar(3) NOT NULL,
   `msg_time` datetime NOT NULL,
   PRIMARY KEY (`msg_id`),
   KEY `messages_sender_id_idx` (`sender_id`),
   KEY `messages_receiver_id_idx` (`receiver_id`),
-  CONSTRAINT `messages_receiver_id` FOREIGN KEY (`receiver_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `messages_sender_id` FOREIGN KEY (`sender_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `messages_receiver_id` FOREIGN KEY (`receiver_id`) REFERENCES `user` (`user_id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  CONSTRAINT `messages_sender_id` FOREIGN KEY (`sender_id`) REFERENCES `user` (`user_id`) ON DELETE SET NULL ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -225,7 +226,7 @@ CREATE TABLE `notifications` (
   `sender_id` int(11) NOT NULL,
   PRIMARY KEY (`notification_id`),
   KEY `notifications_user_id_idx` (`user_id`),
-  CONSTRAINT `notifications_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `notifications_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -252,8 +253,7 @@ CREATE TABLE `participants` (
   `comment` varchar(500) DEFAULT NULL,
   KEY `participants_user_id_idx` (`user_id`),
   KEY `participants_stroll_id_idx` (`stroll_id`),
-  CONSTRAINT `participants_stroll_id` FOREIGN KEY (`stroll_id`) REFERENCES `stroll` (`stroll_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `participants_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `participants_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -323,7 +323,6 @@ CREATE TABLE `stroll` (
 
 LOCK TABLES `stroll` WRITE;
 /*!40000 ALTER TABLE `stroll` DISABLE KEYS */;
-INSERT INTO `stroll` VALUES (2,12,'Some static info',NULL,NULL,'Actv',999,'All'),(4,16,'Some static info',NULL,NULL,'Actv',3,'All'),(5,3,NULL,NULL,NULL,'inv',4,'all'),(7,3,'jakies info',NULL,NULL,'activ',5,'ALl'),(12,1,NULL,NULL,NULL,'Actv',6,'All'),(13,1,NULL,NULL,NULL,'Actv',7,'All'),(14,1,NULL,NULL,NULL,'Actv',8,'All'),(15,1,NULL,NULL,NULL,'Actv',9,'All'),(27,1,'info',NULL,NULL,'activ',2,'All'),(28,1,'info',NULL,NULL,'activ',1,'All');
 /*!40000 ALTER TABLE `stroll` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -394,7 +393,7 @@ CREATE TABLE `user_data` (
   `city` varchar(30) DEFAULT NULL,
   `birth_date` date DEFAULT NULL,
   PRIMARY KEY (`user_id`),
-  CONSTRAINT `user_data_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `user_data_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -424,9 +423,9 @@ CREATE TABLE `user_profile` (
   PRIMARY KEY (`user_id`),
   KEY `photo_id_idx` (`photo_id`),
   KEY `user_profile_location_id_idx` (`location_id`),
-  CONSTRAINT `user_profile_location_id` FOREIGN KEY (`location_id`) REFERENCES `location` (`location_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `user_profile_photo_id` FOREIGN KEY (`photo_id`) REFERENCES `photos` (`photo_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `user_profile_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `user_profile_location_id` FOREIGN KEY (`location_id`) REFERENCES `location` (`location_id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  CONSTRAINT `user_profile_photo_id` FOREIGN KEY (`photo_id`) REFERENCES `photos` (`photo_id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  CONSTRAINT `user_profile_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -449,4 +448,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-06-17 14:16:22
+-- Dump completed on 2017-06-18 13:01:11
