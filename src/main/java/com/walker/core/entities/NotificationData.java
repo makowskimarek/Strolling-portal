@@ -9,12 +9,12 @@ public class NotificationData {
     private String status;
     private String type;
     private int eventId;
-    private UserData sender;
+    private UserProfileData sender;
 
     public NotificationData() {
     }
 
-    public NotificationData(int notification_id, int userId, String status, String type, int eventId, UserData sendre) {
+    public NotificationData(int notification_id, int userId, String status, String type, int eventId, UserProfileData sendre) {
         this.notification_id = notification_id;
         this.userId = userId;
         this.status = status;
@@ -63,11 +63,11 @@ public class NotificationData {
         this.eventId = eventId;
     }
 
-    public UserData getSender() {
+    public UserProfileData getSender() {
         return sender;
     }
 
-    public void setSender(UserData sender) {
+    public void setSender(UserProfileData sender) {
         this.sender = sender;
     }
 }

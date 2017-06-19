@@ -4,6 +4,7 @@ import com.walker.DataBaseControl.databaseException.NotFoundException;
 import com.walker.DataBaseControl.databaseException.WrongLocationException;
 import com.walker.core.entities.NotificationData;
 import com.walker.core.entities.UserData;
+import com.walker.core.entities.UserProfileData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -78,7 +79,7 @@ public class ControlNotification {
                 data.getStatus(),
                 data.getType(),
                 data.getEventId(),
-                data.getSender().getUserId());
+                data.getSender().getUser_id());
 
         return getLastNotificationId();
     }
@@ -111,7 +112,7 @@ public class ControlNotification {
     private NotificationData mapNotificationData(ResultSet rs, int row)
             throws SQLException {
 
-        UserData sender = controlUser.getUserData(rs.getInt("sender_id"));
+        UserProfileData sender = controlUser.getUserProfileData(rs.getInt("sender_id"));
 
         return new NotificationData(
                 rs.getInt("notification_id"),
