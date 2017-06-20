@@ -15,7 +15,6 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 SET GLOBAL time_zone = '+1:00';
-
 --
 -- Table structure for table `advertisement`
 --
@@ -37,7 +36,7 @@ CREATE TABLE `advertisement` (
   KEY `ad_location_id_idx` (`location_id`),
   CONSTRAINT `ad_location_id` FOREIGN KEY (`location_id`) REFERENCES `location` (`location_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `ad_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -46,7 +45,7 @@ CREATE TABLE `advertisement` (
 
 LOCK TABLES `advertisement` WRITE;
 /*!40000 ALTER TABLE `advertisement` DISABLE KEYS */;
-INSERT INTO `advertisement` VALUES (1,1,1,'\"opis jakis\"','2017-06-15 20:50:11','2017-06-13 20:50:15','2017-06-13 20:50:16','\"All\"'),(2,2,2,'\"opis jakis\"','2017-06-15 20:50:11','2017-06-13 20:50:15','2017-06-13 20:50:16','\"All\"');
+INSERT INTO `advertisement` VALUES (2,1,4,'asdasd','2017-06-18 19:39:39','2017-06-18 19:39:41','2017-06-18 19:39:42','all');
 /*!40000 ALTER TABLE `advertisement` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -263,7 +262,7 @@ CREATE TABLE `participants` (
 
 LOCK TABLES `participants` WRITE;
 /*!40000 ALTER TABLE `participants` DISABLE KEYS */;
-INSERT INTO `participants` VALUES (5,5,NULL,NULL),(1,1,NULL,NULL),(1,1,NULL,NULL),(1,22,NULL,NULL),(3,22,NULL,NULL),(1,27,NULL,NULL),(3,27,NULL,NULL),(1,27,NULL,NULL),(1,27,NULL,NULL),(1,28,NULL,NULL),(3,28,NULL,NULL);
+INSERT INTO `participants` VALUES (5,5,NULL,NULL),(1,1,NULL,NULL),(1,1,NULL,NULL),(1,22,NULL,NULL),(3,22,NULL,NULL),(1,27,NULL,NULL),(3,27,NULL,NULL),(1,27,NULL,NULL),(1,27,NULL,NULL),(1,28,NULL,NULL),(3,28,NULL,NULL),(1,36,NULL,NULL),(3,36,NULL,NULL),(1,37,NULL,NULL),(3,37,NULL,NULL),(1,38,NULL,NULL),(3,38,NULL,NULL),(1,39,NULL,NULL),(2,39,NULL,NULL),(1,40,NULL,NULL),(2,40,NULL,NULL);
 /*!40000 ALTER TABLE `participants` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -306,15 +305,11 @@ CREATE TABLE `stroll` (
   `data_start` datetime DEFAULT NULL,
   `data_end` datetime DEFAULT NULL,
   `status` varchar(5) NOT NULL,
-  `ad_id` int(11) NOT NULL,
   `privacy` varchar(3) NOT NULL,
   PRIMARY KEY (`stroll_id`),
-  UNIQUE KEY `ad_id_UNIQUE` (`ad_id`),
   KEY `stroll_location_id_idx` (`location_id`),
-  KEY `stroll_ad_id_idx` (`ad_id`),
-  CONSTRAINT `stroll_ad_id` FOREIGN KEY (`ad_id`) REFERENCES `advertisement` (`ad_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `stroll_location_id` FOREIGN KEY (`location_id`) REFERENCES `location` (`location_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -323,6 +318,7 @@ CREATE TABLE `stroll` (
 
 LOCK TABLES `stroll` WRITE;
 /*!40000 ALTER TABLE `stroll` DISABLE KEYS */;
+INSERT INTO `stroll` VALUES (36,1,'info',NULL,NULL,'activ','All'),(37,4,'info',NULL,NULL,'activ','All'),(38,4,NULL,NULL,NULL,'jakis','All'),(39,4,NULL,NULL,NULL,'jakis','All'),(40,4,NULL,NULL,NULL,'jakis','All');
 /*!40000 ALTER TABLE `stroll` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -448,4 +444,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-06-18 13:01:11
+-- Dump completed on 2017-06-20 12:20:30
