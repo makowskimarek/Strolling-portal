@@ -29,7 +29,7 @@ public class FriendServiceImpl implements FriendService{
     @Override
     public void inviteFriend(int userId, int invitedId) throws NotFoundException{
 
-        UserData sender = controlUser.getUserData(userId);
+        UserProfileData sender = controlUser.getUserProfileData(userId);
         UserData invited = controlUser.getUserData(invitedId);
 
         if(sender == null || invited == null) throw new NotFoundException();
@@ -56,7 +56,7 @@ public class FriendServiceImpl implements FriendService{
         boolean ifInvited = false;
         for(NotificationData notification : list)
         {
-            if(notification.getSender().getUserId() == invitingId && !notification.getStatus().equals("checked")) {
+            if(notification.getSender().getUser_id() == invitingId && !notification.getStatus().equals("checked")) {
                 notification.setStatus("checked");
                 controlNotification.updateNotification(notification);
                 ifInvited = true;

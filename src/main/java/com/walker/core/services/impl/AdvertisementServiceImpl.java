@@ -37,7 +37,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
         if(advertisementData.getPrivacy().equals("Friends"))
         {
-            UserData userData = controlUser.getUserData(senderId);
+            UserProfileData userProfileData = controlUser.getUserProfileData(senderId);
             List<Friend> listOfFriendsId = null;
 
             try {
@@ -60,7 +60,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
                         "notChecked",
                         "Stroll",
                         advertisementId,
-                        userData);
+                        userProfileData);
                 controlNotification.setNotificationData(notificationData);
             }
 
@@ -72,7 +72,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         advertisementData.setPrivacy("hide");
         int advertisementId = controlAdvertisement.setAdvertisementData(advertisementData);
 
-        UserData userData = controlUser.getUserData(senderId);
+        UserProfileData userProfileData = controlUser.getUserProfileData(senderId);
 
         NotificationData notificationData = new NotificationData(
                 0,
@@ -80,7 +80,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
                 "notChecked",
                 "Stroll",
                 advertisementId,
-                userData);
+                userProfileData);
         controlNotification.setNotificationData(notificationData);
     }
 
