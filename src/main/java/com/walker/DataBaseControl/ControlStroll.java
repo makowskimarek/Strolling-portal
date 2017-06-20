@@ -24,6 +24,7 @@ public class ControlStroll {
     private String SQL_INSERT;
     private String SQL_SELECT;
     private String SQL_UPDATE;
+    private String SQL_DELETE;
 
     /**
      * Object of JdbcTemplate
@@ -42,112 +43,147 @@ public class ControlStroll {
     }
 
     public void addStroll(StrollData strollData) throws NoUserException, WrongLocationException, NotFoundException {
-        checkAdInStroll(strollData.getAd_id());
-        checkAdInAd(strollData.getAd_id());
         if (strollData.getUsers().length < 2 || strollData.getUsers()[0] < 1 || strollData.getUsers()[1] < 1) {
             throw new NoUserException();
         } else {
             SQL_INSERT =
                     "INSERT INTO stroll " +
-                            "(location_id, info, data_start, data_end, status, ad_id, privacy) " +
-                            "VALUES (?, ?, ?, ?, ?, ?, ?) ";
+                            "(location_id, info, data_start, data_end, status, privacy) " +
+                            "VALUES (?, ?, ?, ?, ?, ?) ";
 
             jdbcTemplate.update(SQL_INSERT,
-                    strollData.getLocationId(),
-                    "info",
-                   null,
-                    null,
-                    "activ",
-                    strollData.getAd_id(),
-                    strollData.getPrivacy());
-
-            addParticipant(strollData.getAd_id(), strollData.getUsers()[0]);
-            addParticipant(strollData.getAd_id(), strollData.getUsers()[1]);
-        }
-    }
-
-    public void checkAdInStroll(int iD) throws NotFoundException {
-        SQL_SELECT = "SELECT * " +
-                "FROM stroll str " +
-                "WHERE str.ad_id = ? ";
-
-        List<AdvertisementData> adList = jdbcTemplate.query(SQL_SELECT, this::mapAdvertisementData, iD);
-
-        if(adList.size()>0){
-            throw new NotFoundException();
-        }
-    }
-
-    public void checkAdInAd(int iD) throws NotFoundException {
-        SQL_SELECT = "SELECT * " +
-                "FROM advertisement a " +
-                "WHERE a.ad_id = ? ";
-
-        List<AdvertisementData> adList = jdbcTemplate.query(SQL_SELECT, this::mapAdvertisementData, iD);
-
-        if(adList.size()<0){
-            throw new NotFoundException();
-        }
-    }
-
-    public void editStroll(StrollData strollData) throws NoUserException, WrongLocationException {
-        if (strollData.getUsers().length < 3 || strollData.getUsers()[0] < 1 || strollData.getUsers()[1] < 1) {
-            throw new NoUserException();
-        } else {
-            SQL_UPDATE = "UPDATE stroll " +
-                    "SET location_id = ?, info = ?, data_start = ? , data_end = ?, status = ?" +
-                    "WHERE user_id = ?";
-
-            jdbcTemplate.update(SQL_UPDATE,
-                    strollData.getLocationId(),
+                    strollData.getLocation().getLocation_id(),
                     strollData.getInfo(),
                     strollData.getData_start(),
                     strollData.getData_end(),
-                    strollData.getStatus());
+                    strollData.getStatus(),
+                    strollData.getPrivacy());
+            int lastStrollId = getLastStrollId();
+            addParticipant(lastStrollId, strollData.getUsers()[0]);
+            addParticipant(lastStrollId, strollData.getUsers()[1]);
         }
     }
 
-    public void addParticipant(int ad_id, int userId) {
-        SQL_INSERT = "INSERT INTO participants " +
-                "(stroll_id, user_id) " +
-                "VALUES ((SELECT (str.stroll_id) FROM stroll str WHERE str.ad_id = ?),?)";
+    public void updateStroll(StrollData strollData) throws NoUserException, WrongLocationException {
+        updateLocation(strollData.getLocation());
+        if (strollData.getUsers().length < 2 || strollData.getUsers()[0] < 1 || strollData.getUsers()[1] < 1) {
+            throw new NoUserException();
+        } else {
+            SQL_UPDATE = "UPDATE stroll " +
+                    "SET location_id = ?, info = ?, data_start = ? , data_end = ?, status = ? " +
+                    "WHERE stroll_id = ?";
 
-        jdbcTemplate.update(SQL_INSERT,
-                ad_id,
-                userId);
-    }
+            int i = jdbcTemplate.update(SQL_UPDATE,
+                    strollData.getLocation().getLocation_id(),
+                    strollData.getInfo(),
+                    strollData.getData_start(),
+                    strollData.getData_end(),
+                    strollData.getStatus(),
+                    strollData.getStrollId());
 
-    public void addLocation(double latitude, double longtitude, String locationName) {
-        SQL_INSERT =
-                "INSERT INTO location " +
-                        "(latitude, longtitude, description) " +
-                        "VALUES (?, ?, ?)";
-
-        jdbcTemplate.update(SQL_INSERT,
-                latitude,
-                longtitude,
-                locationName);
-    }
-
-    public int getLocationId(double latitude, double longtitude) throws WrongLocationException {
-        SQL_SELECT =
-                "SELECT * " +
-                        "FROM location l " +
-                        "WHERE l.latitude = ? AND l.longtitude = ?";
-
-        List<LocationData> locationList = jdbcTemplate.query(SQL_SELECT, this::mapLocationData,
-                latitude, longtitude);
-        if (locationList.get(0) == null) {
-            throw new WrongLocationException();
+            int fsdd = 7;
         }
-        return locationList.get(0).getLocation_id();
     }
 
     public void deleteStroll(int strollId) {
+        SQL_DELETE = "DELETE FROM stroll " +
+                "WHERE stroll_id = ?";
+
+        jdbcTemplate.update(SQL_DELETE, strollId);
     }
 
-    private LocationData mapLocationData(ResultSet rs, int row)
-            throws SQLException {
+    public StrollData getStrollById(int strollId) throws NotFoundException {
+        SQL_SELECT = "SELECT * " +
+                "FROM stroll str " +
+                "WHERE str.stroll_id = ? ";
+
+        List<StrollData> strollDataList = jdbcTemplate.query(SQL_SELECT, this::mapStrollData,
+                strollId);
+
+        if (strollDataList.size() == 0) {
+            throw new NotFoundException();
+        }
+
+        return strollDataList.get(0);
+    }
+
+    public List<StrollData> getStrollsByUserId(int userId) throws NotFoundException {
+        SQL_SELECT = "SELECT str.stroll_id, str.location_id, str.info, str.data_start, str.data_end, str.status, str.privacy " +
+                "FROM stroll str " +
+                "INNER JOIN participants par ON str.stroll_id = par.stroll_id " +
+                "WHERE par.user_id = ? ";
+
+        List<StrollData> strollDataList = jdbcTemplate.query(SQL_SELECT, this::mapStrollData,
+                userId);
+
+        if (strollDataList.size() == 0) {
+            throw new NotFoundException();
+        }
+
+        return strollDataList;
+    }
+
+    private int getLastStrollId() {
+        SQL_SELECT = "SELECT MAX(stroll_id)" +
+                "FROM stroll";
+
+        return jdbcTemplate.queryForObject(SQL_SELECT, Integer.class);
+    }
+
+    private void updateLocation(LocationData data) {
+        SQL_UPDATE = "UPDATE location " +
+                "SET " +
+                "latitude = ?, " +
+                "longtitude = ?, " +
+                "description = ? " +
+                "WHERE location_id = ?";
+
+        jdbcTemplate.update(SQL_UPDATE,
+                data.getLatitude(),
+                data.getLongtitude(),
+                data.getDescription(),
+                data.getLocation_id());
+    }
+
+    private LocationData getLocationDataById(int iD) throws NotFoundException {
+        SQL_SELECT = "SELECT * " +
+                "FROM location l " +
+                "WHERE l.location_id = ? ";
+
+        List<LocationData> locationList = jdbcTemplate.query(SQL_SELECT, this::mapLocationData, iD);
+        if(locationList.size()==0){
+            throw new NotFoundException();
+        }
+
+        return locationList.get(0);
+    }
+
+    private List<ParticipantsData> getParticipantsDataByStrollId(int strollId) throws NotFoundException {
+        SQL_SELECT = "SELECT * " +
+                "FROM participants par " +
+                "WHERE par.stroll_id = ? ";
+
+        List<ParticipantsData> participantsData = jdbcTemplate.query(SQL_SELECT, this::mapParticipantsData,
+                strollId);
+
+        if (participantsData.size() == 0) {
+            throw new NotFoundException();
+        }
+
+        return participantsData;
+    }
+
+    private void addParticipant(int stroll_id, int userId) {
+        SQL_INSERT = "INSERT INTO participants " +
+                "(stroll_id, user_id) " +
+                "VALUES (?,?) ";
+
+        jdbcTemplate.update(SQL_INSERT,
+                stroll_id,
+                userId);
+    }
+
+    private LocationData mapLocationData(ResultSet rs, int row) throws SQLException {
         return new LocationData(
                 rs.getInt("location_id"),
                 rs.getDouble("latitude"),
@@ -156,8 +192,7 @@ public class ControlStroll {
         );
     }
 
-    private ParticipantsData mapParticipantsData(ResultSet rs, int row)
-            throws SQLException {
+    private ParticipantsData mapParticipantsData(ResultSet rs, int row) throws SQLException {
         return new ParticipantsData(
                 rs.getInt("user_id"),
                 rs.getInt("stroll_id"),
@@ -166,23 +201,22 @@ public class ControlStroll {
         );
     }
 
-    private LastInsertIdData mapLastInsertIdData(ResultSet rs, int row)
-            throws SQLException {
-        return new LastInsertIdData(
-                rs.getInt("LAST_INSERT_ID()"));
-    }
-
-    private AdvertisementData mapAdvertisementData(ResultSet rs, int row) throws SQLException
-    {
-        return new AdvertisementData(
-                rs.getInt("ad_id"),
-                rs.getInt("user_id"),
-                null,
-                rs.getString("description"),
-                rs.getString("stroll_starttime"),
-                rs.getString("stroll_endtime"),
-                rs.getString("ad_endtime"),
-                rs.getString("privacy")
+    private StrollData mapStrollData(ResultSet rs, int row) throws SQLException {
+        LocationData location = null;
+        try {
+            location = getLocationDataById(rs.getInt("location_id"));
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        return new StrollData(
+                rs.getInt("stroll_id"),
+                location,
+                rs.getString("info"),
+                rs.getString("data_start"),
+                rs.getString("data_end"),
+                rs.getString("status"),
+                rs.getString("privacy"),
+                null
         );
     }
 

@@ -1,7 +1,6 @@
 package com.walker.DataBaseControl;
 
 import com.walker.DataBaseControl.databaseException.NotFoundException;
-import com.walker.DataBaseControl.databaseException.WrongLocationException;
 import com.walker.core.entities.AdvertisementData;
 import com.walker.core.entities.LocationData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,8 +116,6 @@ public class ControlAdvertisement {
                 "FROM advertisement";
 
         return jdbcTemplate.queryForObject(SQL_SELECT, Integer.class);
-
-
     }
 
     public void updateAdvertisementData(AdvertisementData data) throws NotFoundException

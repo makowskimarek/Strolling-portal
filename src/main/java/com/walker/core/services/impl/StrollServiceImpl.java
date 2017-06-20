@@ -7,6 +7,8 @@ import com.walker.DataBaseControl.databaseException.WrongLocationException;
 import com.walker.core.entities.StrollData;
 import com.walker.core.services.StrollService;
 
+import java.util.List;
+
 /**
  * @author Marek Makowski
  * @version 1.0
@@ -22,7 +24,7 @@ public class StrollServiceImpl implements StrollService {
 
     @Override
     public void editStroll(StrollData strollData) throws NoUserException, WrongLocationException {
-        controlStroll.editStroll(strollData);
+        controlStroll.updateStroll(strollData);
     }
 
     @Override
@@ -33,5 +35,15 @@ public class StrollServiceImpl implements StrollService {
     @Override
     public void deleteStroll(int strollId) throws NoUserException, WrongLocationException {
         controlStroll.deleteStroll(strollId);
+    }
+
+    @Override
+    public StrollData getStrollById(int strollId) throws NoUserException, WrongLocationException, NotFoundException {
+        return controlStroll.getStrollById(strollId);
+    }
+
+    @Override
+    public List<StrollData> getStrollByUserId(int userId) throws NoUserException, WrongLocationException, NotFoundException {
+        return controlStroll.getStrollsByUserId(userId);
     }
 }

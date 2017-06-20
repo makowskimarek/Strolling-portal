@@ -6,28 +6,29 @@ package com.walker.core.entities;
  */
 public class StrollData {
 
-    private int locationId;
+    private int StrollId;
+    private LocationData location;
     private String info;
     private String data_start;
     private String data_end;
     private String status;
-    private int ad_id;
     private String privacy;
     private int[] users;
 
     public StrollData() {
     }
 
-    public StrollData(int locationId, String info, String data_start, String data_end, String status, int ad_id, String privacy, int[] users) {
-        this.locationId = locationId;
+    public StrollData(int strollId, LocationData location, String info, String data_start, String data_end, String status, String privacy, int[] users) {
+        StrollId = strollId;
+        this.location = location;
         this.info = info;
         this.data_start = data_start;
         this.data_end = data_end;
         this.status = status;
-        this.ad_id = ad_id;
         this.privacy = privacy;
         this.users = users;
     }
+
 
     public String getInfo() {
         return info;
@@ -61,14 +62,6 @@ public class StrollData {
         this.status = status;
     }
 
-    public int getAd_id() {
-        return ad_id;
-    }
-
-    public void setAd_id(int ad_id) {
-        this.ad_id = ad_id;
-    }
-
     public String getPrivacy() {
         return privacy;
     }
@@ -85,11 +78,19 @@ public class StrollData {
         this.users = users;
     }
 
-    public int getLocationId() {
-        return locationId;
+    public LocationData getLocation() {
+        return location;
     }
 
-    public void setLocationId(int locationId) {
-        this.locationId = locationId;
+    public void setLocation(LocationData location) {
+        this.location = location;
+    }
+
+    public int getStrollId() {
+        return StrollId;
+    }
+
+    public void setStrollId(int strollId) {
+        StrollId = strollId;
     }
 }
