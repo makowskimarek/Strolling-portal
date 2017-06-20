@@ -1,9 +1,7 @@
 package com.walker.DataBaseControl;
 
 import com.walker.DataBaseControl.databaseException.NotFoundException;
-import com.walker.DataBaseControl.databaseException.WrongLocationException;
 import com.walker.core.entities.NotificationData;
-import com.walker.core.entities.UserData;
 import com.walker.core.entities.UserProfileData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -95,6 +93,21 @@ public class ControlNotification {
                 userId);
 
         return list;
+    }
+
+    public NotificationData getUserNotificationByEventId(int eventId) throws NotFoundException {
+        SQL_SELECT =
+                "SELECT * " +
+                        "FROM notifications n " +
+                        "WHERE n.event_id = ? ";
+
+        List<NotificationData> list = jdbcTemplate.query(SQL_SELECT, this::mapNotificationData,
+                eventId);
+
+        if(list.size()==0){
+            throw new NotFoundException();
+        }
+        return list.get(0);
     }
 
     public void updateNotification(NotificationData notificationData)
