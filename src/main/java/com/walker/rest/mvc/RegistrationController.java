@@ -11,10 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 
@@ -22,6 +19,7 @@ import java.net.URI;
  * Created by Rafal on 03.06.2017.
  */
 @Controller
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/registration")
 public class RegistrationController {
 
