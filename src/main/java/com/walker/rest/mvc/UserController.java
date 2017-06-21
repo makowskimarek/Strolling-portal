@@ -19,7 +19,6 @@ import javax.servlet.http.HttpServletRequest;
  * Created by Rafal on 04.06.2017.
  */
 @Controller
-@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/user")
 public class UserController {
 

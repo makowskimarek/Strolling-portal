@@ -14,7 +14,6 @@ import java.util.List;
  * Created by Rafal on 04.06.2017.
  */
 @Controller
-@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/search")
 public class SearchController {
 

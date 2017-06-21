@@ -30,6 +30,18 @@
     <mvc:resources mapping="/resources/**" location="/resources/theme1/"
                    cache-period="31556926"/>
 
+    <mvc:cors>
 
+        <mvc:mapping path="/**"
+                     allowed-origins="http://localhost"
+                     allowed-methods="GET, PUT, POST, DELETE"
+                     allowed-headers="*"
+
+                     allow-credentials="false"
+                     max-age="4200" />
+
+
+
+    </mvc:cors>
 
 </beans>

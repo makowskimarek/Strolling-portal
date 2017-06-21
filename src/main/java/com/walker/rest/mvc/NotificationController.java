@@ -20,7 +20,6 @@ import java.util.List;
  * Created by Rafal on 10.06.2017.
  */
 @Controller
-@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("notification")
 public class NotificationController {
 

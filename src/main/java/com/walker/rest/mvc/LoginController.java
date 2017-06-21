@@ -27,7 +27,6 @@ import javax.servlet.http.HttpSession;
  * Created by Rafal on 04.06.2017.
  */
 @Controller
-@CrossOrigin(origins = "http://localhost:4200")
 public class LoginController {
 
     @Autowired

@@ -19,7 +19,6 @@ import java.net.URI;
  * Created by Rafal on 03.06.2017.
  */
 @Controller
-@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/registration")
 public class RegistrationController {
 
