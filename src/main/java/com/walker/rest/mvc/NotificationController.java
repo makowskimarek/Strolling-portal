@@ -8,6 +8,7 @@ import com.walker.core.services.impl.NotificationServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,8 +26,7 @@ public class NotificationController {
 
     private NotificationService service;
 
-    @Autowired
-    private Id id;
+
 
     public NotificationController()
     {
@@ -36,7 +36,7 @@ public class NotificationController {
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<NotificationData>> getUserNotification()
     {
-        List<NotificationData> list = service.getUserNotification(id.getId());
+        List<NotificationData> list = service.getUserNotification(getCurrentUserId());
 
         if(list.size() == 0)
             return new ResponseEntity<List<NotificationData>>(HttpStatus.NOT_FOUND);
@@ -54,7 +54,7 @@ public class NotificationController {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
 
-        if(data.getUserId() != id.getId())
+        if(data.getUserId() != getCurrentUserId())
             return new ResponseEntity(HttpStatus.NOT_FOUND);
 
         try {
@@ -64,5 +64,11 @@ public class NotificationController {
         }
 
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    private int getCurrentUserId()
+    {
+        String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        return service.getUserIdFromNick(currentUser);
     }
 }

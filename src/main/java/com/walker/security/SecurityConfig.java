@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.sql.DataSource;
 
@@ -30,6 +31,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     private AuthFailure authFailure;
     @Autowired
     private AuthSuccess authSuccess;
+    @Autowired
+    private CustomLogoutHandler customLogoutHandler;
 
     @Autowired
     private EntryPointUnauthorizedHandler entryPointUnauthorizedHandler;
@@ -56,11 +59,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 .formLogin()
                     .successHandler(authSuccess)
                     .failureHandler(authFailure)
-                    //.defaultSuccessUrl("/Main")
                 .and()
                 .logout()
-                    .logoutSuccessUrl("/")
-                    .logoutUrl("/Logout")
+                    .logoutSuccessHandler(customLogoutHandler)
+                    .logoutUrl("/logout")
                 .and()
                 .csrf()
                     .disable()
@@ -69,8 +71,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 .antMatchers("/Main").authenticated()
                 .antMatchers("/Announce").authenticated()
                 .antMatchers("/Profile-edit").authenticated()
-                //.antMatchers("/user").authenticated()
-                //.antMatchers("/user/*").authenticated()
+                .antMatchers("/user").authenticated()
+                .antMatchers("/user/*").authenticated()
                 .antMatchers("/AnnounceTest").authenticated()
                 .anyRequest().permitAll();
     }

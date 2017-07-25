@@ -18,9 +18,10 @@ public class UserProfileDataResources extends ResourceSupport {
     private double longtitude;
     private String description;
     private String photo_url;
+    private String mail;
 
     public UserProfileDataResources(int user_id, String nick, String firstName, String lastName, String city,
-                           String birth_date, double latitude, double longtitude, String description, String photo_url) {
+                           String birth_date, double latitude, double longtitude, String description, String photo_url, String mail) {
         this.user_id = user_id;
         this.nick = nick;
         this.firstName = firstName;
@@ -31,6 +32,7 @@ public class UserProfileDataResources extends ResourceSupport {
         this.longtitude = longtitude;
         this.description = description;
         this.photo_url = photo_url;
+        this.mail = mail;
     }
 
     public int getUser_id() {
@@ -113,6 +115,14 @@ public class UserProfileDataResources extends ResourceSupport {
         this.photo_url = photo_url;
     }
 
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
     public UserProfileData toUserProfileData()
     {
         return new UserProfileData(this.getUser_id(),
@@ -124,6 +134,7 @@ public class UserProfileDataResources extends ResourceSupport {
                 this.latitude,
                 this.longtitude,
                 this.description,
-                this.photo_url);
+                this.photo_url,
+                this.mail);
     }
 }

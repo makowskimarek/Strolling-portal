@@ -8,6 +8,7 @@ import com.walker.core.services.impl.AdvertisementServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,8 +23,7 @@ public class AdvertisementController {
 
     private AdvertisementService service;
 
-    @Autowired
-    private Id id;
+
 
     public AdvertisementController()
     {
@@ -33,8 +33,9 @@ public class AdvertisementController {
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity createAdvertisement(@RequestBody AdvertisementData  advertisementData)
     {
-        advertisementData.setUserId(id.getId());
-        service.createAdvertisement(id.getId(),advertisementData);
+        int idCurrentUser = getCurrentUserId();
+        advertisementData.setUserId(idCurrentUser);
+        service.createAdvertisement(idCurrentUser,advertisementData);
 
         return new ResponseEntity(HttpStatus.CREATED);
     }
@@ -42,8 +43,9 @@ public class AdvertisementController {
     @RequestMapping(value = "/{idUser}",method = RequestMethod.POST)
     public ResponseEntity invitePresonToStroll(@PathVariable int idUser, @RequestBody AdvertisementData advertisementData)
     {
-        advertisementData.setUserId(id.getId());
-        service.invitePersonToStroll(id.getId(),idUser,advertisementData);
+        int idCurrentUser = getCurrentUserId();
+        advertisementData.setUserId(idCurrentUser);
+        service.invitePersonToStroll(idCurrentUser,idUser,advertisementData);
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
@@ -64,7 +66,7 @@ public class AdvertisementController {
     {
         List<AdvertisementData> list = null;
         try {
-            list = service.getUserAdvertisement(id.getId());
+            list = service.getUserAdvertisement(getCurrentUserId());
         } catch (NotFoundException e) {
             return new ResponseEntity<List<AdvertisementData>>(HttpStatus.NOT_FOUND);
         }
@@ -88,7 +90,7 @@ public class AdvertisementController {
     {
         List<AdvertisementData> list = null;
         try {
-            list = service.getFriendsAdvertisement(id.getId());
+            list = service.getFriendsAdvertisement(getCurrentUserId());
         } catch (NotFoundException e) {
             return new ResponseEntity<List<AdvertisementData>>(HttpStatus.NOT_FOUND);
         }
@@ -99,7 +101,7 @@ public class AdvertisementController {
     public ResponseEntity deleteAdvertisement(@PathVariable int idAdvertisement)
     {
         try {
-            service.deleteAdvertisement(id.getId(), idAdvertisement);
+            service.deleteAdvertisement(getCurrentUserId(), idAdvertisement);
         } catch (NotFoundException e) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
@@ -110,12 +112,18 @@ public class AdvertisementController {
     @RequestMapping(method = RequestMethod.PUT)
     public ResponseEntity updateAdvertisement(@RequestBody AdvertisementData advertisementData)
     {
-        advertisementData.setUserId(id.getId());
+        advertisementData.setUserId(getCurrentUserId());
         try {
             service.updateAdvertisement(advertisementData);
         } catch (NotFoundException e) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    private int getCurrentUserId()
+    {
+        String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        return service.getUserIdFromNick(currentUser);
     }
 }

@@ -45,6 +45,11 @@ public class FriendServiceImpl implements FriendService {
     }
 
     @Override
+    public int getUserIdFromNick(String nick) {
+        return controlUser.getUserID(nick);
+    }
+
+    @Override
     public void acceptInviteFriend(int invitedId, int invitingId) throws NotFoundException {
 
         if (!controlUser.checktUserExsist(invitedId)) throw new NotFoundException();

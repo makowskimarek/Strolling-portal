@@ -8,6 +8,7 @@ import com.walker.core.services.impl.FriendServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,8 +26,7 @@ public class FriendController {
 
     private FriendService service;
 
-    @Autowired
-    private Id id;
+
 
     public FriendController()
     {
@@ -38,7 +38,7 @@ public class FriendController {
     {
         List<UserProfileData> listOfFriends;
         try {
-            listOfFriends = service.getFriends(id.getId());
+            listOfFriends = service.getFriends(getCurrentUserId());
         } catch (NotFoundException e) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
@@ -49,7 +49,7 @@ public class FriendController {
     public ResponseEntity setFriend(@PathVariable int friendId)
     {
         try {
-            service.acceptInviteFriend(id.getId(), friendId);
+            service.acceptInviteFriend(getCurrentUserId(), friendId);
         } catch (NotFoundException e) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
@@ -61,7 +61,7 @@ public class FriendController {
     public ResponseEntity deleteFriend(@PathVariable int friendId)
     {
         try {
-            service.deleteFriend(id.getId(), friendId);
+            service.deleteFriend(getCurrentUserId(), friendId);
         } catch (NotFoundException e) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
@@ -73,7 +73,7 @@ public class FriendController {
     public ResponseEntity inviteFriend(@PathVariable int friendId)
     {
         try {
-            service.inviteFriend(id.getId(), friendId);
+            service.inviteFriend(getCurrentUserId(), friendId);
         } catch (NotFoundException e) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
@@ -81,5 +81,10 @@ public class FriendController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    private int getCurrentUserId()
+    {
+        String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        return service.getUserIdFromNick(currentUser);
+    }
 
 }

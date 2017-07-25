@@ -1,6 +1,7 @@
 package com.walker.core.services.impl;
 
 import com.walker.DataBaseControl.ControlStroll;
+import com.walker.DataBaseControl.ControlUser;
 import com.walker.DataBaseControl.databaseException.NoUserException;
 import com.walker.DataBaseControl.databaseException.NotFoundException;
 import com.walker.DataBaseControl.databaseException.WrongLocationException;
@@ -16,10 +17,12 @@ import java.util.List;
 public class StrollServiceImpl implements StrollService {
 
     private ControlStroll controlStroll;
+    private ControlUser controlUser;
 
     public StrollServiceImpl()
     {
         controlStroll = new ControlStroll();
+        controlUser = new ControlUser();
     }
 
     @Override
@@ -45,5 +48,10 @@ public class StrollServiceImpl implements StrollService {
     @Override
     public List<StrollData> getStrollByUserId(int userId) throws NoUserException, WrongLocationException, NotFoundException {
         return controlStroll.getStrollsByUserId(userId);
+    }
+
+    @Override
+    public int getUserIdFromNick(String nick) {
+        return controlUser.getUserID(nick);
     }
 }

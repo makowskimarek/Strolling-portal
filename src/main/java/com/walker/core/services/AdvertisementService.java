@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by Rafal on 10.06.2017.
  */
-public interface AdvertisementService {
+public interface AdvertisementService extends SessionService{
 
     public void createAdvertisement(int userId, AdvertisementData advertisementData);
     public void invitePersonToStroll(int senderId, int userId, AdvertisementData advertisementData);

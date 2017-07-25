@@ -3,6 +3,7 @@ package com.walker.config;
 import com.walker.core.entities.Id;
 import com.walker.security.AuthFailure;
 import com.walker.security.AuthSuccess;
+import com.walker.security.CustomLogoutHandler;
 import com.walker.security.EntryPointUnauthorizedHandler;
 import org.springframework.context.annotation.Bean;
 //import org.springframework.context.annotation.ComponentScan;
@@ -46,6 +47,11 @@ public class DataBaseConfig {
     public AuthSuccess authSuccess()
     {
         return new AuthSuccess();
+    }
+
+    @Bean
+    public CustomLogoutHandler customLogoutHandler() {
+        return new CustomLogoutHandler();
     }
 
     @Bean

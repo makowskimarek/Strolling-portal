@@ -10,6 +10,7 @@ import com.walker.core.services.impl.StrollServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,8 +31,7 @@ public class StrollController {
 
     private StrollServiceImpl service;
 
-    @Autowired
-    private Id id;
+
 
     public StrollController() {
         service = new StrollServiceImpl();
@@ -87,11 +87,17 @@ public class StrollController {
     public ResponseEntity getStroll() {
         List<StrollData> list = null;
         try {
-            list = service.getStrollByUserId(id.getId());
+            list = service.getStrollByUserId(getCurrentUserId());
             return new ResponseEntity<>(list, HttpStatus.OK);
         } catch (PasswordException | NoUserException | WrongLocationException | NotFoundException e) {
             return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);
         }
 
+    }
+
+    private int getCurrentUserId()
+    {
+        String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        return service.getUserIdFromNick(currentUser);
     }
 }

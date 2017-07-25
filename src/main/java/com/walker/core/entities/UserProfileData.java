@@ -15,9 +15,10 @@ public class UserProfileData {
     private double longtitude;
     private String description;
     private String photo_url;
+    private String email;
 
     public UserProfileData(int user_id, String nick, String firstName, String lastName, String city,
-                           String birth_date, double latitude, double longtitude, String description, String photo_url) {
+                           String birth_date, double latitude, double longtitude, String description, String photo_url, String email) {
         this.user_id = user_id;
         this.nick = nick;
         this.firstName = firstName;
@@ -28,6 +29,7 @@ public class UserProfileData {
         this.longtitude = longtitude;
         this.description = description;
         this.photo_url = photo_url;
+        this.email = email;
     }
 
     public int getUser_id() {
@@ -108,5 +110,13 @@ public class UserProfileData {
 
     public void setPhoto_url(String photo_url) {
         this.photo_url = photo_url;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

@@ -154,4 +154,9 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
         return listOfFriendsAdvertisement;
     }
+
+    @Override
+    public int getUserIdFromNick(String nick) {
+        return controlUser.getUserID(nick);
+    }
 }

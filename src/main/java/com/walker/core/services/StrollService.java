@@ -11,7 +11,8 @@ import java.util.List;
  * @author Marek Makowski
  * @version 1.0
  */
-public interface StrollService {
+public interface StrollService extends SessionService{
+
     void editStroll(StrollData strollData) throws NoUserException, WrongLocationException;
     void addStroll(StrollData strollData) throws NoUserException, WrongLocationException, NotFoundException;
     void deleteStroll(int strollId) throws NoUserException, WrongLocationException;

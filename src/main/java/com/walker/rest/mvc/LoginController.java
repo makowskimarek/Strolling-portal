@@ -52,11 +52,6 @@ public class LoginController {
                 HttpSession session = request.getSession(true);
                 session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
 
-                //wstawka-------------------------
-                String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
-                id.setId(service.getUserIdFromNick(currentUser));
-                //koniec wstawki-------------------------
-
                 return new ResponseEntity<LoginData>(HttpStatus.OK);
             }
             else

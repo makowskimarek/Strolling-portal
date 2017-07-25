@@ -1,6 +1,7 @@
 package com.walker.core.services.impl;
 
 import com.walker.DataBaseControl.ControlNotification;
+import com.walker.DataBaseControl.ControlUser;
 import com.walker.DataBaseControl.databaseException.NotFoundException;
 import com.walker.core.entities.NotificationData;
 import com.walker.core.services.NotificationService;
@@ -13,10 +14,12 @@ import java.util.List;
 public class NotificationServiceImpl implements NotificationService {
 
     private ControlNotification controlNotification;
+    private ControlUser controlUser;
 
     public NotificationServiceImpl()
     {
         controlNotification = new ControlNotification();
+        controlUser = new ControlUser();
     }
 
     @Override
@@ -36,5 +39,10 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public NotificationData getNotificationById(int id) throws NotFoundException {
         return controlNotification.getNotificationDataById(id);
+    }
+
+    @Override
+    public int getUserIdFromNick(String nick) {
+        return controlUser.getUserID(nick);
     }
 }

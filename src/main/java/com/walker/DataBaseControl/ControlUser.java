@@ -221,7 +221,7 @@ public class ControlUser {
 
     public UserProfileData getUserProfileData(int userId) {
         SQL_SELECT =
-                "SELECT u.user_id, u.nick, " +
+                "SELECT u.user_id, u.nick, u.mail, " +
                         "  ud.firstName, ud.lastName, ud.city, ud.birth_date, " +
                         "  l.latitude, l.longtitude, " +
                         "  up.description, " +
@@ -323,7 +323,8 @@ public class ControlUser {
                 rs.getDouble("latitude"),
                 rs.getDouble("longtitude"),
                 rs.getString("description"),
-                rs.getString("photo_url")
+                rs.getString("photo_url"),
+                rs.getString("mail")
         );
     }
 

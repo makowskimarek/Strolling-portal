@@ -30,7 +30,8 @@ public class UserProfileDataResourceAsm extends ResourceAssemblerSupport<UserPro
                 userProfileData.getLatitude(),
                 userProfileData.getLongtitude(),
                 userProfileData.getDescription(),
-                userProfileData.getPhoto_url()
+                userProfileData.getPhoto_url(),
+                userProfileData.getEmail()
         );
 
         Link link = linkTo(UserController.class).slash(userProfileData.getUser_id()).withSelfRel();
