@@ -1,6 +1,7 @@
 package com.walker.DataBaseControl;
 
 import com.walker.DataBase.CriteriaData;
+import com.walker.DataBaseControl.databaseException.NotFoundException;
 import com.walker.core.entities.*;
 import com.walker.model.Model;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,8 @@ public class ControlUser {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+
+
     public ControlUser() {
         DriverManagerDataSource ds = new DriverManagerDataSource();
         ds.setDriverClassName("com.mysql.jdbc.Driver");
@@ -41,6 +44,10 @@ public class ControlUser {
 
         jdbcTemplate = new JdbcTemplate(ds);
     }
+
+
+
+
 
     /**
      * Method to add user data to database
@@ -244,6 +251,10 @@ public class ControlUser {
         return user.get(0);
     }
 
+
+
+
+
     public List<UserRange> getUsersByCriteries(double latitude, double longtitude, double range, int ageFrom, int ageTo) {
         Model model = new Model();
 
@@ -261,6 +272,8 @@ public class ControlUser {
         return model.getNearbyUsers(locationList, latitude, longtitude, range);
 
     }
+
+
 
 
 
@@ -328,5 +341,18 @@ public class ControlUser {
         );
     }
 
+
+
+
+
+    private LocationData mapLocationData(ResultSet rs, int row)
+            throws SQLException {
+        return new LocationData(
+                rs.getInt("location_id"),
+                rs.getDouble("latitude"),
+                rs.getDouble("longtitude"),
+                rs.getString("description")
+        );
+    }
 
 }

@@ -26,10 +26,6 @@ public class UserController {
     @Autowired
     private UserService service;
 
-    @Autowired
-    private Id id;
-
-
     @RequestMapping("/{idUser}")
     public ResponseEntity<UserProfileData> getUserProfileData(@PathVariable int idUser)
     {

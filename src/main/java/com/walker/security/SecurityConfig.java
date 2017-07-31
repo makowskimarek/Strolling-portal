@@ -67,13 +67,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 .csrf()
                     .disable()
                 .authorizeRequests()
-                .antMatchers("/Profile").authenticated()
-                .antMatchers("/Main").authenticated()
-                .antMatchers("/Announce").authenticated()
-                .antMatchers("/Profile-edit").authenticated()
-                .antMatchers("/user").authenticated()
                 .antMatchers("/user/*").authenticated()
-                .antMatchers("/AnnounceTest").authenticated()
+                .antMatchers("/profile/*").authenticated()
+                .antMatchers("/adv/*").authenticated()
+                .antMatchers("/friends/*").authenticated()
+                .antMatchers("/notification/*").authenticated()
+                .antMatchers("/search/*").authenticated()
+                .antMatchers("/stroll/*").authenticated()
                 .anyRequest().permitAll();
     }
 

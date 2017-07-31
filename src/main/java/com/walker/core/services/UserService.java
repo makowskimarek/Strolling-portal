@@ -14,4 +14,6 @@ public interface UserService extends SessionService{
     UserAndUserData getUserAndUserData(int userId);
     UserAndUserData getUserAndUserData(String nick);
     UserProfileData getUserProfileData(int IdUser);
+    PhotoData getPhotoData(int userId);
+    void changePhoto(int userId, PhotoData photoData);
 }

@@ -107,4 +107,14 @@ public class UserServiceImpl implements UserService {
         return controlUser.getUserProfileData(userId);
     }
 
+    @Override
+    public PhotoData getPhotoData(int userId) {
+        //controlUser.g
+        return null;
+    }
+
+    @Override
+    public void changePhoto(int userId, PhotoData photoData) {
+
+    }
 }

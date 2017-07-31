@@ -21,12 +21,10 @@ import java.util.List;
  * Created by Rafal on 10.06.2017.
  */
 @Controller
-@RequestMapping("notification")
+@RequestMapping("/notification")
 public class NotificationController {
 
     private NotificationService service;
-
-
 
     public NotificationController()
     {

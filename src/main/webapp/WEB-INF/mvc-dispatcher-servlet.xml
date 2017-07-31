@@ -30,7 +30,7 @@
     <mvc:resources mapping="/resources/**" location="/resources/theme1/"
                    cache-period="31556926"/>
 
-    <mvc:cors>
+    <!--<mvc:cors>
 
         <mvc:mapping path="/**"
                      allowed-origins="http://localhost"
@@ -42,6 +42,6 @@
 
 
 
-    </mvc:cors>
+    </mvc:cors>-->
 
 </beans>
