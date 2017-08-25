@@ -128,6 +128,7 @@ LOCK TABLES `friends` WRITE;
 /*!40000 ALTER TABLE `friends` ENABLE KEYS */;
 UNLOCK TABLES;
 
+INSERT INTO `friends` VALUES (1,2),(1,3),(2,3);
 --
 -- Table structure for table `location`
 --

@@ -5,8 +5,6 @@ import com.walker.core.services.UserService;
 import com.walker.core.services.exception.UserExsistException;
 import com.walker.core.services.impl.UserServiceImpl;
 import com.walker.rest.exceptions.ConflictException;
-import com.walker.rest.resources.RegistrationFormResource;
-import com.walker.rest.resources.asm.RegistrationFormResourceAsm;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,14 +29,13 @@ public class RegistrationController {
 
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<RegistrationFormResource> registration(@RequestBody RegistrationFormResource form)
+    public ResponseEntity<RegistrationForm> registration(@RequestBody RegistrationForm form)
     {
         try{
-            RegistrationForm createdUser = service.addUserRegistration(form.toRegistrationForm());
-            RegistrationFormResource res = new RegistrationFormResourceAsm().toResource(createdUser);
+            RegistrationForm createdUser = service.addUserRegistration(form);
             HttpHeaders headers = new HttpHeaders();
-            headers.setLocation(URI.create(res.getLink("self").getHref()));
-            return new ResponseEntity<RegistrationFormResource>(res, headers, HttpStatus.CREATED);
+
+            return new ResponseEntity<RegistrationForm>(createdUser, headers, HttpStatus.CREATED);
 
         }catch (UserExsistException e)
         {

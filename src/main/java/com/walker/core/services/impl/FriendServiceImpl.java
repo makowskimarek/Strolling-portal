@@ -54,7 +54,6 @@ public class FriendServiceImpl implements FriendService {
 
         if (!controlUser.checktUserExsist(invitedId)) throw new NotFoundException();
         if (!controlUser.checktUserExsist(invitingId)) throw new NotFoundException();
-        /*
         List<NotificationData> list = controlNotification.getUserNotification(invitedId);
 
 
@@ -75,11 +74,7 @@ public class FriendServiceImpl implements FriendService {
         else
             throw new NotFoundException();
 
-        */
-        NotificationData notificationData = controlNotification.getUserNotificationByEventId(invitedId);
-        notificationData.setStatus("checked");
-        controlNotification.updateNotification(notificationData);
-        controlFriend.addFriend(new Friend(invitedId, invitingId));
+
     }
 
     @Override

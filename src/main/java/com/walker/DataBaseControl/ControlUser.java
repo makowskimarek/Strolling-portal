@@ -124,7 +124,7 @@ public class ControlUser {
 
     public void updateUserMail(int IdUser, String mail) {
         SQL_UPDATE = "UPDATE user " +
-                "SET mail = ?" +
+                "SET mail = ? " +
                 "WHERE user_id = ?";
 
         jdbcTemplate.update(SQL_UPDATE,
