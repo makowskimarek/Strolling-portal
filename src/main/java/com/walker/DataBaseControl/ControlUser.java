@@ -336,7 +336,7 @@ public class ControlUser {
                 rs.getDouble("latitude"),
                 rs.getDouble("longtitude"),
                 rs.getString("description"),
-                rs.getString("photo_url"),
+                rs.getBytes("photo_url"),
                 rs.getString("mail")
         );
     }

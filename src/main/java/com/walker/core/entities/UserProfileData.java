@@ -14,11 +14,11 @@ public class UserProfileData {
     private double latitude;
     private double longtitude;
     private String description;
-    private String photo_url;
+    private byte[] photo_url;
     private String email;
 
     public UserProfileData(int user_id, String nick, String firstName, String lastName, String city,
-                           String birth_date, double latitude, double longtitude, String description, String photo_url, String email) {
+                           String birth_date, double latitude, double longtitude, String description, byte[] photo_url, String email) {
         this.user_id = user_id;
         this.nick = nick;
         this.firstName = firstName;
@@ -104,11 +104,11 @@ public class UserProfileData {
         this.description = description;
     }
 
-    public String getPhoto_url() {
+    public byte[] getPhoto_url() {
         return photo_url;
     }
 
-    public void setPhoto_url(String photo_url) {
+    public void setPhoto_url(byte[] photo_url) {
         this.photo_url = photo_url;
     }
 

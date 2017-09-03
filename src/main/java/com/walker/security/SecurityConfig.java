@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.access.AccessDeniedHandlerImpl;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.sql.DataSource;
@@ -54,7 +55,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
         http
 
                 .exceptionHandling()
+                    .accessDeniedHandler(new AccessDeniedHandlerImpl())
                     .authenticationEntryPoint(entryPointUnauthorizedHandler)
+                    .accessDeniedPage("/403")
                 .and()
                 .formLogin()
                     .successHandler(authSuccess)
@@ -75,6 +78,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 .antMatchers("/search/*").authenticated()
                 .antMatchers("/stroll/*").authenticated()
                 .anyRequest().permitAll();
+
     }
 
 
