@@ -392,7 +392,7 @@ CREATE TABLE `user_data` (
   `firstName` varchar(30) DEFAULT NULL,
   `lastName` varchar(40) DEFAULT NULL,
   `city` varchar(30) DEFAULT NULL,
-  `birth_date` date DEFAULT NULL,
+  `birth_date` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`user_id`),
   CONSTRAINT `user_data_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
