@@ -10,6 +10,11 @@ import com.walker.core.entities.PhotoData;
 import com.walker.core.entities.ProfileData;
 import com.walker.core.services.ProfileService;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.nio.file.Files;
+
 /**
  * Created by Rafal on 31.07.2017.
  */
@@ -98,11 +103,31 @@ public class ProfileServiceImpl implements ProfileService{
 
     @Override
     public PhotoData getPhoto(int userId) throws NotFoundException{
+        PhotoData photoData = null;
         ProfileData profileData = controlProfile.getPhotoData(userId);
 
-        if(profileData == null || profileData.getPhotoId() <=0) throw new NotFoundException();
+        if(profileData != null )
+            photoData = controlPhoto.getPhotoData(profileData.getPhotoId());
 
-        return controlPhoto.getPhotoData(profileData.getPhotoId());
+        if(photoData == null)
+            photoData = new PhotoData();
+
+        if(photoData.getData() == null || photoData.getData().equals("")) {
+            ClassLoader classLoader = getClass().getClassLoader();
+
+            URL url = classLoader.getResource("images/default_user_image.png");
+
+
+            File file = new File(url.getFile());
+
+            try {
+                byte[] photo = Files.readAllBytes(file.toPath());
+                photoData.setData(photo);
+            } catch (IOException e) {
+                throw new NotFoundException();
+            }
+        }
+        return photoData;
     }
 
     @Override

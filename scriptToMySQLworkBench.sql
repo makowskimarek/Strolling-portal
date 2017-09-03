@@ -280,8 +280,8 @@ DROP TABLE IF EXISTS `photos`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `photos` (
   `photo_id` int(11) NOT NULL AUTO_INCREMENT,
-  `photo_url` varchar(100) NOT NULL,
-  `took_time` datetime NOT NULL,
+  `photo_url` LONGBLOB NOT NULL,
+  `took_time` VARCHAR(20) NOT NULL,
   PRIMARY KEY (`photo_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;

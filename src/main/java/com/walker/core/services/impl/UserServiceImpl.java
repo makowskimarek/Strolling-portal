@@ -1,10 +1,16 @@
 package com.walker.core.services.impl;
 
 import com.walker.DataBaseControl.ControlUser;
+import com.walker.DataBaseControl.databaseException.NotFoundException;
 import com.walker.core.entities.*;
 import com.walker.core.services.UserService;
 import com.walker.core.services.exception.PasswordException;
 import com.walker.core.services.exception.UserExsistException;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.nio.file.Files;
 
 /**
  * Created by Rafal on 03.06.2017.
@@ -104,7 +110,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserProfileData getUserProfileData(int userId)
     {
-        return controlUser.getUserProfileData(userId);
+        UserProfileData userProfileData = controlUser.getUserProfileData(userId);
+        if(userProfileData.getPhoto_url() == null || userProfileData.getPhoto_url().equals("")) {
+            ClassLoader classLoader = getClass().getClassLoader();
+            URL url = classLoader.getResource("images/default_user_image.png");
+            File file = new File(url.getFile());
+
+            try {
+                byte[] photo = Files.readAllBytes(file.toPath());
+                userProfileData.setPhoto_url(photo);
+            } catch (IOException e) {
+
+            }
+        }
+        return userProfileData;
     }
 
     @Override

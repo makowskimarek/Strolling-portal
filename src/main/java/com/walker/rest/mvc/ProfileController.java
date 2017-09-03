@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by Rafal on 31.07.2017.
  */
@@ -74,6 +77,9 @@ public class ProfileController {
     @RequestMapping(value = "/photo", method = RequestMethod.PUT)
     public ResponseEntity updatePhoto(@RequestBody PhotoData photoData) {
 
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        photoData.setTook_time(formatter.format(date));
         service.updatePhoto(getCurrentUserId(), photoData);
         return new ResponseEntity(HttpStatus.OK);
     }
