@@ -55,9 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
         http
 
                 .exceptionHandling()
-                    .accessDeniedHandler(new AccessDeniedHandlerImpl())
                     .authenticationEntryPoint(entryPointUnauthorizedHandler)
-                    .accessDeniedPage("/403")
                 .and()
                 .formLogin()
                     .successHandler(authSuccess)
@@ -71,12 +69,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                     .disable()
                 .authorizeRequests()
                 .antMatchers("/user/*").authenticated()
+                .antMatchers("/user").authenticated()
                 .antMatchers("/profile/*").authenticated()
+                .antMatchers("/profile").authenticated()
                 .antMatchers("/adv/*").authenticated()
+                .antMatchers("/adv").authenticated()
                 .antMatchers("/friends/*").authenticated()
+                .antMatchers("/friends").authenticated()
                 .antMatchers("/notification/*").authenticated()
+                .antMatchers("/notification").authenticated()
                 .antMatchers("/search/*").authenticated()
+                .antMatchers("/search").authenticated()
                 .antMatchers("/stroll/*").authenticated()
+                .antMatchers("/stroll").authenticated()
                 .anyRequest().permitAll();
 
     }
