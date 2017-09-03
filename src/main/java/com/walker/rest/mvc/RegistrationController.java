@@ -39,7 +39,7 @@ public class RegistrationController {
 
         }catch (UserExsistException e)
         {
-            throw new ConflictException(e);
+            return new ResponseEntity<RegistrationForm>(HttpStatus.CONFLICT);
         }
     }
 }
