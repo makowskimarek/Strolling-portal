@@ -14,11 +14,15 @@ public class SearchCriteria {
         int userId;
         int ageFrom;
         int ageTo;
-        Double distance;
-        Double userLatitude;
-        Double userLongtitude;
+        double distance;
+        double userLatitude;
+        double userLongtitude;
 
-        public SearchCriteria(int userId, int ageFrom, int ageTo, double distance, Double userLatitude, Double userLongtitude) {
+    public SearchCriteria() {
+
+    }
+
+    public SearchCriteria(int userId, int ageFrom, int ageTo, double distance, double userLatitude, double userLongtitude) {
             this.userId = userId;
             this.ageFrom = ageFrom;
             this.ageTo = ageTo;
@@ -27,19 +31,19 @@ public class SearchCriteria {
             this.userLongtitude = userLongtitude;
         }
 
-        public Double getUserLatitude() {
+        public double getUserLatitude() {
             return userLatitude;
         }
 
-        public void setUserLatitude(Double userLatitude) {
+        public void setUserLatitude(double userLatitude) {
             this.userLatitude = userLatitude;
         }
 
-        public Double getUserLongtitude() {
+        public double getUserLongtitude() {
             return userLongtitude;
         }
 
-        public void setUserLongtitude(Double userLongtitude) {
+        public void setUserLongtitude(double userLongtitude) {
             this.userLongtitude = userLongtitude;
         }
 
