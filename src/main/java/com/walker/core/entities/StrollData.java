@@ -13,12 +13,12 @@ public class StrollData {
     private String data_end;
     private String status;
     private String privacy;
-    private int[] users;
+    private int user;
 
     public StrollData() {
     }
 
-    public StrollData(int strollId, LocationData location, String info, String data_start, String data_end, String status, String privacy, int[] users) {
+    public StrollData(int strollId, LocationData location, String info, String data_start, String data_end, String status, String privacy, int user) {
         StrollId = strollId;
         this.location = location;
         this.info = info;
@@ -26,7 +26,7 @@ public class StrollData {
         this.data_end = data_end;
         this.status = status;
         this.privacy = privacy;
-        this.users = users;
+        this.user = user;
     }
 
 
@@ -70,12 +70,12 @@ public class StrollData {
         this.privacy = privacy;
     }
 
-    public int[] getUsers() {
-        return users;
+    public int getUser() {
+        return user;
     }
 
-    public void setUsers(int[] users) {
-        this.users = users;
+    public void setUser(int user) {
+        this.user = user;
     }
 
     public LocationData getLocation() {

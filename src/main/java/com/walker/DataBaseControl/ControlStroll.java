@@ -3,7 +3,9 @@ package com.walker.DataBaseControl;
 import com.walker.DataBaseControl.databaseException.NoUserException;
 import com.walker.DataBaseControl.databaseException.NotFoundException;
 import com.walker.DataBaseControl.databaseException.WrongLocationException;
-import com.walker.core.entities.*;
+import com.walker.core.entities.LocationData;
+import com.walker.core.entities.ParticipantsData;
+import com.walker.core.entities.StrollData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -42,47 +44,39 @@ public class ControlStroll {
         jdbcTemplate = new JdbcTemplate(ds);
     }
 
-    public void addStroll(StrollData strollData) throws NoUserException, WrongLocationException, NotFoundException {
-        if (strollData.getUsers().length < 2 || strollData.getUsers()[0] < 1 || strollData.getUsers()[1] < 1) {
-            throw new NoUserException();
-        } else {
-            SQL_INSERT =
-                    "INSERT INTO stroll " +
-                            "(location_id, info, data_start, data_end, status, privacy) " +
-                            "VALUES (?, ?, ?, ?, ?, ?) ";
+    public void addStroll(StrollData strollData, int currentUserId) throws NoUserException, WrongLocationException, NotFoundException {
+        SQL_INSERT =
+                "INSERT INTO stroll " +
+                        "(location_id, info, data_start, data_end, status, privacy) " +
+                        "VALUES (?, ?, ?, ?, ?, ?) ";
 
-            jdbcTemplate.update(SQL_INSERT,
-                    strollData.getLocation().getLocation_id(),
-                    strollData.getInfo(),
-                    strollData.getData_start(),
-                    strollData.getData_end(),
-                    strollData.getStatus(),
-                    strollData.getPrivacy());
-            int lastStrollId = getLastStrollId();
-            addParticipant(lastStrollId, strollData.getUsers()[0]);
-            addParticipant(lastStrollId, strollData.getUsers()[1]);
-        }
+        jdbcTemplate.update(SQL_INSERT,
+                strollData.getLocation().getLocation_id(),
+                strollData.getInfo(),
+                strollData.getData_start(),
+                strollData.getData_end(),
+                strollData.getStatus(),
+                strollData.getPrivacy());
+        int lastStrollId = getLastStrollId();
+        addParticipant(lastStrollId, currentUserId);
+        addParticipant(lastStrollId, strollData.getUser());
+
     }
 
     public void updateStroll(StrollData strollData) throws NoUserException, WrongLocationException {
         updateLocation(strollData.getLocation());
-        if (strollData.getUsers().length < 2 || strollData.getUsers()[0] < 1 || strollData.getUsers()[1] < 1) {
-            throw new NoUserException();
-        } else {
-            SQL_UPDATE = "UPDATE stroll " +
-                    "SET location_id = ?, info = ?, data_start = ? , data_end = ?, status = ? " +
-                    "WHERE stroll_id = ?";
 
-            int i = jdbcTemplate.update(SQL_UPDATE,
-                    strollData.getLocation().getLocation_id(),
-                    strollData.getInfo(),
-                    strollData.getData_start(),
-                    strollData.getData_end(),
-                    strollData.getStatus(),
-                    strollData.getStrollId());
+        SQL_UPDATE = "UPDATE stroll " +
+                "SET location_id = ?, info = ?, data_start = ? , data_end = ?, status = ? " +
+                "WHERE stroll_id = ?";
 
-            int fsdd = 7;
-        }
+        int i = jdbcTemplate.update(SQL_UPDATE,
+                strollData.getLocation().getLocation_id(),
+                strollData.getInfo(),
+                strollData.getData_start(),
+                strollData.getData_end(),
+                strollData.getStatus(),
+                strollData.getStrollId());
     }
 
     public void deleteStroll(int strollId) {
@@ -92,13 +86,24 @@ public class ControlStroll {
         jdbcTemplate.update(SQL_DELETE, strollId);
     }
 
-    public StrollData getStrollById(int strollId) throws NotFoundException {
-        SQL_SELECT = "SELECT * " +
-                "FROM stroll str " +
-                "WHERE str.stroll_id = ? ";
+    public StrollData getStrollById(int strollId, int userId) throws NotFoundException {
+        SQL_SELECT = "SELECT str.stroll_id, str.location_id, str.info, str.data_start, str.data_end, str.status, str.privacy, par.user_id " +
+                "FROM ( " +
+                    "SELECT str.stroll_id " +
+                    "FROM stroll str " +
+                    "INNER JOIN participants par1 " +
+                    "ON str.stroll_id = par1.stroll_id " +
+                    "WHERE par1.user_id = ? " +
+                ") AS strid " +
+                "INNER JOIN stroll str " +
+                "ON strid.stroll_id = str.stroll_id " +
+                "INNER JOIN participants par " +
+                "ON str.stroll_id = par.stroll_id " +
+                "WHERE par.user_id <> ? " +
+                "AND str.Stroll_id = ? ";
 
         List<StrollData> strollDataList = jdbcTemplate.query(SQL_SELECT, this::mapStrollData,
-                strollId);
+                userId, userId, strollId);
 
         if (strollDataList.size() == 0) {
             throw new NotFoundException();
@@ -108,13 +113,22 @@ public class ControlStroll {
     }
 
     public List<StrollData> getStrollsByUserId(int userId) throws NotFoundException {
-        SQL_SELECT = "SELECT str.stroll_id, str.location_id, str.info, str.data_start, str.data_end, str.status, str.privacy " +
+        SQL_SELECT = "SELECT str.stroll_id, str.location_id, str.info, str.data_start, str.data_end, str.status, str.privacy, par.user_id " +
+        "FROM ( " +
+                "SELECT str.stroll_id " +
                 "FROM stroll str " +
-                "INNER JOIN participants par ON str.stroll_id = par.stroll_id " +
-                "WHERE par.user_id = ? ";
+                "INNER JOIN participants par1 " +
+                "ON str.stroll_id = par1.stroll_id " +
+                "WHERE par1.user_id = ? " +
+        ") AS strid " +
+        "INNER JOIN stroll str " +
+        "ON strid.stroll_id = str.stroll_id " +
+        "INNER JOIN participants par " +
+        "ON str.stroll_id = par.stroll_id " +
+        "WHERE par.user_id <> ? ";
 
         List<StrollData> strollDataList = jdbcTemplate.query(SQL_SELECT, this::mapStrollData,
-                userId);
+                userId, userId);
 
         if (strollDataList.size() == 0) {
             throw new NotFoundException();
@@ -216,8 +230,9 @@ public class ControlStroll {
                 rs.getString("data_end"),
                 rs.getString("status"),
                 rs.getString("privacy"),
-                null
+                rs.getInt("user_id")
         );
     }
+
 
 }

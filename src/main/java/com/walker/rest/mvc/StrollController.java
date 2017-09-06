@@ -3,11 +3,9 @@ package com.walker.rest.mvc;
 import com.walker.DataBaseControl.databaseException.NoUserException;
 import com.walker.DataBaseControl.databaseException.NotFoundException;
 import com.walker.DataBaseControl.databaseException.WrongLocationException;
-import com.walker.core.entities.Id;
 import com.walker.core.entities.StrollData;
 import com.walker.core.services.exception.PasswordException;
 import com.walker.core.services.impl.StrollServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -41,7 +39,7 @@ public class StrollController {
     @RequestMapping(value = "/makeStroll", method = RequestMethod.POST)
     public ResponseEntity makeStroll(@RequestBody StrollData strollData) {
         try {
-            service.addStroll(strollData);
+            service.addStroll(strollData, getCurrentUserId());
             return new ResponseEntity(HttpStatus.OK);
         } catch (PasswordException | NoUserException | WrongLocationException | NotFoundException e) {
             return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);
@@ -50,7 +48,7 @@ public class StrollController {
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public ResponseEntity updatetroll(@RequestBody StrollData strollData) {
+    public ResponseEntity updateStroll(@RequestBody StrollData strollData) {
         try {
             service.editStroll(strollData);
             return new ResponseEntity(HttpStatus.OK);
@@ -75,7 +73,7 @@ public class StrollController {
     public ResponseEntity getStrollByStrollId(@PathVariable int strollId) {
         try {
             StrollData strollData = null;
-            strollData = service.getStrollById(strollId);
+            strollData = service.getStrollById(strollId, getCurrentUserId());
             return new ResponseEntity(strollData, HttpStatus.OK);
         } catch (PasswordException | NoUserException | WrongLocationException | NotFoundException e) {
             return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);

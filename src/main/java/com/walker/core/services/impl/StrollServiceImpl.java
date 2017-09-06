@@ -31,8 +31,8 @@ public class StrollServiceImpl implements StrollService {
     }
 
     @Override
-    public void addStroll(StrollData strollData) throws NoUserException, WrongLocationException, NotFoundException {
-        controlStroll.addStroll(strollData);
+    public void addStroll(StrollData strollData, int currentUserId) throws NoUserException, WrongLocationException, NotFoundException {
+        controlStroll.addStroll(strollData, currentUserId);
     }
 
     @Override
@@ -41,8 +41,8 @@ public class StrollServiceImpl implements StrollService {
     }
 
     @Override
-    public StrollData getStrollById(int strollId) throws NoUserException, WrongLocationException, NotFoundException {
-        return controlStroll.getStrollById(strollId);
+    public StrollData getStrollById(int strollId, int userId) throws NoUserException, WrongLocationException, NotFoundException {
+        return controlStroll.getStrollById(strollId, userId);
     }
 
     @Override

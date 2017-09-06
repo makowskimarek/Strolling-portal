@@ -14,10 +14,10 @@ import java.util.List;
 public interface StrollService extends SessionService{
 
     void editStroll(StrollData strollData) throws NoUserException, WrongLocationException;
-    void addStroll(StrollData strollData) throws NoUserException, WrongLocationException, NotFoundException;
+    void addStroll(StrollData strollData, int currentUserId) throws NoUserException, WrongLocationException, NotFoundException;
     void deleteStroll(int strollId) throws NoUserException, WrongLocationException;
 
-    StrollData getStrollById(int strollId) throws NoUserException, WrongLocationException, NotFoundException;
+    StrollData getStrollById(int strollId, int userId) throws NoUserException, WrongLocationException, NotFoundException;
 
     List<StrollData> getStrollByUserId(int userId) throws NoUserException, WrongLocationException, NotFoundException;
 }
