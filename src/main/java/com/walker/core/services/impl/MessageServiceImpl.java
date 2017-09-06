@@ -3,6 +3,7 @@ package com.walker.core.services.impl;
 import com.walker.DataBaseControl.ControlUser;
 import com.walker.DataBaseControl.ControlUserMessage;
 import com.walker.DataBaseControl.databaseException.NotFoundException;
+import com.walker.core.entities.ChatData;
 import com.walker.core.entities.UserMessageData;
 import com.walker.core.services.MessageService;
 
@@ -43,6 +44,16 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
+    public List<ChatData> getRecentChatList(int userId) throws NotFoundException {
+        try {
+            List<ChatData> chatDataList = controlUserMessage.getRecentChatList(userId);
+            return chatDataList;
+        } catch (NotFoundException e) {
+            throw new NotFoundException();
+        }
+    }
+
+    @Override
     public void addUserMessage(UserMessageData userMessageData) {
         controlUserMessage.addUserMessage(userMessageData);
     }
@@ -51,4 +62,6 @@ public class MessageServiceImpl implements MessageService {
     public int getUserIdFromNick(String nick) {
         return controlUser.getUserID(nick);
     }
+
+
 }

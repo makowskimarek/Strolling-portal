@@ -14,5 +14,6 @@ public interface MessageService extends SessionService{
     void addUserMessage(UserMessageData userMessageData);
     List<UserMessageData> getAllUserMessages(int userId) throws NotFoundException;
     List<UserMessageData> getUserMessages(int userId, int userId2) throws NotFoundException;
+    List<ChatData> getRecentChatList(int uderId) throws NotFoundException;
 
 }

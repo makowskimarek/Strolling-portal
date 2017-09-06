@@ -1,6 +1,7 @@
 package com.walker.DataBaseControl;
 
 import com.walker.DataBaseControl.databaseException.NotFoundException;
+import com.walker.core.entities.ChatData;
 import com.walker.core.entities.UserMessageData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -116,8 +117,24 @@ public class ControlUserMessage {
     }
 
 
+    public List<ChatData> getRecentChatList(int userId) throws NotFoundException {
+        SQL_SELECT = "SELECT udata.user_id, udata.firstName, udata.lastName, pho.photo_url FROM user_data udata " +
+                "INNER JOIN user_profile upro " +
+                "ON udata.user_id = upro.user_id " +
+                "INNER JOIN photos pho " +
+                "ON upro.photo_id = pho.photo_id " +
+                "WHERE udata.user_id = ?";
+        List<ChatData> chatDataList = jdbcTemplate.query(SQL_SELECT, this::mapChatData, userId);
+        if (chatDataList.size() == 0)
+            throw new NotFoundException();
+        else {
+            return chatDataList;
+        }
+    }
+
+
     /**
-     * Method to extract value from object resultSet and creating from then userData
+     * Method to extract value from object resultSet and creating from then UserMessageData
      *
      * @param rs
      * @param row
@@ -133,6 +150,24 @@ public class ControlUserMessage {
                 rs.getString("status"),
                 rs.getString("msg_time"),
                 rs.getString("message")
+        );
+    }
+
+    /**
+     * Method to extract value from object resultSet and creating from then ChatData
+     *
+     * @param rs
+     * @param row
+     * @return
+     * @throws SQLException
+     */
+    private ChatData mapChatData(ResultSet rs, int row)
+            throws SQLException {
+        return new ChatData(
+                rs.getInt("user_id"),
+                rs.getString("firstName"),
+                rs.getString("lastName"),
+                rs.getBytes("photo_url")
         );
     }
 }

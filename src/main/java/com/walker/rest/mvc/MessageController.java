@@ -1,6 +1,7 @@
 package com.walker.rest.mvc;
 
 import com.walker.DataBaseControl.databaseException.NotFoundException;
+import com.walker.core.entities.ChatData;
 import com.walker.core.entities.UserMessageData;
 import com.walker.core.services.MessageService;
 import com.walker.core.services.impl.MessageServiceImpl;
@@ -58,6 +59,17 @@ public class MessageController {
             return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @RequestMapping("/recentChat")
+    public ResponseEntity<List<ChatData>> getRecentChatData() {
+        List<ChatData> chatDataList;
+        try {
+            chatDataList = service.getRecentChatList(getCurrentUserId());
+        } catch (NotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(chatDataList, HttpStatus.OK);
     }
 
     private int getCurrentUserId()
