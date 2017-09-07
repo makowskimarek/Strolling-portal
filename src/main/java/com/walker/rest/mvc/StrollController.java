@@ -26,15 +26,10 @@ import java.util.List;
 @RequestMapping("/stroll")
 public class StrollController {
 
-
     private StrollServiceImpl service;
-
-
-
     public StrollController() {
         service = new StrollServiceImpl();
     }
-
 
     @RequestMapping(value = "/makeStroll", method = RequestMethod.POST)
     public ResponseEntity makeStroll(@RequestBody StrollData strollData) {
@@ -44,7 +39,6 @@ public class StrollController {
         } catch (PasswordException | NoUserException | WrongLocationException | NotFoundException e) {
             return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);
         }
-
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
@@ -55,7 +49,6 @@ public class StrollController {
         } catch (PasswordException | NoUserException | WrongLocationException e) {
             return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);
         }
-
     }
 
     @RequestMapping(value = "/delete/{strollId}", method = RequestMethod.DELETE)
@@ -66,31 +59,28 @@ public class StrollController {
         } catch (PasswordException | NoUserException | WrongLocationException e) {
             return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);
         }
-
     }
 
     @RequestMapping(value = "/get/{strollId}", method = RequestMethod.GET)
     public ResponseEntity getStrollByStrollId(@PathVariable int strollId) {
         try {
-            StrollData strollData = null;
+            StrollData strollData;
             strollData = service.getStrollById(strollId, getCurrentUserId());
             return new ResponseEntity(strollData, HttpStatus.OK);
         } catch (PasswordException | NoUserException | WrongLocationException | NotFoundException e) {
             return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);
         }
-
     }
 
     @RequestMapping(value = "/get", method = RequestMethod.GET)
     public ResponseEntity getStroll() {
-        List<StrollData> list = null;
+        List<StrollData> list;
         try {
             list = service.getStrollByUserId(getCurrentUserId());
             return new ResponseEntity<>(list, HttpStatus.OK);
         } catch (PasswordException | NoUserException | WrongLocationException | NotFoundException e) {
             return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);
         }
-
     }
 
     private int getCurrentUserId()
