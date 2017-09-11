@@ -40,7 +40,7 @@ public class ControlProfile {
         jdbcTemplate = new JdbcTemplate(ds);
     }
 
-    public ProfileData getPhotoData(int userId)
+    public ProfileData getProfileData(int userId)
     {
         SQL_SELECT =
                 "SELECT * " +

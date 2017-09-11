@@ -35,7 +35,7 @@ public class ProfileServiceImpl implements ProfileService{
 
     @Override
     public void updateLocation(int userId, LocationData locationData) {
-        ProfileData profileData = controlProfile.getPhotoData(userId);
+        ProfileData profileData = controlProfile.getProfileData(userId);
 
         if(profileData == null)
         {
@@ -54,7 +54,7 @@ public class ProfileServiceImpl implements ProfileService{
 
     @Override
     public void updatePhoto(int userId, PhotoData photoData) {
-        ProfileData profileData = controlProfile.getPhotoData(userId);
+        ProfileData profileData = controlProfile.getProfileData(userId);
 
         if(profileData == null)
         {
@@ -73,7 +73,7 @@ public class ProfileServiceImpl implements ProfileService{
 
     @Override
     public void updateDescription(int userId, String description) {
-        ProfileData profileData = controlProfile.getPhotoData(userId);
+        ProfileData profileData = controlProfile.getProfileData(userId);
         if(profileData == null)
         {
             profileData = new ProfileData();
@@ -85,7 +85,7 @@ public class ProfileServiceImpl implements ProfileService{
 
     @Override
     public LocationData getLocation(int userId) throws NotFoundException {
-        ProfileData profileData = controlProfile.getPhotoData(userId);
+        ProfileData profileData = controlProfile.getProfileData(userId);
 
         if(profileData == null || profileData.getLocationId() <=0) throw new NotFoundException();
 
@@ -94,7 +94,7 @@ public class ProfileServiceImpl implements ProfileService{
 
     @Override
     public String getDescription(int userId) throws NotFoundException{
-        ProfileData profileData = controlProfile.getPhotoData(userId);
+        ProfileData profileData = controlProfile.getProfileData(userId);
 
         if(profileData == null || profileData.getDescription() == null) throw new NotFoundException();
 
@@ -104,7 +104,7 @@ public class ProfileServiceImpl implements ProfileService{
     @Override
     public PhotoData getPhoto(int userId) throws NotFoundException{
         PhotoData photoData = null;
-        ProfileData profileData = controlProfile.getPhotoData(userId);
+        ProfileData profileData = controlProfile.getProfileData(userId);
 
         if(profileData != null )
             photoData = controlPhoto.getPhotoData(profileData.getPhotoId());

@@ -1,5 +1,8 @@
 package com.walker.core.services.impl;
 
+import com.walker.DataBaseControl.ControlLocation;
+import com.walker.DataBaseControl.ControlPhoto;
+import com.walker.DataBaseControl.ControlProfile;
 import com.walker.DataBaseControl.ControlUser;
 import com.walker.DataBaseControl.databaseException.NotFoundException;
 import com.walker.core.entities.*;
@@ -11,6 +14,10 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by Rafal on 03.06.2017.
@@ -18,9 +25,15 @@ import java.nio.file.Files;
 public class UserServiceImpl implements UserService {
 
     private ControlUser controlUser;
+    private ControlPhoto controlPhoto;
+    private ControlProfile controlProfile;
+    private ControlLocation controlLocation;
 
     public UserServiceImpl()
     {
+        controlPhoto = new ControlPhoto();
+        controlLocation = new ControlLocation();
+        controlProfile = new ControlProfile();
         controlUser = new ControlUser();
     }
 
@@ -53,11 +66,52 @@ public class UserServiceImpl implements UserService {
                             form.getLastName(),
                             form.getCity(),
                             form.getDate()));
+
+            createProfileData(IdUser);
         }
         else
             throw new UserExsistException();
 
         return form;
+    }
+
+    private void createProfileData(int userId)
+    {
+        LocationData locationData = new LocationData();
+        PhotoData photoData = new PhotoData();
+        photoData.setData(getDefaultPhoto());
+        photoData.setTook_time(getActualyDateAsString());
+
+        int idLocation = controlLocation.setLocationData(locationData);
+        int idPhoto = controlPhoto.addPhotoData(photoData);
+
+        ProfileData profileData = new ProfileData();
+        profileData.setDescription("not set");
+        profileData.setLocationId(idLocation);
+        profileData.setPhotoId(idPhoto);
+
+        controlProfile.addProfileData(userId, profileData);
+    }
+
+    private String getActualyDateAsString(){
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        Date today = Calendar.getInstance().getTime();
+        return df.format(today);
+    }
+
+    private byte[] getDefaultPhoto()
+    {
+        ClassLoader classLoader = getClass().getClassLoader();
+        URL url = classLoader.getResource("images/default_user_image.png");
+        File file = new File(url.getFile());
+        byte[] photo = null;
+        try {
+            photo = Files.readAllBytes(file.toPath());
+
+        } catch (IOException e) {
+
+        }
+        return photo;
     }
 
     @Override
