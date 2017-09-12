@@ -76,7 +76,7 @@ public class ControlUserMessage {
         if (userMessageDataList.size() == 0)
             throw new NotFoundException();
         else {
-            readMessages(userMessageDataList);
+            readMessages(userMessageDataList, userId);
             return userMessageDataList;
         }
     }
@@ -99,32 +99,44 @@ public class ControlUserMessage {
         if (userMessageDataList.size() == 0)
             throw new NotFoundException();
         else {
-            readMessages(userMessageDataList);
+            readMessages(userMessageDataList, userId);
             return userMessageDataList;
         }
     }
 
-    private void readMessages(List<UserMessageData> messages) {
+    private void readMessages(List<UserMessageData> messages, int userId) {
         for (UserMessageData message : messages) {
             SQL_UPDATE = "UPDATE messages " +
                     "SET status = ?" +
-                    "WHERE msg_id = ?";
+                    "WHERE msg_id = ? " +
+                    "AND receiver_id = ? ";
 
             jdbcTemplate.update(SQL_UPDATE,
                     "read",
-                    message.getMsgId());
+                    message.getMsgId(), userId);
         }
     }
 
 
     public List<ChatData> getRecentChatList(int userId) throws NotFoundException {
-        SQL_SELECT = "SELECT udata.user_id, udata.firstName, udata.lastName, pho.photo_url FROM user_data udata " +
-                "INNER JOIN user_profile upro " +
-                "ON udata.user_id = upro.user_id " +
-                "INNER JOIN photos pho " +
-                "ON upro.photo_id = pho.photo_id " +
-                "WHERE udata.user_id = ?";
-        List<ChatData> chatDataList = jdbcTemplate.query(SQL_SELECT, this::mapChatData, userId);
+        SQL_SELECT = "SELECT udata.user_id, udata.firstName, udata.lastName, pho.photo_url " +
+        "FROM user_data udata " +
+        "INNER JOIN user_profile upro " +
+        "ON udata.user_id = upro.user_id " +
+        "INNER JOIN photos pho " +
+        "ON upro.photo_id = pho.photo_id " +
+        "INNER JOIN( " +
+                "SELECT receiver_id AS user_id " +
+                "FROM messages " +
+                "WHERE sender_id = ? " +
+                "UNION " +
+                "SELECT sender_id " +
+                "FROM messages " +
+                "WHERE receiver_id = ? " +
+        ") AS temp " +
+        "ON udata.user_id = temp.user_id";
+
+        List<ChatData> chatDataList = jdbcTemplate.query(SQL_SELECT, this::mapChatData, userId, userId);
         if (chatDataList.size() == 0)
             throw new NotFoundException();
         else {

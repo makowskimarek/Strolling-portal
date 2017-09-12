@@ -5,6 +5,7 @@ import com.walker.core.entities.SearchCriteria;
 import com.walker.core.entities.UserProfileData;
 import com.walker.core.services.SearchService;
 import com.walker.core.services.impl.SearchServiceImpl;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +29,13 @@ public class SearchController {
     public @ResponseBody
     List<UserProfileData> basicSearch(@RequestBody SearchCriteria searchCriteria)
     {
-        ListOfUserProfileData list = service.searchUserProfileWithCriteria(searchCriteria);
+        ListOfUserProfileData list = service.searchUserProfileWithCriteria(searchCriteria, getCurrentUserId());
         return list.getUserProfileDataList();
+    }
+
+    private int getCurrentUserId()
+    {
+        String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        return service.getUserIdFromNick(currentUser);
     }
 }

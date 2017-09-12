@@ -1,7 +1,6 @@
 package com.walker.DataBaseControl;
 
 import com.walker.DataBase.CriteriaData;
-import com.walker.DataBaseControl.databaseException.NotFoundException;
 import com.walker.core.entities.*;
 import com.walker.model.Model;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -255,7 +254,7 @@ public class ControlUser {
 
 
 
-    public List<UserRange> getUsersByCriteries(double latitude, double longtitude, double range, int ageFrom, int ageTo) {
+    public List<UserRange> getUsersByCriteries(double latitude, double longtitude, double range, int ageFrom, int ageTo, int userId) {
         Model model = new Model();
 
         SQL_SELECT =
@@ -266,9 +265,9 @@ public class ControlUser {
                         "ON ud.user_id = up.user_id " +
                         "LEFT JOIN location l " +
                         "ON  l.location_id = up.location_id " +
-                        "WHERE YEAR(ud.birth_date)< ? AND YEAR(ud.birth_date) > ?";
+                        "WHERE YEAR(ud.birth_date)< ? AND YEAR(ud.birth_date) > ? AND ud.user_id <> ?";
 
-        List<CriteriaData> locationList = jdbcTemplate.query(SQL_SELECT, this::mapCriteria, 2017 - ageFrom, 2017 - ageTo);
+        List<CriteriaData> locationList = jdbcTemplate.query(SQL_SELECT, this::mapCriteria, 2017 - ageFrom, 2017 - ageTo, userId);
         return model.getNearbyUsers(locationList, latitude, longtitude, range);
 
     }
